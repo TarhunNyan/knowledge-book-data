@@ -1,11 +1,68 @@
-# Программирование
+# Главаня
+
+Основная страница с путями основных страниц
+
+# Операционные системы
 
 ## Linux
 
-| Linux                                    |
-| :--------------------------------------- |
-| [Команды Linux](./Linux/01-Commands.md)  |
-| [Bush скрипты](./Programming/01-Bush.md) |
+| Linux                                                  |
+| :----------------------------------------------------- |
+| [Устройство Linux](./Linux/05-Base.md)                 |
+| [Работа с файловой системой](./Linux/06-FileSystem.md) |
+| [Перенаправление вывода](./Linux/07-Stream.md)         |
+| [Управление системой](./Linux/08-ManageSystem.md)      |
+| [Работа с сетью](./Linux/09-Network.md)                |
+| [Bush скрипты](./Programming/Bash/01-Base.md)          |
+| [Конкретные Linux системы](./Linux/10-LinuxSistems.md) |
+
+# Программирование
+
+## База программирования
+
+| База                                                                           | Декларативные языки                                      | SQL                                                               |
+| :----------------------------------------------------------------------------- | :------------------------------------------------------- | :---------------------------------------------------------------- |
+| [Основные направления и стили программирования](./Programming/Base/01-Base.md) | [HTML](./Programming/HTML/07-HTML.md)                    | [SQL - определения](./Programming/SQL/03-BaseDefinition.md)       |
+| [Алгоритмы и паттерны](./Programming/Base/02-Algoritms.md)                     | [CSS](./Programming/CSS/11-CSS.md)                       | [SQL - НФ(нормальные формы)](./Programming/SQL/01-NormalForms.md) |
+|                                                                                | [CSS - селекторы/директивы](./Programming/CSS/12-CSS.md) | [SQL - язык](./Programming/SQL/02-SQL.md)                         |
+|                                                                                | [CSS - BEM](./Programming/CSS/10-BEM.md)                 | [sqlite3](./Programming/SQL/05-sqlite3.md)                        |
+|                                                                                |                                                          | [PostgreSQL](./Programming/SQL/04-PostgreSQL.md)                  |
+
+## Языки
+
+Ruby:
+
+| Ruby                                                                | Ruby - Пакеты                                                 |
+| :------------------------------------------------------------------ | :------------------------------------------------------------ |
+| [RVM - менеджер контроля версий](./Programming/Ruby/RVM/01-Base.md) | [Ruby On Rails - бэкенд](./Programming/Ruby/Rails/01-Base.md) |
+| [gem - установка пакетов](./Programming/Ruby/gem/01-Base.md)        |                                                               |
+| [Import/Export](./Programming/Ruby/03-ImportAndExport.md)           |                                                               |
+| [Синтаксис](./Programming/Ruby/Ruby/04-ruby.md)                     |                                                               |
+| [Объекты(ООП](./Programming/Ruby/Ruby/05-Object.md)                 |                                                               |
+
+JavaScript:
+
+| JS                                                                 | JS - Пакеты                                                            | JS - browser api                                     |
+| :----------------------------------------------------------------- | :--------------------------------------------------------------------- | :--------------------------------------------------- |
+| [Node - работа со скриптами](./Programming/JS/Node/00-Base.md)     | [RxJS - реактивное программирование](./Programming/JS/RxJS/01-RxJS.md) | [Canvas](./Programming/JS/Canvas/01-Canvas.md)       |
+| [npm - установка пакетов](./Programming/JS/Node/02-NodeInstall.md) | [Angular - бэкенд](./Programming/JS/Angular/00-Base.md)                | [DOM](./Programming/JS/DOM/01-DOM.md)                |
+| [Import/Export](./Programming/JS/Node/01-ImportAndExport.md)       | [JEST - тестирование](./Programming/JS/JS_JEST/00-Base.md)             | [Event](./Programming/JS/Event/01-Event.md)          |
+| [Синтаксис](./Programming/JS/JS/10-javascript.md)                  |                                                                        | [ShadowRoot](./Programming/JS/ShadowRoot/00-Base.md) |
+| [Объекты(ООП)](./Programming/JS/JS/04-Object.md)                   |                                                                        |                                                      |
+| [jsdoc - документация](./Programming/JS/JS_jsdoc/00-Base.md)       |                                                                        |                                                      |
+| [TypeScript - типизация](./Programming/JS/JS_TS/00-Base.md)        |                                                                        |                                                      |
+
+Java:
+
+| Java                                            |
+| :---------------------------------------------- |
+| [Java - работа со скриптами](#)                 |
+| [ - установка пакетов](#)                       |
+| [Import/Export](#)                              |
+| [Синтаксис](./Programming/Java/Java/00-Java.md) |
+| [Объекты(ООП)](#)                               |
+| [javadoc - документация](#)                     |
+| [Java - типизация](#)                           |
 
 ## GIT
 
@@ -18,47 +75,11 @@
 | [Полезные команды GIT'а](./Programming/GIT/03-Commands.md) |
 | [Методологии](./Programming/GIT/02-Metodics.md)            |
 
-## Сервера и БД
+## Дополнительно
 
-| XAMPP                                  | SQL                                                           |
-| :------------------------------------- | :------------------------------------------------------------ |
-| [База](./Programming/XAMPP/01-base.md) | [Базовые определения](./Programming/SQL/03-BaseDefinition.md) |
-|                                        | [Нормальные формы](./Programming/SQL/01-NormalForms.md)       |
-|                                        | [SQL](./Programming/SQL/02-SQL.md)                            |
-
-## JS
-
-Язык программирования в web
-
-| javascript                                                       | js api                                               | node                                                                     |
-| :--------------------------------------------------------------- | :--------------------------------------------------- | :----------------------------------------------------------------------- |
-| [structures](./Programming/JS/JS/02-Structures.md)               | [Canvas](./Programming/JS/Canvas/01-Canvas.md)       |
-| [function](./Programming/JS/JS/07-Function.md)                   | [DOM](./Programming/JS/DOM/01-DOM.md)                |
-| [object](./Programming/JS/JS/04-Object.md)                       | [Event](./Programming/JS/Event/01-Event.md)          |
-| [string](./Programming/JS/JS/06-String.md)                       | [ShadowRoot](./Programming/JS/ShadowRoot/00-Base.md) |
-| [array](./Programming/JS/JS/05-Array.md)                         |                                                      |
-| [collections](./Programming/JS/JS/09-Collections.md)             |                                                      | [Node - установка модулей(NPM)](./Programming/JS/Node/02-NodeInstall.md) |
-| [асинхронность: async/await](./Programming/JS/JS/03-Async_JS.md) |                                                      | [node - команды и устройство](./Programming/JS/Node/00-Base.md)          |
-| [regexp](./Programming/Regexp/Regexp_JS.md)                      |                                                      | [Import и Export](./Programming/JS/Node/01-ImportAndExport.md)           |
-| [syntax sugar](./Programming/JS/JS/08-SyntaxSugar.md)            |                                                      |
-
-| javascript(extended)                            |     |
-| :---------------------------------------------- | :-- |
-| [jsdoc](./Programming/JS/JS_jsdoc/00-Base.md)   |     |
-| [JEST](./Programming/JS/JS_JEST/00-Base.md)     |     |
-| [TypeScript](./Programming/JS/JS_TS/00-Base.md) |     |
-
-## CSS и HTML
-
-| CSS                                                              | HTML                                                                       |
-| :--------------------------------------------------------------- | :------------------------------------------------------------------------- |
-| [Задание стилей](./Programming/CSS/07-SetStylesheet.md)          | [Базовый пример html страницы](./Programming/HTML/02-HTMLTemplate.md)      |
-| [Блочная модель](./Programming/CSS/01-BlockModel.md)             | [Entity. Символы пишущиеся по особенному](./Programming/HTML/01-Entity.md) |
-| [Cascad. Наследование стилей](./Programming/CSS/06-Cascad.md)    | [HTML Теги](./Programming/HTML/03-HTMLTags.md)                             |
-| [Layout. Расположение элементов](./Programming/CSS/02-Layout.md) | [Универсальные аттрибуты](./Programming/HTML/06-UniversalAttributes.md)    |
-| [Selectors. Селекторы](./Programming/CSS/08-Selectors.md)        |                                                                            |
-| [Directtives. Директивы](./Programming/CSS/09-Directives.md)     |                                                                            |
-| [Properties. Свойства](./Programming/CSS/04-Properties.md)       |                                                                            |
+| XAMPP                                  |
+| :------------------------------------- |
+| [База](./Programming/XAMPP/01-base.md) |
 
 # Редакторы
 
@@ -83,5 +104,13 @@
 | Probability Theory                                                                   |
 | :----------------------------------------------------------------------------------- |
 | [Теория вероятности](./NatureScience/Math/ProbabilityTheory/04-HigherMathematics.md) |
+
+# Личное
+
+| Личное                                           |
+| :----------------------------------------------- |
+| [Книги](./Personal/Books.md)                     |
+| [Домашние дела](./Personal/Household.md)         |
+| [Задумки придумки, выдумки](./Personal/Ideas.md) |
 
 <style>table{width: 100%}</style>

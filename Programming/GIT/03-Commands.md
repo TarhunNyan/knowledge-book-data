@@ -6,6 +6,7 @@ git log
 git show
 git diff
 git tag
+git reflog
 
 # Указание коммита
 
@@ -59,6 +60,15 @@ git show branch_name:file_name
 
 ```bash
 git log
+```
+
+Оба варианта удобно отображают коммиты в одну строку:
+
+```bash
+# удобно отображает коммиты, hash-короткий
+git reflog
+# удобно отображает коммиты, hash-полный
+git reflog --no-abrev
 ```
 
 Отображает хеш и комментарий коммитов, начиная от HEAD. Делает это в одну строку:
@@ -169,7 +179,7 @@ git describe
 
 ## Сравниваем текующие изменения с прошлым коммитом
 
-````bash
+```bash
 git diff
 ```
 
@@ -243,4 +253,7 @@ git rm --cached file_name
 ```bash
 git rm --cached folder_name
 ```
-````
+
+```
+
+```

@@ -48,19 +48,31 @@
 Создаем ветку из текущего коммита:
 
 ```bash
-git branch another_branch
+git branch new_branch_name
 ```
 
 Создаем ветку из указанного коммита:
 
 ```bash
-git branch another_branch
+git branch new_branch_name commit_id
+```
+
+Создаем ветку и сразу переключаемся на нее:
+
+```bash
+git checkout -b new_branch_name
 ```
 
 ## Удаляем ветку
 
 ```bash
 git branch -D another_branch
+```
+
+## Переименовать ветку
+
+```bash
+git branch -m branch_name branch_name2
 ```
 
 ## Список веток
