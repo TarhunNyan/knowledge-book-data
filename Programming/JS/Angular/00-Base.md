@@ -26,8 +26,8 @@ Framework для singlepage страниц в вебе
 -   пример из /src/main.ts
 
 ```js
-import { enableProdMode } from '@angular/core';
-import { environment } from './environments/environment';
+import { enableProdMode } from "@angular/core";
+import { environment } from "./environments/environment";
 
 if (environment.production) {
 	enableProdMode();
@@ -83,6 +83,34 @@ Component - это элементы module, то есть компоненты �
 -   [Передача аттрибутов из component в template(attributes)](#component---передача-аттрибутов)
 -   [Передача данных из template в component(event)](#template---eventlistener)
 
+Связывание Component и Component:
+
+-   [Используем Angular события(eventEmitter)](#component---eventemitter)
+
+## Component - eventEmitter
+
+Для передачи данных из нижнего уровня на верхний используется eventEmitter. Он вызвается на нижнем уровне и отлавливается на верхнем:
+
+-   вызываем событие
+
+```typescript
+@Output
+changeStage: EventEmitter<Task> = new EventEmitter<Task>();
+
+onSelected(task: Task) {
+    this.changeStage.emit(task);
+}
+```
+
+Теперь необходимо поймать событие:
+
+-   прописываем в родительском template
+-   $event - через доллар принято обозначать события
+
+```typescript
+<child-component (eventName)="someMethod($event)"></child-component>
+```
+
 ## Template
 
 Template - шаблоны, через которые определяется верстка Component:
@@ -99,6 +127,7 @@ Template - шаблоны, через которые определяется в
 -   [Передача аттрибутов из Component в Template(attributes)](#component---передача-аттрибутов)
 -   [Передача данных из Template в Component(event)](#template---eventlistener)
 -   [Использование Pipe внутри шаблона](#template---pipe)
+-   [Template reference variable(перемменные через решетку)](#template---reference-variable)
 
 Связать шаблоны:
 
@@ -109,6 +138,7 @@ Directive:
 -   [Directive, что это?](#template---directive)
 -   [Directive - ngIf](#template---ngif)
 -   [Directive - ngFor](#template---ngfor)
+-   [Directive - ngSwitch](#template---ngswitch)
 -   [Directive - ngStyle](#template---ngstyle)
 -   [Directive - ngClass](#template---ngclass)
 
@@ -142,7 +172,7 @@ Service - это такие части кода, например как пол�
 -   AppModule - импортированный модуль, который запускаем
 
 ```js
-import AppModule from './app/app.module';
+import AppModule from "./app/app.module";
 
 platformBrowserDynamic()
 	.bootstrapModule(AppModule)
@@ -294,15 +324,15 @@ Component - принимает js объект в полях которого у
 -   styleUrls - стили компонента
 
 ```typescript
-import Component from '@angular/core';
+import Component from "@angular/core";
 
 @Component({
-	selector: 'app-root',
-	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.scss'],
+	selector: "app-root",
+	templateUrl: "./app.component.html",
+	styleUrls: ["./app.component.scss"],
 })
 export class AppComponent {
-	tittle = 'name-of-project';
+	tittle = "name-of-project";
 }
 ```
 
@@ -422,6 +452,19 @@ Pipe, применяет функцию к переменной:
 <h1>{{ title | number:'2.2-4' }}</h1>
 ```
 
+## Template - Reference Variable
+
+Редко используется, можно создать двутороннюю связь через специальный синтаксис:
+
+-   #phone - создаст переменную phone, которую можно использовать
+-   phone.value - использование переменной, которой лежит input
+-   создает переменную во всем шаблоне
+
+```html
+<input #phone placeholder="phone number" />
+<button type="bytton" (click)="callPhone(phone.value)">Call</button>
+```
+
 ## Template - ngIf
 
 ngIf - директива условия. Отображается если условие выполняется:
@@ -450,6 +493,20 @@ ngFor - директива цикла:
 	*ngFor="let product of products"
 	[some-attr]="product"
 ></app-product>
+```
+
+## Template - ngSwitch
+
+ngSwitch - директива swich'а:
+
+-   ="tab" - указываем поле по которому смотрим значения
+-   ="skills" и ="hobbies" - значения которые проверяем в поле
+
+```html
+<div [ngSwitch]="tab">
+	<div *ngSwitchCase="skills">Read, write</div>
+	<div *ngSwitchCase="hobbies">Iadernaya Physica</div>
+</div>
 ```
 
 ## Template - ngClass

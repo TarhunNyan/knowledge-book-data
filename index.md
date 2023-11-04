@@ -30,15 +30,15 @@
 
 ## Языки
 
-Ruby:
+Cache:
 
-| Ruby                                                                | Ruby - Пакеты                                                 |
-| :------------------------------------------------------------------ | :------------------------------------------------------------ |
-| [RVM - менеджер контроля версий](./Programming/Ruby/RVM/01-Base.md) | [Ruby On Rails - бэкенд](./Programming/Ruby/Rails/01-Base.md) |
-| [gem - установка пакетов](./Programming/Ruby/gem/01-Base.md)        |                                                               |
-| [Import/Export](./Programming/Ruby/03-ImportAndExport.md)           |                                                               |
-| [Синтаксис](./Programming/Ruby/Ruby/04-ruby.md)                     |                                                               |
-| [Объекты(ООП](./Programming/Ruby/Ruby/05-Object.md)                 |                                                               |
+| Cache                                              |
+| :------------------------------------------------- |
+| [Cache - debuging](./Programming/Cache/00-Base.md) |
+|                                                    |
+|                                                    |
+|                                                    |
+|                                                    |
 
 JavaScript:
 
@@ -63,6 +63,16 @@ Java:
 | [Объекты(ООП)](#)                               |
 | [javadoc - документация](#)                     |
 | [Java - типизация](#)                           |
+
+Ruby:
+
+| Ruby                                                                | Ruby - Пакеты                                                 |
+| :------------------------------------------------------------------ | :------------------------------------------------------------ |
+| [RVM - менеджер контроля версий](./Programming/Ruby/RVM/01-Base.md) | [Ruby On Rails - бэкенд](./Programming/Ruby/Rails/01-Base.md) |
+| [gem - установка пакетов](./Programming/Ruby/gem/01-Base.md)        |                                                               |
+| [Import/Export](./Programming/Ruby/03-ImportAndExport.md)           |                                                               |
+| [Синтаксис](./Programming/Ruby/Ruby/04-ruby.md)                     |                                                               |
+| [Объекты(ООП](./Programming/Ruby/Ruby/05-Object.md)                 |                                                               |
 
 ## GIT
 
@@ -112,5 +122,6 @@ Java:
 | [Книги](./Personal/Books.md)                     |
 | [Домашние дела](./Personal/Household.md)         |
 | [Задумки придумки, выдумки](./Personal/Ideas.md) |
+| [Рабочие моменты](./Personal/Work.md)            |
 
 <style>table{width: 100%}</style>
