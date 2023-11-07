@@ -235,6 +235,12 @@ p.addEventListener('click', () => {});
 <script type="text/javascript" src="path-to-file.js"></script>
 ```
 
+Если хотим чтобы скрипт заработал после загрузки страницы, не забываем про аттрибут defer:
+
+```js
+<script type="text/javascript" src="path-to-file.js" defer></script>
+```
+
 ## Подключаем - CSS
 
 CSS внутри html:

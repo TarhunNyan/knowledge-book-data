@@ -710,18 +710,24 @@ display: inline-grid;
 
 ## Grid-wrapper - grid-template-columns
 
-grid-template-columns - Устанавливает размеры столбцов:
+grid-template-columns - Устанавливает размеры строк:
 
--   repeat(3, 250px) - три одинаковых колонки
--   40px auto 40% - создаст три колонки
--   [start line1] 150px [line2] 40%; - создает две колонки. В CSS к ним можно обращаться, для первой колонки start и line1; для второй колонки: line2;
+-   repeat(3, 250px) - три одинаковых строки
+-   40px auto 40% - создаст три строки
+-   [start line1] 150px [line2] 40%; - создает две строки. В CSS к ним можно обращаться, для первой строки start и line1; для второй строки: line2;
 -   1fr 2fr 1fr 200px - пример с fr, потому что это размерность доступна только для grid. Веса расчитываются после фиксированных размеров
 
 ```css
-grid-template-columns: repeat(3, 250px); - три одинаковых колонки
-grid-template-columns: 40px auto 40%; - создаст три колонки
+grid-template-columns: repeat(3, 250px);
+grid-template-columns: 40px auto 40%;
 grid-template-columns: [start line1] 150px [line2] 40%;
 grid-template-columns: 1fr 2fr 1fr 200px;
+```
+
+По какой-то причине без свойства grid-auto-flow не работает:
+
+```css
+grid-auto-flow: row;
 ```
 
 ## Grid-wrapper - grid-template-rows
@@ -734,10 +740,16 @@ grid-template-rows - Устанавливает размеры строк:
 -   1fr 2fr 1fr 200px - пример с fr, потому что это размерность доступна только для grid. Веса расчитываются после фиксированных размеров
 
 ```css
-grid-template-rows: repeat(3, 250px); - три одинаковых колонки
-grid-template-rows: 40px auto 40%; - создаст три колонки
+grid-template-rows: repeat(3, 250px);
+grid-template-rows: 40px auto 40%;
 grid-template-rows: [start line1] 150px [line2] 40%;
 grid-template-rows: 1fr 2fr 1fr 200px;
+```
+
+По какой-то причине без свойства grid-auto-flow не работает:
+
+```css
+grid-auto-flow: row;
 ```
 
 ## Grid-wrapper - grid-template-areas
