@@ -213,20 +213,6 @@ docker kill 403
 docker kill adoring_poinca
 ```
 
-## Docker - inspect
-
-inspect - получить информацию по Container:
-
--   4034112326f - ID нужного Container
--   403 - начало ID нужного Container
--   adoring_poinca - имя Container, который снимаем с паузы
-
-```bash
-docker inspect 4034112326f
-docker inspect 403
-docker inspect adoring_poinca
-```
-
 ## Docker - stats
 
 stats - сколько ресурсов занимает Container:
@@ -378,3 +364,195 @@ Anonymous Volumes - при запуске указываем папку из к�
 docekr run -v /var/lib/mysql mysql
 docekr run -v /var/lib/mysql:ro mysql
 ```
+
+# Container
+
+Команды для работы с Container:
+
+-   [Посмотреть информацию по Container](#container---inspect)
+-   [Запустить Container в указанной сети](#network---запустить-container)
+
+# Network
+
+Network(сеть) - настройка сетей, позволяет управлять тем, как общаются Container между собой и host. Сети могут быть нескольких типов, но в 95% случаев используется Bridge и Host:
+
+-   [Brigde - множество изолированных подсетей](#network---bridge)
+-   [Host - одна изолированная сеть](#network---host)
+-   [None - каждый container изолирован](#network---none)
+
+Команды для работы с Network:
+
+-   [Посмотреть список сетей](#network---ls)
+-   [Посмотреть информацию о сети](#network---inspect)
+-   [Посмотреть IP-адрес и Mac-адрес для Container](#container---inspect)
+-   [Задаем сети IP-адреса(subnet/gateway)](#network---задать-ip)
+-   [Запустить Container в указанной сети](#network---запустить-container)
+-   [Удалить сеть](#network---удалить-сеть)
+
+Манипулирование подключением Container(обычно используется для создания Proxy):
+
+-   [Подключить Container к сети](#network---connect)
+-   [Отключить Container от сети](#network---disconnect)
+
+# DockerFile
+
+# Примеры
+
+## Container - inspect
+
+inspect - получить информацию по Container, влючает mac-адрес, ip-адрес и т.д:
+
+-   4034112326f - ID нужного Container
+-   403 - начало ID нужного Container
+-   adoring_poinca - имя Container, который снимаем с паузы
+
+```bash
+docker inspect 4034112326f
+docker inspect 403
+docker inspect adoring_poinca
+```
+
+## Network - Connect
+
+Connect - подключает Container к подсети:
+
+-   network_name - имя подсети
+-   container_name - имя Container
+
+```bash
+docker network connect network_name container_name
+```
+
+## Network - Disconnect
+
+Disconnect - отключить Container от подсети:
+
+-   netwrork_id - id подсети. Можно глянуть через inspect
+-   container_name - имя Continer
+
+```bash
+docker network diconnect netwrork_id container_name
+```
+
+## Network - Запустить Container
+
+Запустить Container:
+
+-   network_name - имя подсети, в которой хотим запустить Container
+
+```bash
+docker run --net network_name image_name
+```
+
+## Network - Удалить сеть
+
+```bash
+docker network rm network_name
+```
+
+## Network - Задать IP
+
+Задать IP:
+
+-   --subnet 192.168.10.0/24 -
+    -   /24 - маска подсети или по привычному 255.255.255.0
+-   --gateway 192.168.10.1 - куда
+-   --driver bridge - сеть типа bridge
+-   network_name - имя сети
+
+```bash
+docker network create --driver bridge --subnet 192.168.10.0/24 --gateway 192.168.10.1 network_name
+```
+
+## Network - inspect
+
+inspect - можно посмотреть тип, ip и т.д:
+
+-   network_name - имя сети информацию по которой смотрим
+
+```bash
+docker network inspect network_name
+```
+
+## Network - ls
+
+ls - посмотреть какие сети есть в Docker:
+
+```bash
+docker network ls
+```
+
+## Network - Bridge
+
+Bridge - сеть, из подсетей:
+
+-   default, mynet1, mynet2 - подсети
+    -   default - стандартная подсеть, внутри которой Container получают случайные IP
+        -   нет DNS(нельзя давать Container имена)
+        -   Container могут общатья между собой
+        -   Container могут общатья с host
+        -   при запуске Container без указания подсети, попадает в default
+    -   mynet1, mynet2 - пользовательская подсеть
+        -   есть DNS(можно задавать имена Container, чтобы пересылать данные)
+        -   Container могут общатья между собой
+        -   Container могут общатья с host
+
+<img src="./source/02-Bridge.png" style="display: block; height: 300px; margin: auto;"/>
+
+Создаем подсеть типа Bridge:
+
+-   network_name - имя которое даем подсети
+
+```bash
+docker network create --drive bridge network_name
+```
+
+Запустить Container внутри подсети:
+
+-   network_name - имя подсети в которой запускаем Container
+
+```bash
+docker run --net network_name nginx
+```
+
+## Network - Host
+
+Host - сеть, которая использует IP адреса самого host:
+
+-   Container могут общатья между собой
+-   Container могут общатья с host
+-   Может быть только одна сеть типа host
+
+<img src="./source/03-Host.png" style="display: block; height: 300px; margin: auto;"/>
+
+Создаем подсеть типа Host:
+
+-   network_name - имя которое даем подсети
+
+```bash
+docker network create --drive host
+```
+
+## Network - None
+
+None - изолированно запусаются Container:
+
+-   Container НЕ могут общатья между собой
+-   Container НЕ могут общатья с host
+-   Может быть только одна сеть типа None
+
+<img src="./source/04-Nonepng.png" style="display: block; height: 300px; margin: auto;"/>
+
+## Network - macvlan
+
+macvlan - упращает маршрутизацию для Switch:
+
+-   каждый Container получает свой IP и копирует mac-адрес host
+-   каждый Container получает свой mac-адрес
+
+## Network - ipvlan
+
+ipvlan:
+
+-   каждый Container получает свой IP
+-   каждый Container копирует mac-адрес из host

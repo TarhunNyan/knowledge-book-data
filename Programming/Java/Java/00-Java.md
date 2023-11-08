@@ -305,7 +305,7 @@ Functional Interface - функциональный интерфейс, это I
 
 -   @FunctionalInterface - аннотация, не позволяющая задать более одного метода
 
-```jav
+```java
 @FunctionalInterface
 interface MyInterface { String reverse(String n); }
 
