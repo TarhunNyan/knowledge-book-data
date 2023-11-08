@@ -2,17 +2,27 @@
 
 Java - это база, это знать надо
 
-# Java - SDK
+## Java - общий понятия
+
+Структура Java инструментария такова:
+
+-   JDK(JavaDevelopmentKit) - контейнер для JRE и DevTools
+    -   JRE - контейнер для JVM, JavaClassLibrary и DevTools
+        -   JVM(Java Virtual Machine) - виртуальная машина куда компилируется код
+        -   JavaClassLibrary - базовые библиотеки
+    -   DevTools - вские jar, javadoc и т.д.
 
 SDK - набор инструментов для разработки. Туда входят:
 
--   API
--   Libriries
--   Documentation
--   Debugging
--   Tutorials
-
-Например, может быть специальная SDK - для аторизации. Это не только библиотека, а уже полностью сформированный инструмент
+-   В SDK входят:
+    -   API
+    -   Libriries
+    -   Documentation
+    -   Debugging
+    -   Tutorials
+    -   ...
+-   Например:
+    -   может быть специальная SDK - для авторизации. Это не только библиотека, а уже полностью сформированный инструмент
 
 # Структуры
 
@@ -71,7 +81,7 @@ try {
 -   [Если false, то новое значение](#syntaxsugar---double-pipe)
 -   [Если undefined, то новое значение](#syntaxsugar---double-qestion)
 
-# Асинхронность
+# Мультиполточность
 
 # Типы данных
 
@@ -287,6 +297,157 @@ synchronized (synchList) {
 }
 ```
 
+# Функциональные фичи
+
+## Functional Interface
+
+Functional Interface - функциональный интерфейс, это Interface с одним мтодом
+
+-   @FunctionalInterface - аннотация, не позволяющая задать более одного метода
+
+```jav
+@FunctionalInterface
+interface MyInterface { String reverse(String n); }
+
+public class main {
+    public static void main() {
+        MyInterface res = (s) -> s.reverse()
+    }
+}
+```
+
+## Встроенные FunctionalInterface
+
+Список встроенных FunctionalInterface:
+
+-   [Predicate](#functionalinterface---predicate)
+-   [UnaryOpertor](#functionalinterface---unaryopertor)
+-   [BinaryOperator](#functionalinterface---binaryoperator)
+-   [Function](#functionalinterface---function)
+-   [Consumer](#functionalinterface---consumer)
+-   [Suplier](#functionalinterface---suplier)
+-   [Predicate](#functionalinterface---predicate)
+
+## Lambda
+
+Lambda - анонимная функция без класса:
+
+-   появилась в Java8
+-   этот синтаксис - обертка над Funciton Interface
+
+```java
+// без аргументов
+() -> System.out.println("Hello")
+
+
+(int var1, int var2, int var3) -> var+var2+var3
+
+(int var1, int var2, int var3) -> {
+    return var1 + var2 + var3
+}
+// можем не указывать тип, если исполььзуем Functional Interface
+SomeInterface res = s -> s.length
+```
+
+## Method Refrence
+
+Method Reference - получаем ссылку на метод:
+
+-   в примере каждый элемент list выведем через System.Out.pringtln в консоль
+
+```java
+list.forEach(System.out::println);
+```
+
+## Stream
+
+Stream - позволяет проходить по объекту, как в функциональных языках:
+
+-   появились в JAVA 8
+
+Самые главные методы:
+
+-   [map](#stream---map)
+-   [filter](#)
+-   [reduce](#)
+-   [forEach](#)
+
+## Stream - filter
+
+Возвращает только значения прошедшие проверку:
+
+```java
+ArrayList<String> arrayList = new ArrayList<>();
+arrayList.add("aTraction");
+arrayList.add("bInary");
+arrayList.add("aOpsadlka");
+
+arrayList.stream().filter(
+        el -> el.charAt(0)=='a' && el.length()==9
+);
+```
+
+## Stream - forEach
+
+пробегаемся по Stream и что-то делаем, но ничего не возвращает. Например можно что-либо вывести:
+
+```java
+Arrays.stream(array).forEachOrdered(el -> System.out.println(el * 2));
+```
+
+## Stream - map
+
+применяет переданную функцию последовательно к каждому элементу
+
+Подробный вариант использования map:
+
+```java
+ArrayList<String> arrayList1 = new ArrayList<>();
+arrayList1.add("privet");
+// ...
+arrayList1.add("ok");
+
+Stream<String> fooStream = arrayList1.stream();
+Stream<Integer> fooStream2 = fooStream.map( el -> el.length() );
+ArrayList<Integer> arrayList2 = (ArrayList<Integer>) fooStream2.collect(Collectors.toList());
+```
+
+Сокращенный вариант:
+
+```java
+ArrayList<String> arrayList1 = new ArrayList<>();
+arrayList1.add("privet");
+// ...
+arrayList1.add("ok");
+
+ArrayList<Integer> arrayList2 = (ArrayList<Integer>) arrayList1.stream().map(
+        el -> el.length()
+).collect(Collectors.toList());
+```
+
+Хотя к массивам по другому применяется:
+
+```java
+int[] array = {1,2,4,6,78};
+int[] array2 = Arrays.stream(array).map(
+        el -> el * 2
+).toArray();
+```
+
+## Stream - reduce
+
+возвращает из набора элементов один, путем кумулятивного(накопительно) применения функции к последовательнсоти. По факту возвращает Optional, это связано с тем что может reduce может вернуть null:
+
+```java
+int result = 0;
+Optional<Integer> reduce = list.stream().reduce((accumulator, el) -> accumulator*el);
+if(reduce.isPresent()) {
+    result = reduce.get();
+} else {
+    // значение Stream.reduce null... Короче говно случилось
+}
+```
+
 # Важные вещи
 
 Важные вещи:
@@ -295,6 +456,56 @@ synchronized (synchList) {
 <!-- -   [Комментарии](#важные-вещи---комментарии) -->
 
 # Примеры
+
+## FunctionalInterface - Predicate
+
+Predicate<T> - проверка соблюдения условия:
+
+```java
+Prdicate<Integer> isPositive = x -> x > 0;
+```
+
+## FunctionalInterface - UnaryOpertor
+
+UnaryOpertor<T> - выполняет над объектом операцию:
+
+```java
+UnaryOpertor<Integer> square = x -> x*x;
+```
+
+## FunctionalInterface - BinaryOperator
+
+BinaryOperator<T> - выполняет над 2-мя объектами операцию:
+
+```java
+BinaryOperator<Integer> multiply = (x, y) -> x*y;
+```
+
+## FunctionalInterface - Function
+
+Function<T, S> - функция перехода от T к S:
+
+```java
+Function<Integer, String> convert = x -> String.valueof(x);
+```
+
+## FunctionalInterface - Consumer
+
+Consumer<T> - выполняет операцию над объектом, ничего не возвращает:
+
+```java
+Consumer<Integer> printer = x -> System.out.print(x);
+```
+
+## FunctionalInterface - Suplier
+
+Suplier<T> - ничего е принимает, но возвращает объект типа T:
+
+```java
+Suplier<User> user = () -> new User(
+    new Scanner(System.in).nextLine()
+);
+```
 
 ## Array - Создать со значениями
 
@@ -578,6 +789,8 @@ System.out.println("Ты родился")
 
 Стандартный логический тип:
 
+-   значение по умолчанию: false
+
 ```java
 boolean bVar = false;
 boolean bVar2 = true;
@@ -605,7 +818,7 @@ double dVar = 45.23;
 Примитивные числовые(целые) типы:
 
 -   byte
-    -   Занчение: от -128 до 127
+    -   Значение: от -128 до 127
     -   Занимает: 1 байт
     -   Класс обертка: Byte
 -   short
@@ -857,47 +1070,6 @@ JavaDoc использование link:
 -   package.Class#Constructor()
 -   package.Class#method()
 
-# Access Modifier для Class
-
-Access Modifier для Class:
-
--   public - доступен классам даже из других пакетов
--   default(ничего не пишем перед именем класса) - доступен только классам из тогоже пакета
-
-# Access Modifier для конструкторов, методов и полей
-
-Access Modifier для конструкторов, методов и полей:
-
--   public - доступно всем классам
--   private - доступно только внутри класса, в котором объявлен
--   default(ничгего не пишешь) - доступен только внутри этого пакета
--   protected - доступен только внутри этого пакета, а так же в subclasses и superclasses
-
-# Modifiers бывают
-
-Modifiers бывают:
-
--   Access Modifier
--   Non-Access Modifier
-
-## Non-Access Modifier для Classes
-
-Non-Access Modifier для Classes:
-
--   final - от класса нельзя унаследоваться
--   abstract - от класса можно унаследоваться, но нельзя создать объект данного класса
-
-## Non-Access Modifier для методов и аттрибутов
-
-Non-Access Modifier для методов и аттрибутов:
-
--   final - не могут быть переопределены(пишутся большими буквами)
--   static - аттрибуты и методы относятся к классу, а не объекту(к ним можно обращаться без new). Поэтому внутри static метода нельзя использовать аттрибуты и методы без модификатора static
--   abstract - только для методов и только в абстрактном классе. Такой метод нельзя вызвать, и у него нет тела. Только переопределять в наследнике
--   transient - что-то о сериализации
--   synchronized - что-то о потоках
--   volatile - что-то про кэширование
-
 # Exception
 
 исключения. Классы унаследованные от java.lang.Exception. Вызываются когда происходит некоторая ошибка. Делаятся на два вида:
@@ -928,23 +1100,6 @@ throw new ClassExtendException("Message for Exception", e)
 # Immutable
 
 объект, который не позволяет себя менять. А все попытки провести изменения создают новый объект
-
-# Lambda выражения
-
-появилась в 8 JAVA. Выглядит как функциональное, программирование но по сути им не является. Обычно, чтоб передать метод, надо:
-
-1. Создать интерфейс с нужным методом (функциональный интерфейс)
-2. В месте куда передаём определить, что получаемый объект должен имплементировать новый интерфейс
-3. Имплементировать новый класс от интерфейса
-4. В классе определить этот метод
-5. Передать этот класс туда, где нужно данный метод
-
-Для упрощения можно не создавать отдельный класс а создать абстрактный класс. А для уменьшения кода не абстрактный класс, а лямбда функцию, которая по сути является абстрактным классом и просто уменьшает код.
-
-(String s) -> { return s.length; }
-
-Короткая запись с одним параметром:
-s -> s.length
 
 # method reference
 
@@ -1065,102 +1220,7 @@ public class Main {
 
 ```
 
-# Stream
-
-появились в JAVA 8. Последовательность элементов поддерживающая последовательные и паралельные опперации над ними, такие как:
-
--   map
--   filter
--   reduce
--   forEach
-
-## Stream - filter
-
-Возвращает только значения прошедшие проверку:
-
-```java
-ArrayList<String> arrayList = new ArrayList<>();
-arrayList.add("aTraction");
-arrayList.add("bInary");
-arrayList.add("aOpsadlka");
-
-arrayList.stream().filter(
-        el -> el.charAt(0)=='a' && el.length()==9
-);
-```
-
-## Stream - forEach
-
-пробегаемся по Stream и что-то делаем, но ничего не возвращает. Например можно что-либо вывести:
-
-```java
-Arrays.stream(array).forEachOrdered(el -> System.out.println(el * 2));
-```
-
-## Stream - map
-
-применяет переданную функцию последовательно к каждому элементу
-
-Подробный вариант использования map:
-
-```java
-ArrayList<String> arrayList1 = new ArrayList<>();
-arrayList1.add("privet");
-// ...
-arrayList1.add("ok");
-
-Stream<String> fooStream = arrayList1.stream();
-Stream<Integer> fooStream2 = fooStream.map( el -> el.length() );
-ArrayList<Integer> arrayList2 = (ArrayList<Integer>) fooStream2.collect(Collectors.toList());
-```
-
-Сокращенный вариант:
-
-```java
-ArrayList<String> arrayList1 = new ArrayList<>();
-arrayList1.add("privet");
-// ...
-arrayList1.add("ok");
-
-ArrayList<Integer> arrayList2 = (ArrayList<Integer>) arrayList1.stream().map(
-        el -> el.length()
-).collect(Collectors.toList());
-```
-
-Хотя к массивам по другому применяется:
-
-```java
-int[] array = {1,2,4,6,78};
-int[] array2 = Arrays.stream(array).map(
-        el -> el * 2
-).toArray();
-```
-
-## Stream - reduce
-
-возвращает из набора элементов один, путем кумулятивного(накопительно) применения функции к последовательнсоти. По факту возвращает Optional, это связано с тем что может reduce может вернуть null:
-
-```java
-int result = 0;
-Optional<Integer> reduce = list.stream().reduce((accumulator, el) -> accumulator*el);
-if(reduce.isPresent()) {
-    result = reduce.get();
-} else {
-    // значение Stream.reduce null... Короче говно случилось
-}
-```
-
 # Строение проекта
-
-## Точка входа
-
-при запуске из командной строки, типа: "java ClassName", запускается метод main в class'е ClassName. Этот самый метод main и есть точкой входа
-
-Точек входа в проектк может быть сколько угодно, главное описать метод main:
-
-```java
-public static void main(String[] args) { /* код */}
-```
 
 ## Из чего состоит package
 
@@ -1183,323 +1243,3 @@ org.learn.android.messenger
 .../все остальное- gradle, git...
 .../Externial Libries- библиотеки
 ```
-
-# Class
-
-## Порядок выполнения блоков в JAVA классе
-
-в JAVA классе есть:
-
-1. Инициализатор - выполняется до конструктора
-
-```java
-{
-    type = "Кот";
-    age = 0;
-}
-```
-
-2. Конструктор - функция с тем же теменем что и класс. Выполняется при создании объекта. Его монжо перегрузить (overloading), что очень полезно. Если конструктор не прописан, то автоматически создается такой, что все поля заполняет либо null либо 0:
-
-```java
-Pet() {
-    name = null;
-    type = null;
-    age = 0;
-}
-```
-
-3. main - эта штука является точкой входа для даного класса
-
-```java
-public class Class {
-    public static void main(String[] args) { }
-}
-```
-
-## Class - Enum
-
-перечисление. Чтобы не писать класс с кучей static полей придумали enum. В простейшем случае:
-
-```java
-public enum Enum {
-    // К enum можно обращатся в стиле: Enum.DOG == Enum.FROG   ->   False
-    CAT, DOG, WOLD, FROG
-}
-```
-
-но все немного хитрее, и каждое такое поле в enum реализует class описываемым этим enum. Например:
-
-```
-enum Animal {
-    // Данные константы просто static class, которые реализуют методы описанные ниже
-    CAT, DOG("Собака"), WOLF("Волк"), FROG;
-
-    private String name;
-    static final String DEFAULT_NAME = "NoName";
-
-    Animal() {
-        this.name = DEFAULT_NAME;
-    }
-
-    Animal(String name) {
-        this.name = name;
-    }
-}
-```
-
-## Interface
-
-ООП'ешная фиговина. В интерфейсах описываются static поля и контракты методов(без тела). Классы можно расширять неограниченным числом interface. Класс должен реализовывать все методы и поля интерфесов, от которых он расширен:
-
-1. Поля по умолчанию - public static final
-2. Методы по умолчанию - public abstract
-
-Объявление интерфейса:
-interface ExInterface
-
-Расширение класса:
-class ClInterface implements Interface1, Interface2
-
-В остальном, все точно так же как у классов. Даже есть своеобразный downcasting/upcasting:
-Interface obj = new ObjImplementFromInterface();
-
-## Setter/Getter
-
-ООП инкапсуляция, все дела... Поэтому к полям объектов обращаемся только через функции setParamName и getParamName
-
-## Upcasting/Downcasting
-
-прием в ООП, когда мы преобразуем parent в child(Downcasting) или child в parent(Upcasting)
-
-Часто используется Downcasting, особенно Когда надо найти что-то в списке с разными типами элементов:
-
-TextView myTextView = (TextView) findViewById(R.id.myText);
-
-## Анонимный класс
-
-класс созданный "находу", для создания одного объекта
-
-```java
-Dog dog = new Dog() {
-    public void newFuncInsideAnonimClass() {
-        System.out.println("Так создается объект анонимного класса в котором переопределяют все что захотят");
-    }
-};
-```
-
-## Как сравнивать самописные классы
-
-чтобы сравнить самописные классы, нужно имплементировать interface - Comparable, и перегрузить его методы
-
-## Равенство
-
-проверка на равенство это ==. Но корректно это работает только для примитивных типов. В случае с непримитивными типами сравниваются ссылки. Поэтому для сравнения используют метод equals, определенный(перегруженный) для всех Object
-
-## Сравнение на равенство самописных классов
-
-необходимо переопределить метод equals
-
-## Перегрузка(Overloading) метода
-
-когда метод с одним именем может принимать разный набор параметров. И в итоге от набора параметров зависит то, как метод исполнится
-
-## Создать Class или Interface принимающий generic
-
-нужно при создании класса дописать generic. Правила описания такие же как в wildCards, только вместо ? пишем название для переменной в которой будет храниться класс, когда мы его прокиним через Generic при создании объекта
-
-```java
-class GenericClass<T> {
-    public T findSmall() {
-        //code
-    }
-}
-class GenericClass<T extends SomeClass> {
-    // code
-}
-```
-
-то же самое с интерфейсами:
-
-```java
-interface GenericInterface<T> {
-    T findSmall();
-    T findLargest();
-}
-Generic класс с имплементированным Generic интерфейсом:
-class GenericClass<T> implements GenericInterface<T>{
-    // code
-}
-```
-
-# Collection
-
-## HashMap(принцип работы)
-
-hashMap - имплементирует интерфейс Map. Представляет из себя набор элементов у которых есть key, value и hash. Hash для повышения скорости работы. Принимает в качестве параметров initialCapacity(число Bundle'ов) и loadFactor(когда число элементов станет больше чем  Mathjax , то Capacity увеличится в двое и произойдет рехеширование)
-
-Важно чтобы key был immutable. Если мы положим key в Map, а потом его изменим, то хэш перестанет совпадать и мы не сможем его найти
-
----
-
-HashMap это Array. Элементы Array это LinkedList. В LinkedList(иногда еще называют Bucket) хранятся экземпляры объектов созданных из внутреннго класса Node. Класс Node хранит key, value и hash
-
-Кладем элемент в HashMap:
-
-1. Ч/з алгоритм из key вычисляем index. Алгоритм для index - остаток от деления hash на число Bucket'ов
-2. По index достаем LinkedList(Bucket)
-3. Пробегаемся по LinkedList и сравниваем hash ключей
-   3.1 (hash'ы ключей равны) Сравниваем key ч/з метод equals
-   3.1.1 (equals'ы ключей равны) Заменяем в Bucket на новую Node'у
-   3.1.2 (equals'ы ключей не равны) Смотри 3.2
-   3.2 (hash'ы ключей не равны) Пихаем в LinkedList(Bucket) экземпляр Node с определнным key, value и hash
-
----
-
-HashMap.entrySet
-
-```java
-HashMap<String, Double> map = new HashMap<>();
-for(Map.Entry<String, Double> item: map.entrySet()) {
-    item.getKey();
-    item.getValue();
-    item.hashCode();
-}
-```
-
-## HashSet
-
-HashSet - class имплементирующий интерфейс set. Является просто множеством. В его основе лежит HashMap, у которого отсутствуют value, поэтому необходимо переопределять hashCode и equals
-
-из специфичных методов(есть у всех set):
-
-1. addAll( hashSet ) - делает union для двух set
-2. retainAll( hashSet ) - делает intersect для двух set
-3. removeAll( hashSet ) - делает substract для двух set
-
-## HashTable
-
-HashTable - тоже что и HashMap, за исключением того, что Synchronized и нельзя исользовать null. Настолько устарел, что вместо него следует использовать CuncurentHashMap
-
-## LinkedHashMap
-
-LinkedHashMap - тоже что и HashMap, за исключением того, что хранит порядок добавления/использования (зависит от инициализатора)
-
-Хранит значения по порядку добавления:
-
-```java
-LinkedHashMap<ClassFirst, ClassSecond> = new LinkedHashMap<>(initialCapacity16,loadFactor0.75f,accessOrder false);
-```
-
-Хранит значения по порядку использования. Последний использованный элемент идет в конец:
-
-```java
-LinkedHashMap<ClassFirst, ClassSecond> = new LinkedHashMap<>(initialCapacity16,loadFactor0.75f,accessOrder true);
-```
-
-## LinkedHashSet
-
-LinkedHashSet - множество, хранящее порядок добавления элементов. Наследник HashSet. В основе лежит HashMap. НЕ МОЖЕТ ЗАПОМИНАТЬ ПОСЛЕЖОВАТЕЛЬНОСТЬ ИСПОЛЬЗОВАНИЯ КАК LinkedHashMap
-
-## ListIterator
-
-особенностью данной Collection, является наличие методов hasPrevious() и previous(). А стандартные методов hasNext() и next(), дают возможность иттерировать из любого места и в любую сторону
-
-## Map
-
-Map - интерфейс, суть которого в хранении пары значени: key и value. Key - должен быть уникальным. Так же может быть null
-
-НЕ НАСЛЕДНИК КЛАССА Collection, НО СХОЖ ПО ПРИНЦИПУ
-
-```java
-Map<String, Integer> map = new HashMap<>();
-```
-
----
-
-1. put(key, value) - добавит или заменит
-2. putIfAbsent(key, value) - добавить если нет такого ключа
-3. get(key) - получить значение
-4. remove(key)
-5. containsKey(key) - проверить есть ли такой ключ
-6. containsValue(value) - проверить есть ли такое значение
-7. keySet() - вернуть set всех ключей
-8. values() - вернуть все значения
-
----
-
-Наследники
-
-от интерфейса Map реализуются такие классы как:
-
-Map -> HashMap
--> LinkedHashMap
-Map -> SortedMap
--> NavigableMap
--> TreeMap
-Map -> HashTable
-
-## PriorityQueue
-
-PriorityQueue - очередь с приоритетом. Должен быть определен Comporator или интерфейс Comparable. Ибо очередь сравнивается и элемент с наименьшим значением обладает наивысшим приорететом
-
-## Stack
-
-Stack - классические stack с принципом LIFO. Является synchronized. Как и его предок Vector, устарел
-
-Метода:
-
--   push
--   pop (взять элемент и удалить)
--   peek (взять элемент и НЕ удалять)
--   isEmpty
-
-## TreeMap
-
-TreeMap- Class реализующий интерфейс Map. В нем элементы - пары key и value. Хранятся в отсортированном(по key) возрастающем порядке в виде красно-черного дерева
-
-Если используешь самописные классы, необходимо их унаследовать от интерфейса Compareble. Чтобы дерево могло сравниать и сортировать, иначе не заработает (equals и hash переопределять не надо)
-
-или использовать Comparator при инициализации TreeMap:
-
-```java
-TreeMap<ClassKey, ClassValue> treeMap = new TreeMap<ClassKey, ClassValue>(
-        new Comparator<ClassKey>() {
-            /**
-             *
-             * @param o1 первый объект для сравнения.
-             * @param o2 второй объект для сравнения.
-             * @return если int < 0, то первый объект меньше
-             *         если int = 0, то равны
-             *         если int > 0, то первый объект больше
-             */
-            @Override
-            public int compare(ClassKey o1, ClassKey o2) {
-                return 0;
-            }
-        }
-);
-```
-
-1. descendingMap() - от наименьшего к наибольшему
-2. tailMap( fromKey ) - все элементы key которых больше чем fromKey
-3. headMap( fromKey ) - все элементы key которых меньше чем fromKey
-4. fitstEntry() - возвращает первый элемент
-5. lastEntry() - возвращает последний элемент
-
-## TreeSet
-
-TreeSet - множество, которое хранит элементы в отсортированном по возрастанию порядке. Поскольку в основе лежит TreeMap, то необходимо compareTo или Comparable
-
-Методы(сильно схожи с TreeMap):
-
-1. first
-2. last
-3. headSet( item )
-4. tailSet( item )
-5. subSet( item1, item2 )
-
-## Коллекции для работы с многопоточностью
-
-1. Synchronized collections - получены из оборачиванием обычных коллекций
-2. Concurrent collections - изначально созданны для работы с многопоточностью
