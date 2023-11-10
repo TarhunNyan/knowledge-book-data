@@ -100,6 +100,18 @@ images - смотрим установленные сейчас Images:
 docker images
 ```
 
+## Docker - tag
+
+tag - задает Image нужный Repository и Tag:
+
+-   94c5f968ae9f - это ID для Image, который переименовываем
+-   mydocker - станет именем REPOSITORY
+-   v10 - станет именем TAG
+
+```bash
+docker tag 94c5f968ae9f mydocker:v10
+```
+
 ## Docker - pull
 
 pull - скачиваем Image на пк:
@@ -396,7 +408,54 @@ Network(сеть) - настройка сетей, позволяет управ
 
 # DockerFile
 
+DockerFile - позволяет создать свой Image:
+
+-   [Устройство DockerFile](#dockerfile---устройство)
+-   [Собрать DockerFile в Image](#dockerfile---build)
+
 # Примеры
+
+## DockerFile - Build
+
+build - собрать DockerFile в Image:
+
+-   ./files - путь до DockerFile. В данном случае, он находится в папке files
+-   --tag myimages:v01 - указываем REPOSITORY и TAG. Без этого в полях будет <none>
+
+```bash
+docker build ./files
+docker build --tag myimages:v01 ./files
+```
+
+## DockerFile - Устройство
+
+DockerFile устроен так:
+
+-   FROM - базовый Image
+-   LABEL - описание(необязательно)
+-   RUN - команды
+-   WORKDIR - указываем рабочую директорию внутри Container
+-   COPY - копируем файлы, которые нужны для работы приложения, в WORKDIR
+-   VAR - указываем переменную окружения
+-   EXPOSE 80 - открывает порты. Тогда можно не пробрасывать порты из команды(не понял, можно ли пробрасывать порты? можно ограничивать протоколы 80/tcp)
+-   ENTRYPOINT/CMD - команды которые срабатывают при запуске Container
+    -   ENTRYPOINT - команда которая запускается в слюбом случае
+    -   CMD - команда которую можно перезаписать. dicker run --name mydocker:vo2 /bin/bash
+        -   содержание CMD перезапишется на /bin/bash
+
+```dockerfile
+FROM ubuntu:22.04
+LABEL author=Mishka_Pistolet
+RUN apt-get update
+RUN apt-get install nginx -y
+WORKDIR /var/www/html/
+COPY files2/index.html .
+COPY files2/script.sh /opt/script.sh
+ENV OWNER="JohnRomero"
+
+ENTRYPOINT ["echo"]
+CMD ["Hello"]
+```
 
 ## Container - inspect
 
