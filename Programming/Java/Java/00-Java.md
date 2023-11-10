@@ -446,14 +446,249 @@ list.forEach(System.out::println);
 
 Stream - позволяет проходить по объекту, как в функциональных языках:
 
--   появились в JAVA 8
+-   существует распараллеливание Stream, но в инттернете пишут, что это дает + производительности от 10К элементов:
+    -   stream.parallel() - превращаем Stream в паралельный
+    -   collection.parallelStream() - превращаем Collection в паралельный Stream
+-   состоит из 3 шагов:
+    -   источник - сама Collection
+    -   intermidiate(промежуточные) - возвращают stream:
+        -   skip - пропускаем n-элементов
+        -   limit - ограничивает Stream по числу элементов
+        -   dropWhile - пропускает элементы которые проходят условие Predicate
+        -   distinct - убирает повторяющиеся элементы
+        -   filter - фильтрует по функции типа Predicate
+        -   map - ставит элемент в соответствие по функции типа Function<T, R>
+        -   peek - берет из Stream объект и возвращет его же, но пропускает через функцию, где мымдиицировали состояние объекта
+        -   flatMap - переданная функция должна возвращать Stream. Ставит элемент в соответствие по функции типа Function<T, Stream<R>>
+    -   terminal(терминальный) - конечный оператор, который и запускает обработку Stream
+        -   forEach - производим действие над объектом ничего не возвращая. Принимает функцию типа Consumer
+        -   count() - возвращает колличество элементов Stream
+        -   collect - собирает Stream в одну Collection. Принимает функцию типа Collector
+        -   reduce - классика по последовательному применению к парам значениям
+        -   min/max/findFirst - возвращает минимальный/максимальный/первый элемент
+        -   allMatch/anyMatch/noneMatch - элементы все-удовлетворяют/хотя-бы-один/все-не-удовлетворяют условию типа Predicate
 
-Самые главные методы:
+Примеры:
 
--   [map](#stream---map)
--   [filter](#)
--   [reduce](#)
--   [forEach](#)
+-   [Создаем Stream из разных объектов](#stream---create)
+-   [Использование Stream.Collectors](#stream---collectors)
+-   [Использование Stream.Reduce](#stream---reduce)
+-   [Соединить два Stream](#stream---concat)
+-   [Отсортировать Stream(sorted)](#stream---sorted)
+
+## Stream - Sorted
+
+Sorted - сортрует по возрастанию
+
+-   можно передать функцию Comparator
+
+```java
+Stream.of(2, 3, 1, 0, 5, 4).sorted()
+// => 0, 1, 2, 3, 4, 5
+Stream.of(2, 3, 1, 0, 5, 4).sorted((a, b) -> { return b-a})
+// => 5, 4, 3, 2, 1
+```
+
+## Stream - Concaat
+
+concat - соединяет два Stream последовательно:
+
+-   в качестве аргументов идет другой Stream:
+
+```java
+Stream.concat(str1, str2);
+```
+
+## Optional
+
+Optional - для избегания проверочных условий был создан этот Class:
+
+-   [Создание объекта типа Optional(of/ofNullable/empty)](#optional---создание)
+-   [Проверка пусто ли внутри Optional(isPresent)](#optional---ispresent)
+-   [Сделать что-то если в Optional есть значение(ifPresent)](#optional---ifpresent)
+-   [Проверка на пустоту(orElse/orElseGet/orElseTrow)](#optional---orelse)
+-   [Применить функцию к значению внутри Optional(map/flatMap)](#optional---map)
+
+## Optional - isPresent
+
+isPresent - проверяет есть ли значение:
+
+-   возвращает true или false
+
+```java
+Optional<String> opt = Optional.empty();
+opt.isPresent();
+```
+
+## Optional - ifPresent
+
+ifPresent - если в Optional есть значение, то что-то выполняет функцию:
+
+```java
+Optional<String> opt = Optional.empty();
+opt.ifPresent(() -> System.out.println("is not empty"));
+```
+
+## Optional - orElse
+
+orElse - вернуть значение если Optional пустой:
+
+```java
+Optional<String> opt = Optional.empty();
+opt.orElse("is empty");
+```
+
+orElseGet - вернуть результат функции, если Optional пустой:
+
+```java
+Optional<String> opt = Optional.empty();
+opt.orElseGet(() -> "is empty");
+```
+
+orElseThrow - бросить исключение, если Optional пустой:
+
+```java
+Optional<String> opt = Optional.empty();
+opt.orElseTrow(() -> new RuntimeException());
+```
+
+## Optional - map
+
+map - применяет функцию к значению внутри Optional, если оно там есть:
+
+```java
+Optional<String> opt = Optional.of("String");
+Optional<String> res = opt.map((el) -> String.toLowerCase(el));
+```
+
+flatMap - применяет функцию к значению внутри Optional, если оно там есть:
+
+-   отличие от map в том, что результат не оборачивается в Optional
+
+```java
+Optional<String> opt = Optional.of("String");
+String res = opt.flatMap((el) -> String.toLowerCase(el));
+```
+
+## Optional - Создание
+
+ofNullable - создаем обертку вокруг переданного объекта:
+
+-   отличительная черта, может принимать null
+
+```java
+Optional.ofNullable(person);
+```
+
+of и empty - обчыно используются в связке:
+
+-   в примере ищем login, если не находим то возвращаем пустой Optional
+
+```java
+public Optional<Person> findByLogin(String login) {
+    for(Person person : persons.value()) {
+        if(person.getLogin().equals(login)) {
+            return Optional.of(person);
+        }
+    }
+    return Optional.empty();
+}
+```
+
+## Stream - Reduce
+
+Reduce - классический Reduce, который применяется к элементам Stream:
+
+-   10 - начальный элемент
+
+```java
+Stream.of(1, 2, 3, 4, 5).reduce(10, (acc, x) -> acc + x);
+```
+
+Тот же Reduce, но начальный элемент - первый элемент:
+
+-   первый элемент массива становиться начальным
+
+```java
+Stream.of(1, 2, 3, 4, 5).reduce((acc, x) -> acc + x);
+```
+
+## Stream - Collectors
+
+Stream превращаем в List:
+
+```java
+list.stream().collect(Collectores.toList())
+```
+
+Stream превращаем в Set:
+
+```java
+list.stream().collect(Collectors.toSet())
+```
+
+Stream превращаем в Map:
+
+```java
+list.stream().collect(Collectors.toMap( el -> el[0], el -> el[1]))
+```
+
+Stream превращаем в строку:
+
+```java
+list.stream().collect(Collectors.joining())
+// => "abc"
+list.stream().collect(Collectors.joining(", "))
+// => "a, b, c"
+list.stream().collect(Collectors.joining(", ", "[", "]"))
+// => "[a, b, c]"
+```
+
+## Stream - create
+
+Пустой Stream:
+
+```java
+Stream.empty();
+```
+
+Stream из List:
+
+```java
+list.stream();
+```
+
+Stream элементов Map:
+
+```java
+map.entrySet.stream();
+```
+
+Stream из Array:
+
+```java
+Arrays.stream(array);
+```
+
+Stream из элементов:
+
+```java
+Stream.of("1", "2", "3", "4");
+```
+
+Strem из integer:
+
+```java
+IntStream.range(0, x);
+```
+
+Stream бесконечный stream:
+
+-   generateNext - функция которая вызывается и значение которой попадает Stream
+
+```java
+Stream.generate(new Obj()::generateNext);
+```
 
 ## Stream - filter
 
