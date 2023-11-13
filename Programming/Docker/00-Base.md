@@ -10,7 +10,7 @@ Docker по сути своей, облегченная VM(virtual machine). П�
     -   либо напрямую пишет в I/O поток, либо использует инструменты os на которой установлен
     -   к ним относится Docker
 
-# Термины для VM
+## Термины для VM
 
 Термины для VM:
 
@@ -19,7 +19,7 @@ Docker по сути своей, облегченная VM(virtual machine). П�
 -   hosted hypervisor - когда виртуалка просто интерфейс соединяющий команды из ghost machine и host
 -   hosted hypervisor - так называют VM, которые соединяют host и ghost через интерфейс. Без hardware эммуляций
 
-# Термины для Docker
+## Термины для Docker
 
 Слои абстракции в Docker:
 
@@ -46,219 +46,177 @@ Docker по сути своей, облегченная VM(virtual machine). П�
 
 <img src="./source/01-DockerStructure.svg" style="display: block; margin: auto; width: 45%"></img>
 
-# Docker команды
+# Docker структура и команды
 
-## Docker - ps
+## Image
 
-ps - смотрим запущенные сейчас Container:
+Image - базовый образ, на основе которого создаем свой образ:
 
-```bash
-docker ps
+-   [pull - Установить базовый Image из Repository](#docker---pull)
+-   [tag - Задать Image человеочитаемые имена](#docker---tag)
+-   [rmi - Удалить Image](#docker---rmi)
+
+Команды мониторинга:
+
+-   [images - Список запущенных Images](#docker---images)
+
+## Volume
+
+При прекращение работы Container, данные созданные в Container удаляются. Чтобы этого не происходило, существует механика - Volume. Volume - ч/з Docker указываем папку на жестком диске, из которой будут браться данные
+
+Команды мониторинга:
+
+-   [ls - Посмотреть список Volume](#volume---ls)
+
+Удаление Volume:
+
+-   [rm - Удалить Volume](#volume---rm)
+
+Создание Volume:
+
+-   [Volume типа - Host Volume](#volume---host-volumes)
+-   [Volume типа - Named Volume](#volume---named-volumes)
+-   [Volume типа - Anonymous Volume](#volume---anonymous-volumes)
+
+## Container
+
+Команды для работы с Container:
+
+-   [inspect - Посмотреть информацию по Container](#container---inspect)
+-   [rm - Удалить Container](#docker---rm)
+-   [exec - Зайти внутрь Container, чтобы выполнить команды](#docker---exec)
+
+Запуск Container:
+
+-   [Запустить Container в указанной сети](#network---запустить-container)
+-   [Пробросить Port для Container](#docker---пробросить-port)
+-   [Задать переменные окружения для Container](#docker---environment-variable)
+
+Управление lifecycle для Container:
+
+-   [run - Создаем Container из Image и запускаем его](#docker---run)
+-   [start - Запуускаем уже созданный Container](#docker---start)
+-   [pause - Ставим работу Container на паузу](#docker---pause)
+-   [unpause - Снимаем Container с паузы](#docker---unpause)
+-   [stop - прекратить работу Container(дать время на выключение)](#docker---stop)
+-   [kill - прекратить работу Container(жестко выключить)](#docker---kill)
+
+Команды мониторинга:
+
+-   [ps - Список запущенных Container](#docker---ps)
+-   [stats - Сколько ресурсов потребляет Container](#docker---stats)
+-   [logs - Посмотреть логи выбранного Container](#docker---logs)
+
+## Network
+
+Network(сеть) - настройка сетей, позволяет управлять тем, как общаются Container между собой и host. Сети могут быть нескольких типов, но в 95% случаев используется Bridge и Host:
+
+-   [Brigde - множество изолированных подсетей](#network---bridge)
+-   [Host - одна изолированная сеть](#network---host)
+-   [None - каждый container изолирован](#network---none)
+
+Команды для работы с Network:
+
+-   [Посмотреть список сетей](#network---ls)
+-   [Посмотреть информацию о сети](#network---inspect)
+-   [Посмотреть IP-адрес и Mac-адрес для Container](#container---inspect)
+-   [Задаем сети IP-адреса(subnet/gateway)](#network---задать-ip)
+-   [Запустить Container в указанной сети](#network---запустить-container)
+-   [Удалить сеть](#network---удалить-сеть)
+
+Манипулирование подключением Container(обычно используется для создания Proxy):
+
+-   [Подключить Container к сети](#network---connect)
+-   [Отключить Container от сети](#network---disconnect)
+
+# Технологии для комфорта
+
+## DockerFile
+
+DockerFile - позволяет создать свой Image:
+
+-   [Устройство DockerFile](#dockerfile---устройство)
+-   [Собрать DockerFile в Image](#dockerfile---build)
+
+## Docker-compose
+
+Все команды связанные с запуском контейнера, обычно дико длинные. Еще для каждого контейнера своя команда. Чтобы не надо было копипастить команды из какого-то текстовика, придумали Docker-Compose. В файле docker-compose.yaml, описываются команды docker:
+
+-   [Устройство Docker-Compose](#docker-compose---устройство)
+-   [Запустить Container из Docker-Compose](#docker-compose---запуск)
+-   [Просмотр логов для Docker-Compose](#docker-compose---logs)
+-   [Остановка Docker-Compose](#docker-compose---stop)
+
+Проверяем, есть ли докер:
+
+```bush
+# старая запись
+docker-compose --version
+# новая запись
+docker compose version
 ```
 
-ps - смотрим все Container, включае те, что отработали:
+# Примеры
+
+## Volume - ls
+
+ls - позволяет посмотреть список volume на host:
 
 ```bash
-docker ps -a
+docker volume ls
 ```
 
-## Docker - rm
+## Volume - rm
 
-rm - удалить Container:
+rm - позволяет удалить volume на host:
 
--   c6ea745ce40e - ID удаляемого Container
--   c6 - начало ID удаляемого Container
--   c6 b7 ae - начало ID нескольких Container, которые удаляем
--   adoring_poinca - имя удаляемого Container
+-   volume_name - имя Volume который хотим удалить
 
 ```bash
-docker rm c6ea745ce40e
-docker rm c6
-docker rm c6 b7 ae
-docker rm adoring_poinca
+docker volume rm volume_name
 ```
 
-## Docker - rmi
+## Volume - Host Volumes
 
-rmi - удалить Image:
+Host Volumes - при запуске Container указываем папку из которой Mount данные:
 
--   c6ea745ce40e - ID удаляемого Image
--   c6 - начало ID удаляемого Image
--   c6 b7 ae - начало ID нескольких Image, которые удаляем
+-   -v - флаг указания Volumes
+-   /opt/mysql_data - папка на host
+-   /var/lib/mysql - папка в Container
+-   :ro - расшифровывается ReadOnly, указывает что Container может только читать
 
 ```bash
-docker rmi c6ea745ce40e
-docker rmi c6
-docker rmi c6 b7 ae
+docekr run -v /opt/mysql_data:/var/lib/mysql mysql
+docekr run -v /opt/mysql_data:/var/lib/mysql:ro mysql
 ```
 
-## Docker - images
+## Volume - Named Volumes
 
-images - смотрим установленные сейчас Images:
+Named Volumes - при запуске указываем папку из которой Mount данные:
+
+-   -v - флаг указания Volumes
+-   /var/lib/docker/mysql_data/\_data - папка создается на host
+-   /var/lib/mysql - папка в Container
+-   :ro - расшифровывается ReadOnly, указывает что Container может только читать
 
 ```bash
-docker images
+docekr run -v mysql_data:/var/lib/mysql mysql
+docekr run -v mysql_data:/var/lib/mysql:ro mysql
 ```
 
-## Docker - tag
+## Volume - Anonymous Volumes
 
-tag - задает Image нужный Repository и Tag:
+Anonymous Volumes - при запуске указываем папку из которой Mount данные:
 
--   94c5f968ae9f - это ID для Image, который переименовываем
--   mydocker - станет именем REPOSITORY
--   v10 - станет именем TAG
-
-```bash
-docker tag 94c5f968ae9f mydocker:v10
-```
-
-## Docker - pull
-
-pull - скачиваем Image на пк:
-
--   image_name - имя скачиваемого пакета(можно нати например на dockerhub)
--   image_name:tag - имя скачиваемого пакета и нужный tag
+-   -v - флаг указания Volumes
+-   /var/lib/docker/volumes/HASH/\_data - папка на host
+    -   HASH - какой-то сгенерированный HASH
+-   /var/lib/mysql - папка в Container
+-   :ro - расшифровывается ReadOnly, указывает что Container может только читать
 
 ```bash
-docker pull image_name
-docker pull image_name:tag
-```
-
-## Docker - run
-
-run - создаем Container из Image и запускаем:
-
--   image_name - имя запускаемого пакета(можно нати например на dockerhub)
--   image_name:tag - имя запускаемого пакета и нужный tag
--   стандартные Image ничего не делают, поэтому их Container сразу закрывается
-
-```bash
-docker run image_name
-docker run image_name:tag
-```
-
-Флаги:
-
--   -d - флаг позволяющий пользоваться консолью даже если в Container идет какая-то работа
--   --rm - флаг удаляющий Container по окончанию его работы
--   --name - флаг указывающий имя для Container
--   echo "Hello, World!" - команда переданная в Container
-
-```bash
-docker run -d image_name
-docker run --rm image_name
-docker run --name container_name image_name
-docker run image_name echo "Hello, World!"
-```
-
-## Docker - start
-
-start - запускаем Container, который был уже создан:
-
--   aec51ddb9253 - ID нужного Container
--   aec - начало ID нужного Container
--   adoring_poinca - имя запускаемого Container
-
-```bash
-docker start aec51ddb9253
-docker start aec
-docker start adoring_poinca
-```
-
-## Docker - pause
-
-pause - ставим работу Container на паузу:
-
--   4034112326f - ID нужного Container
--   403 - начало ID нужного Container
--   adoring_poinca - имя Container, который ставим на паузу
--   в списках Container остановленный Container будет помечен как paused
-
-```bash
-docker pause 4034112326f
-docker pause 403
-docker pause adoring_poinca
-```
-
-## Docker - unpause
-
-unpause - снимаем Container с паузы:
-
--   4034112326f - ID нужного Container
--   403 - начало ID нужного Container
--   adoring_poinca - имя Container, который снимаем с паузы
--   в списках Container остановленный Container помечен как paused
-
-```bash
-docker unpause 4034112326f
-docker unpause 403
-docker unpause adoring_poinca
-```
-
-## Docker - stop
-
-stop - останавливаем Container:
-
--   4034112326f - ID нужного Container
--   403 - начало ID нужного Container
--   adoring_poinca - имя Container, который снимаем с паузы
--   stop в отличии от kill дает Container время чтобы остановиться. Мы так же можем обрабатывать это состояние внутри самого Container
-
-```bash
-docker stop 4034112326f
-docker stop 403
-docker stop adoring_poinca
-```
-
-## Docker - kill
-
-kill - прекращение работы Container:
-
--   4034112326f - ID нужного Container
--   403 - начало ID нужного Container
--   adoring_poinca - имя Container, который снимаем с паузы
--   kill в отличии от stop моментально выключает Container
-
-```bash
-docker kill 4034112326f
-docker kill 403
-docker kill adoring_poinca
-```
-
-## Docker - stats
-
-stats - сколько ресурсов занимает Container:
-
--   4034112326f - ID нужного Container
--   403 - начало ID нужного Container
--   adoring_poinca - имя Container, который снимаем с паузы
-
-```bash
-docker stats 4034112326f
-docker stats 403
-docker stats adoring_poinca
-```
-
-## Docker - logs
-
-logs - смотрим логи Container:
-
--   4034112326f - ID нужного Container
--   403 - начало ID нужного Container
--   adoring_poinca - имя Container, который снимаем с паузы
-
-```bash
-docker logs 4034112326f
-docker logs 403
-docker logs adoring_poinca
-```
-
-Флаги:
-
--   -f - видеть постоянно обновляющиеся логи(life режим)
-
-```bash
-docker logs -f adoring_poinca
+docekr run -v /var/lib/mysql mysql
+docekr run -v /var/lib/mysql:ro mysql
 ```
 
 ## Docker - exec
@@ -310,110 +268,303 @@ Environment Variable - переменне окружения. Будет уст�
 docker run -e PASSWD=12345678 mysql
 ```
 
-# Volume
+## Docker - tag
 
-При прекращение работы Container, данные удаляются. Чтобы этого не происходило, существует механика - Volume:
+tag - задает Image нужный Repository и Tag:
 
--   Mount(монтирование) - ч/з Docker указываем папку на жестком, из которой будут браться данные
-
-## Volume - ls
-
-ls - позволяет посмотреть список volume на host:
+-   94c5f968ae9f - это ID для Image, который переименовываем
+-   mydocker - станет именем REPOSITORY
+-   v10 - станет именем TAG
 
 ```bash
-docker volume ls
+docker tag 94c5f968ae9f mydocker:v10
 ```
 
-## Volume - rm
+## Docker - logs
 
-rm - позволяет удалить volume на host:
+logs - смотрим логи Container:
 
--   volume_name - имя Volume который хотим удалить
+-   4034112326f - ID нужного Container
+-   403 - начало ID нужного Container
+-   adoring_poinca - имя Container, который снимаем с паузы
 
 ```bash
-docker volume rm volume_name
+docker logs 4034112326f
+docker logs 403
+docker logs adoring_poinca
 ```
 
-## Volume - Host Volumes
+Флаги:
 
-Host Volumes - при запуске указываем папку из которой Mount данные:
-
--   -v - флаг указания Volumes
--   /opt/mysql_data - папка на host
--   /var/lib/mysql - папка в Container
--   :ro - расшифровывается ReadOnly, указывает что Container может только читать
+-   -f - видеть постоянно обновляющиеся логи(life режим)
 
 ```bash
-docekr run -v /opt/mysql_data:/var/lib/mysql mysql
-docekr run -v /opt/mysql_data:/var/lib/mysql:ro mysql
+docker logs -f adoring_poinca
 ```
 
-## Volume - Named Volumes
+## Docker - stats
 
-Named Volumes - при запуске указываем папку из которой Mount данные:
+stats - сколько ресурсов занимает Container:
 
--   -v - флаг указания Volumes
--   /var/lib/docker/mysql_data/\_data - папка создается на host
--   /var/lib/mysql - папка в Container
--   :ro - расшифровывается ReadOnly, указывает что Container может только читать
+-   4034112326f - ID нужного Container
+-   403 - начало ID нужного Container
+-   adoring_poinca - имя Container, который снимаем с паузы
 
 ```bash
-docekr run -v mysql_data:/var/lib/mysql mysql
-docekr run -v mysql_data:/var/lib/mysql:ro mysql
+docker stats 4034112326f
+docker stats 403
+docker stats adoring_poinca
 ```
 
-## Volume - Anonymous Volumes
+## Docker - stop
 
-Anonymous Volumes - при запуске указываем папку из которой Mount данные:
+stop - останавливаем Container:
 
--   -v - флаг указания Volumes
--   /var/lib/docker/volumes/HASH/\_data - папка на host
-    -   HASH - какой-то сгенерированный HASH
--   /var/lib/mysql - папка в Container
--   :ro - расшифровывается ReadOnly, указывает что Container может только читать
+-   4034112326f - ID нужного Container
+-   403 - начало ID нужного Container
+-   adoring_poinca - имя Container, который снимаем с паузы
+-   stop в отличии от kill дает Container время чтобы остановиться. Мы так же можем обрабатывать это состояние внутри самого Container
 
 ```bash
-docekr run -v /var/lib/mysql mysql
-docekr run -v /var/lib/mysql:ro mysql
+docker stop 4034112326f
+docker stop 403
+docker stop adoring_poinca
 ```
 
-# Container
+## Docker - kill
 
-Команды для работы с Container:
+kill - прекращение работы Container:
 
--   [Посмотреть информацию по Container](#container---inspect)
--   [Запустить Container в указанной сети](#network---запустить-container)
+-   4034112326f - ID нужного Container
+-   403 - начало ID нужного Container
+-   adoring_poinca - имя Container, который снимаем с паузы
+-   kill в отличии от stop моментально выключает Container
 
-# Network
+```bash
+docker kill 4034112326f
+docker kill 403
+docker kill adoring_poinca
+```
 
-Network(сеть) - настройка сетей, позволяет управлять тем, как общаются Container между собой и host. Сети могут быть нескольких типов, но в 95% случаев используется Bridge и Host:
+## Docker - unpause
 
--   [Brigde - множество изолированных подсетей](#network---bridge)
--   [Host - одна изолированная сеть](#network---host)
--   [None - каждый container изолирован](#network---none)
+unpause - снимаем Container с паузы:
 
-Команды для работы с Network:
+-   4034112326f - ID нужного Container
+-   403 - начало ID нужного Container
+-   adoring_poinca - имя Container, который снимаем с паузы
+-   в списках Container остановленный Container помечен как paused
 
--   [Посмотреть список сетей](#network---ls)
--   [Посмотреть информацию о сети](#network---inspect)
--   [Посмотреть IP-адрес и Mac-адрес для Container](#container---inspect)
--   [Задаем сети IP-адреса(subnet/gateway)](#network---задать-ip)
--   [Запустить Container в указанной сети](#network---запустить-container)
--   [Удалить сеть](#network---удалить-сеть)
+```bash
+docker unpause 4034112326f
+docker unpause 403
+docker unpause adoring_poinca
+```
 
-Манипулирование подключением Container(обычно используется для создания Proxy):
+## Docker - pause
 
--   [Подключить Container к сети](#network---connect)
--   [Отключить Container от сети](#network---disconnect)
+pause - ставим работу Container на паузу:
 
-# DockerFile
+-   4034112326f - ID нужного Container
+-   403 - начало ID нужного Container
+-   adoring_poinca - имя Container, который ставим на паузу
+-   в списках Container остановленный Container будет помечен как paused
 
-DockerFile - позволяет создать свой Image:
+```bash
+docker pause 4034112326f
+docker pause 403
+docker pause adoring_poinca
+```
 
--   [Устройство DockerFile](#dockerfile---устройство)
--   [Собрать DockerFile в Image](#dockerfile---build)
+## Docker - start
 
-# Примеры
+start - запускаем Container, который был уже создан:
+
+-   aec51ddb9253 - ID нужного Container
+-   aec - начало ID нужного Container
+-   adoring_poinca - имя запускаемого Container
+
+```bash
+docker start aec51ddb9253
+docker start aec
+docker start adoring_poinca
+```
+
+## Docker - run
+
+run - создаем Container из Image и запускаем:
+
+-   image_name - имя запускаемого пакета(можно нати например на dockerhub)
+-   image_name:tag - имя запускаемого пакета и нужный tag
+-   стандартные Image ничего не делают, поэтому их Container сразу закрывается
+
+```bash
+docker run image_name
+docker run image_name:tag
+```
+
+Флаги:
+
+-   -d - флаг позволяющий пользоваться консолью даже если в Container идет какая-то работа
+-   --rm - флаг удаляющий Container по окончанию его работы
+-   --name - флаг указывающий имя для Container
+-   echo "Hello, World!" - команда переданная в Container
+
+```bash
+docker run -d image_name
+docker run --rm image_name
+docker run --name container_name image_name
+docker run image_name echo "Hello, World!"
+```
+
+## Docker - rm
+
+rm - удалить Container:
+
+-   c6ea745ce40e - ID удаляемого Container
+-   c6 - начало ID удаляемого Container
+-   c6 b7 ae - начало ID нескольких Container, которые удаляем
+-   adoring_poinca - имя удаляемого Container
+
+```bash
+docker rm c6ea745ce40e
+docker rm c6
+docker rm c6 b7 ae
+docker rm adoring_poinca
+```
+
+## Docker - rmi
+
+rmi - удалить Image:
+
+-   c6ea745ce40e - ID удаляемого Image
+-   c6 - начало ID удаляемого Image
+-   c6 b7 ae - начало ID нескольких Image, которые удаляем
+
+```bash
+docker rmi c6ea745ce40e
+docker rmi c6
+docker rmi c6 b7 ae
+```
+
+## Docker - pull
+
+pull - скачиваем Image на пк:
+
+-   image_name - имя скачиваемого пакета(можно нати например на dockerhub)
+-   image_name:tag - имя скачиваемого пакета и нужный tag
+
+```bash
+docker pull image_name
+docker pull image_name:tag
+```
+
+## Docker - images
+
+images - смотрим установленные сейчас Images:
+
+```bash
+docker images
+```
+
+## Docker - ps
+
+ps - смотрим запущенные сейчас Container:
+
+```bash
+docker ps
+```
+
+ps - смотрим все Container, включае те, что отработали:
+
+```bash
+docker ps -a
+```
+
+## Docker-compose - stop
+
+stop - останавливаем Docker-compose:
+
+```bash
+docker stop
+```
+
+## Docker-compose - logs
+
+logs - смотрим логи всех Container, запущен в Docker-compose:
+
+-   у логов будет пометка, какой Container их вывел
+
+```bash
+docker logs -f
+```
+
+## Docker-compose - Запуск
+
+Запуск Docker-compose:
+
+-   находимся в папке с файлом docker-compose.yaml
+-   docker compose/docker-compose - новый/старый вид записи Docker-compose
+-   -d - флаг запуска в фоне
+
+```bash
+docker compose up
+docker compose up -d
+docker-compose up
+docker-compose up -d
+```
+
+## Docker-compose - Устройство
+
+Устройство docker-compose.yaml:
+
+-   version - версия docker-compose
+-   services - описание всех запускаемых Container
+    -   image/build - Image/dockerfile который запускаем
+        -   container_name - указываем имя Container
+        -   ports - указываем пробрасываемые порты Container
+        -   volumes - указываем volumes
+        -   restart - указываем что нужно сделать при переустановке/перезагрузке сервера
+            -   unless-stoped - при перезагрузке останется в том же состоянии(Если был выключен, останется выключен. Если был включен, включиться)
+            -   always - всегда будет запускать Container
+        -   depends_on - какие Container надо дождаться, прежде чем включиться этому Container
+        -   network - в какие сети входит Container
+-   network - описание сетей
+
+```docker-compose
+version: "3.5"
+services:
+    php-app:
+        image: php:apache
+        container_name: app
+        ports:
+            - '80:80'
+        volumes:
+            - /opt/web/html:/var/www/html
+            - /opt/web/pics:/var/www/pictures
+        restart: unless-stopped
+        depends_on:
+            - app-db
+            - app-redis
+        network:
+            - internet
+            - appnet
+    app-db:
+        build: ./postgress
+        container_name: app-postgres
+        restart: unless-stopped
+        environment:
+            - 'POSTGRES_PWD=mypas'
+        network:
+            - appnet
+network:
+    internet:
+        name: internet
+        driver: bridge
+    appnet:
+        name: appnet
+        driver: bridge
+```
 
 ## DockerFile - Build
 
@@ -435,7 +586,9 @@ DockerFile устроен так:
 -   LABEL - описание(необязательно)
 -   RUN - команды
 -   WORKDIR - указываем рабочую директорию внутри Container
--   COPY - копируем файлы, которые нужны для работы приложения, в WORKDIR
+-   COPY - копируем файлы, которые нужны для работы приложения
+    -   COPY files2/script.sh /opt/script.sh - копирует по указанному пути
+    -   COPY files2/index.html . - копируем в указанный WORKDIR
 -   VAR - указываем переменную окружения
 -   EXPOSE 80 - открывает порты. Тогда можно не пробрасывать порты из команды(не понял, можно ли пробрасывать порты? можно ограничивать протоколы 80/tcp)
 -   ENTRYPOINT/CMD - команды которые срабатывают при запуске Container
