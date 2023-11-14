@@ -244,12 +244,12 @@ assertThrows(IllegalStateException.class, () -> mockList.size());
 
 ```java
 List<String> mockList = Mockito.spy(new ArrayList<String>());
-mockList.doReturn(10).when(mockList).get(500);
-mockList.doReturn(10).when(mockList).get(Mockito.any());
-mockList.doReturn(10).when(mockList).get(Mockito.any(ClassName.class));
-mockList.doReturn(10).when(mockList).get(Mockito.anyInt());
-mockList.doReturn(10).when(mockList).get(Mockito.anyBoolean());
-mockList.doReturn(10).when(mockList).get(Mockito.anyDouble());
+Mockito.doReturn(10).when(mockList).get(500);
+Mockito.doReturn(10).when(mockList).get(Mockito.any());
+Mockito.doReturn(10).when(mockList).get(Mockito.any(ClassName.class));
+Mockito.doReturn(10).when(mockList).get(Mockito.anyInt());
+Mockito.doReturn(10).when(mockList).get(Mockito.anyBoolean());
+Mockito.doReturn(10).when(mockList).get(Mockito.anyDouble());
 ```
 
 ## Mockito - Verify
