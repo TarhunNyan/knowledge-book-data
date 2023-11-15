@@ -2,9 +2,9 @@
 
 Ниже информация по JUnit4, потому что на работе Junit4
 
-# Annotation
+# Test
 
-Библиотека работает через Annotation:
+Test в JUnit запускаются через Annotation:
 
 -   [@Test - указывает что это тестовый метод](#annotation---test)
 -   [@Before/@After - методы выполняемые перед/после @Test](#annotation---before/after)
