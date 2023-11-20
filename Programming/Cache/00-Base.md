@@ -33,10 +33,10 @@ CTRL + G
 
 Использовать макрос для запсис в файл логирования:
 
--   InterSystem/Cache/mgr/SOU/Logs/Debug
+-   C://InterSystem/Cache/mgr/SOU/Logs/Debug
 
 ```cache
-$$$LogDebug("exmple)
+$$$LogDebug("example")
 ```
 
 Вывод из кода в консоль:

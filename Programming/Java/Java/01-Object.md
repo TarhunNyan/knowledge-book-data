@@ -108,6 +108,81 @@ public class Cat {
 }
 ```
 
+# Generic
+
+Generic - способ задать тип из вне. Это можно объяснить только на примерах :(
+
+## Generic
+
+Generic - позволяют при создании класса, передать нужные типы, которые будут автоматически подставлятся внутри класса:
+
+-   создание класса с generic выглядит так: GenericClass<String> someVariable = new GenericClass<>(10);
+
+Generic для класса:
+
+```java
+// просто generic
+class GenericClass<T> {
+    public T findSmall() {
+        //code
+    }
+}
+
+// generic с использованием wildcards
+class GenericClass<T extends SomeClass> {
+    public T findSmall() {
+        //code
+    }
+}
+```
+
+Generic для интерфейса:
+
+```java
+// просто generic
+interface GenericInterface<T> {
+    T findSmall();
+    T findLargest();
+}
+
+// generic класс с имплементированным generic интерфейсом
+class GenericClass<T> implements GenericInterface<T>{
+    // code
+}
+```
+
+## Wildcards
+
+возможность использовать generic в качестве аргумента функции или метода
+
+WildCard наследников класса:
+
+```java
+// функция принимает list объектов класса Mammals и его наследников(Cat и Dog)
+private static void test3(List<? extends Mammals> mammals) {}
+```
+
+WildCard объектов конкретного класса:
+
+```java
+// функция принимает list объектов класса Dog
+private static void test(List<Dog> dogs) {}
+```
+
+WildCard объектов любого класса:
+
+```java
+// функция принимает list объектов любого класса
+private static void test2(List<?> objects) {}
+```
+
+WildCard предков класса:
+
+```java
+// функция принимает list объектов являющимися предками класса Mammals(Animals и Object)
+private static void test4(List<? super Mammals> animals) {}
+```
+
 # Modifiers
 
 Modifiers - модиикаторы, которые определяют поведение полей, объектов и методов
@@ -130,7 +205,7 @@ Access Modifier для конструкторов, методов и полей:
 -   Access Modifier
     -   public - доступно всем классам
     -   private - доступно только внутри класса, в котором объявлен
-    -   default(ничгего не пишешь) - доступен только внутри этого пакета
+    -   default(ничего не пишешь) - доступен только внутри этого пакета
     -   protected - доступен только внутри этого пакета, а так же в subclasses и superclasses
 -   Non-Access Modifier
     -   final - не могут быть переопределены
@@ -281,57 +356,7 @@ public abstract class AbstractMethod {
 
 TextView myTextView = (TextView) findViewById(R.id.myText);
 
-## Создать Class или Interface принимающий generic
-
-нужно при создании класса дописать generic. Правила описания такие же как в wildCards, только вместо ? пишем название для переменной в которой будет храниться класс, когда мы его прокиним через Generic при создании объекта
-
-```java
-class GenericClass<T> {
-    public T findSmall() {
-        //code
-    }
-}
-class GenericClass<T extends SomeClass> {
-    // code
-}
-```
-
-то же самое с интерфейсами:
-
-```java
-interface GenericInterface<T> {
-    T findSmall();
-    T findLargest();
-}
-Generic класс с имплементированным Generic интерфейсом:
-class GenericClass<T> implements GenericInterface<T>{
-    // code
-}
-```
-
 # Collection
-
-## HashMap(принцип работы)
-
-hashMap - имплементирует интерфейс Map. Представляет из себя набор элементов у которых есть key, value и hash. Hash для повышения скорости работы. Принимает в качестве параметров initialCapacity(число Bundle'ов) и loadFactor(когда число элементов станет больше чем  Mathjax , то Capacity увеличится в двое и произойдет рехеширование)
-
-Важно чтобы key был immutable. Если мы положим key в Map, а потом его изменим, то хэш перестанет совпадать и мы не сможем его найти
-
----
-
-HashMap это Array. Элементы Array это LinkedList. В LinkedList(иногда еще называют Bucket) хранятся экземпляры объектов созданных из внутреннго класса Node. Класс Node хранит key, value и hash
-
-Кладем элемент в HashMap:
-
-1. Ч/з алгоритм из key вычисляем index. Алгоритм для index - остаток от деления hash на число Bucket'ов
-2. По index достаем LinkedList(Bucket)
-3. Пробегаемся по LinkedList и сравниваем hash ключей
-   3.1 (hash'ы ключей равны) Сравниваем key ч/з метод equals
-   3.1.1 (equals'ы ключей равны) Заменяем в Bucket на новую Node'у
-   3.1.2 (equals'ы ключей не равны) Смотри 3.2
-   3.2 (hash'ы ключей не равны) Пихаем в LinkedList(Bucket) экземпляр Node с определнным key, value и hash
-
----
 
 HashMap.entrySet
 
