@@ -280,6 +280,8 @@ opt.orElse("is empty");
 
 orElseGet - вернуть результат функции, если Optional пустой:
 
+-   Функция отрабатывает до места, где она
+
 ```java
 Optional<String> opt = Optional.empty();
 opt.orElseGet(() -> "is empty");

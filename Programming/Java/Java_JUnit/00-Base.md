@@ -14,7 +14,7 @@ Test в JUnit запускаются через Annotation:
 
 Assert функции проверяют является результатом ожидаемым или нет:
 
--   [JUnit - правильные пкути import](#assert---import)
+-   [JUnit - правильные пути import](#assert---import)
 -   [AssertEquals/AssertNotEquals - проверяет на экивалентность примитивы/объекты](#assert---assertequals/assertnotequals)
 -   [AssertTrue/AssertFalse - провряет на true/false](#assert---asserttrue/assertfalse)
 -   [AssertNull/AssertNotNull - проверяет на null/не-null](#assert---asserttrue/assertfalse)
@@ -159,7 +159,7 @@ BeforeClass/AfterClass - аннотация, указывающая что эт�
 
 ```java
 class TestClass {
-    @Before
+    @BeforeClass
     public void setUp() {}
 
     @Test
@@ -167,7 +167,7 @@ class TestClass {
         // какой-то тест
     }
 
-    @After
+    @AfterClass
     public void tearDown() {}
 }
 ```
