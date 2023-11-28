@@ -82,16 +82,6 @@ Docker, собирает все зависимости в кучу:
 | [sqlite3](./Programming/SQL/05-sqlite3.md)                        |
 | [PostgreSQL](./Programming/SQL/04-PostgreSQL.md)                  |
 
-## Cache
-
-| Cache                                              |
-| :------------------------------------------------- |
-| [Cache - debuging](./Programming/Cache/00-Base.md) |
-|                                                    |
-|                                                    |
-|                                                    |
-|                                                    |
-
 ## JavaScript
 
 | JS                                                                 | JS - Пакеты                                                            | JS - browser api                                     |
@@ -149,6 +139,13 @@ Docker, собирает все зависимости в кучу:
 | Probability Theory                                                                   |
 | :----------------------------------------------------------------------------------- |
 | [Теория вероятности](./NatureScience/Math/ProbabilityTheory/04-HigherMathematics.md) |
+
+# По работе
+
+| Cache                                                    | Запросы                                                                                  |
+| :------------------------------------------------------- | :--------------------------------------------------------------------------------------- |
+| [Cache - полезные штуки](./Programming/Cache/00-Base.md) | [Базовые знания по сборке](./WorkTasks/00-Base.md)                                       |
+|                                                          | [ETA-67440 - Запрос на создание кнопки в журнале](./WorkTasks/01-ETA-67440_AddButton.md) |
 
 # Личное
 
