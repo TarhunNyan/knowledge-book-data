@@ -2,9 +2,9 @@
 
 Ниже информация по JUnit4, потому что на работе Junit4
 
-# Test
+# Test lifecycle
 
-Test в JUnit запускаются через Annotation:
+Test lifecycl - жизненный цикл тестов в JUnit:
 
 -   [@Test - указывает что это тестовый метод](#annotation---test)
 -   [@Before/@After - методы выполняемые перед/после @Test](#annotation---before/after)

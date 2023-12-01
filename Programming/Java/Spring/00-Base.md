@@ -329,3 +329,112 @@ Configuration - аннотация, которая указывает, что в
 @Configuration
 class ConfClass { ... }
 ```
+
+---
+
+-   @Component - указывает что из этого класса будет создан компонент Spring
+-   @Controller - это как @Component, но включает объект model для передачи данных
+-   @ResponseBody - через нее можно указать формат ответа(XML, JSON)
+-   @RestController - совмещает @Controller и @ResponseBody
+
+Mapping и приколы связанные с ними:
+
+-   @RequestMapping(value = "/coffees", method = RequestMethod.GET)
+    -   в классе помеченнои как RestController, можно метод пометить черезе @RequestMapping
+    -   можно пометить сам класс аннотацией @RequestMapping с указанием value, тогда @RequestMapping для методов будет относительно классовой аннотации
+    -   @RequestMapping - создает routing для помеченного метода
+    -   то что веренет метод, помеченный @RequestMapping, SpringWeb преобразует в json(?)
+    -   value = "/coffees/{id}" - в пути можно указать аттрибут(id), который передастся в наш метод в качестве параметра
+-   @GetMapping/@PostMapping/@PutMapping/@PatchMapping/@DeleteMapping - как @RequestMapping, но метод по умолчанию стоит Get/Post/Put/Patch/Delete
+
+```java
+@GetMapping("/cofees/{id}")
+Optional<Coffee> getCoffeeById(@PathVariable String id) {
+    for(Coffee el: coffees) {
+        if( el.getId().equals(id) ) {
+            return Optional.of(el);
+        }
+    }
+    return Optional.empty();
+}
+```
+
+Пример создания объекта через post запрос:
+
+-   @RequestBody - пометка, что JSON надо преобразовать в объект Coffee
+-   return cofee; - объект Coffee в виде JSON
+
+```java
+@PostMapping("/cofee")
+Coffee postCofee(@RequestBody Coffee coffee) {
+    cofees.add(coffee);
+    return coffee;
+}
+```
+
+Пример получения значения из JSON:
+
+-   @RequestParams() - пометка, что JSON надо преобразовать в объект Coffee
+-   return cofee; - объект Coffee в виде JSON
+
+```java
+@PostMapping("/name")
+String postName(@RequestParam(name = "name") String name) {
+    return name;
+}
+```
+
+---
+
+-   @PostConstruct - срабатывает после инита у @Component
+    -   автор предлагает использовать его для забивания в БД дефолтных значений в БД
+
+---
+
+Конфигурация
+
+Создание конфигурации для Spring. Вообще много откуда тащаться значения для конфигурации
+
+Через файлы application.yaml:
+
+-   projectname/src/main/resources/application.yml
+    -   путь до конфигурации наших проектов
+
+Как получить значение из конфигурационного файла:
+
+-   вытаскивает значение из application.yaml лежищще в etadata.broker-url
+-   : Default - значение по умолчанию
+-   SpEL - язык выражений в Spring, с помощью которого вытаскиваем значения
+
+```java
+@Value("${etadata.broker-url}")
+private String name;
+
+@Value("${etadata.broker-url: Default}")
+private String name;
+```
+
+Вместо @Value можно использовать @ConfigurationProperties:
+
+-   это application.properties
+
+```properties
+local-server=false
+auth.security-dir=/security
+auth.local-server=true
+auth.issuer-uri=http://127.0.0.1:${server.port}
+auth.jwks-uri=${auth.issuer-uri}/oauth2/jwks
+```
+
+-   это какой-то код в java
+-   найдет в application.properties свойства с префиксом auth и подставит из них значения
+
+```java
+@Configuration
+@ConfigurationProperties(prefix = "auth")
+@Data
+public class AuthProperties {
+   private boolean localServer;
+   private String securityDir;
+}
+```

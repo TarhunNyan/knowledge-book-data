@@ -74,13 +74,11 @@ Docker, собирает все зависимости в кучу:
 
 ## SQL
 
-| SQL(сиквел)                                                       |
-| :---------------------------------------------------------------- |
-| [SQL - определения](./Programming/SQL/03-BaseDefinition.md)       |
-| [SQL - НФ(нормальные формы)](./Programming/SQL/01-NormalForms.md) |
+| SQL(сиквел)                                                       | БД                                               |
+| :---------------------------------------------------------------- | :----------------------------------------------- |
+| [SQL - определения](./Programming/SQL/03-BaseDefinition.md)       | [sqlite3](./Programming/SQL/05-sqlite3.md)       |
+| [SQL - НФ(нормальные формы)](./Programming/SQL/01-NormalForms.md) | [PostgreSQL](./Programming/SQL/04-PostgreSQL.md) |
 | [SQL - язык](./Programming/SQL/02-SQL.md)                         |
-| [sqlite3](./Programming/SQL/05-sqlite3.md)                        |
-| [PostgreSQL](./Programming/SQL/04-PostgreSQL.md)                  |
 
 ## JavaScript
 
