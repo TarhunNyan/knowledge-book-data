@@ -34,6 +34,8 @@ Macros - это короткая замена в тексте
 
 Полезные макросы
 
+-   До обявления класса надо прописать подключение макросов
+    -   Include CommonFuncs
 -   Классический набор макросов для ошибок
     -   $$$AssertObject(object) - практически в начале каждой функции проверяем переменные на Null
     -   $$$SOUError("63226") - пометка уникальной ошибки
@@ -177,4 +179,34 @@ zw columns
 
 ```cache
 z text,!
+```
+
+## Тест #EDIT
+
+Unit тесты в cache заводятся так:
+
+-   ищем по соседству пакет Test
+-   в нем создаем/ищем класс в виде ClassNameTest
+-   в нем создаем ClassMethod c префиксом test
+-   незабываем унасследовать класс от Helpers.Mixins.Testable
+
+```cache
+ClassMethod testValidateGuid()
+{
+	set countGuid = 1000
+
+	for {
+		set checkableGuid = $System.Util.CreateGUID()
+		set checkResult = ##class(Helpers.Utils.StringHelper).ValidateGuid(checkableGuid)
+		Do ..AssertTrue(checkResult, $$$FormatStringEx("Guid: {1}, созданный встроенной утилитой не прошел валидацию", checkableGuid))
+		set countGuid = countGuid - 1
+		quit:countGuid<1
+	}
+}
+```
+
+Дергаем написанные тесты через консоль Cache:
+
+```bash
+do ##class(Helpers.Tests.StringHelper.GuidHelper).RunTests()
 ```

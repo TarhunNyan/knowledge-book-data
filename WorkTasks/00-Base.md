@@ -1,5 +1,27 @@
 # Всякие базовые штуки по работе
 
+## Получаем себе backup-чик
+
+Устанавливаем на локалку:
+
+-   \\192.168.5.30\JET-01_backups - тут храняться backup
+-   делаем что-то в духе того, что написано в батнике ниже
+
+```bat
+cd %1
+
+set PGPASSWORD=12345678
+type jetauth.sql | "C:\Program Files\PostgreSQL\14\bin\psql.exe" --username=postgres --no-password
+type jetafiles.sql | "C:\Program Files\PostgreSQL\14\bin\psql.exe" --username=postgres --no-password
+type jetalabor.sql | "C:\Program Files\PostgreSQL\14\bin\psql.exe" --username=postgres --no-password
+type jetaudit.sql | "C:\Program Files\PostgreSQL\14\bin\psql.exe" --username=postgres --no-password
+```
+
+Или используй новый dblab:
+
+-   http://192.168.5.59:16100/instance
+-   dblab-token-sis - пароль на вход
+
 ## Как доабвить полностью локализированную версию
 
 Нужно локализировать сервер:
@@ -49,8 +71,10 @@ gradle packingEnLocalConfig
 
 -   gradle grabWebClient - подхватываем сбилженный клиент, который был создан на Cache
 -   gradle generateSwaggerCode - получаем swagger, без этого api может не провериться
+-   gradle generateJooq
+-   gradle workwork
 -   Для запуска через service из spring boot
-    -   для запуска через serviceь
+    -   для запуска через service
         -   нужно указать удаленную БД (http://192.168.5.12:16100/status/)
             -   databaseUrl = getEnv("POSTGRES_URL","jdbc:postgresql://192.168.5.12:16118/")
         -   нужно указать логин(GS_01)
@@ -66,6 +90,41 @@ gradle packingEnLocalConfig
 Чтобы собрать проект на jetalon-libs локально:
 
 -   В jetalon-libs дергаем publishToMavenLocal
+    -   находится в gradle -> publishing -> publishToMavenLocal
 -   Идем в Jetalon, build.gradle
 -   раскоментируем jetalibsVersion = libs.getDepVersion(libs.jet.jetalibsLatestVersion, true)
 -   комментируем jetalibsVersion = '1.30.5-RELEASE'
+-   обновляем gradle
+
+## Как запустить админку
+
+Как запустить админку:
+
+-   server/src/main/resources/application-dev.properties
+
+```
+spring.datasource.url=jdbc:postgresql://192.168.5.59:16104/jetauth
+spring.datasource.username=GS_01
+spring.datasource.password=!@#QWEASDZXC456
+```
+
+Чтобы хоть что-то увидать, нужно собрать клиент:
+
+-   gradle buildAngular
+
+## У всех собралось, у меня нет (
+
+У всех собралось, у меня нет:
+
+-   подергай обновление gradle
+-   maven запустил?
+    -   cd C:\tools\apache-activemq-5.18.3\bin
+    -   activemq start
+-   nginx запустил?
+
+Все вышеописанное сделал? Тогда:
+
+-   почисти cache у maven
+    -   user/.m2
+-   почисти cache у gradle
+    -   user/.gradle

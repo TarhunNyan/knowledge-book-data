@@ -1,6 +1,8 @@
 # Главаня
 
-Основная страница с путями основных страниц
+Главная страница - с путями до основных страниц:
+
+-   [Как вести страницы в "Базе Знаний"](./Personal/HowToDesignKnowledgeBookData.md)
 
 # Операционные системы
 
@@ -27,20 +29,13 @@
 
 ## База программирования
 
-| База                                                                           |
-| :----------------------------------------------------------------------------- |
-| [Основные направления и стили программирования](./Programming/Base/01-Base.md) |
-| [Алгоритмы](./Programming/Base/02-Algoritms.md)                                |
-| [ООП и паттерны](./Programming/Base/05-OOP.md)                                 |
+| База                                                                           | Устройство протоколов/технологий            |
+| :----------------------------------------------------------------------------- | :------------------------------------------ |
+| [Основные направления и стили программирования](./Programming/Base/01-Base.md) | [Торрент](./Programming/Torrent/01-base.md) |
+| [Алгоритмы](./Programming/Base/02-Algoritms.md)                                | [XAMPP](./Programming/XAMPP/01-base.md)     |
+| [ООП и паттерны](./Programming/Base/05-OOP.md)                                 | [Regexp](./Programming/Regexp/Regexp_JS.md) |
 | [Структуры данных/фаорматов](./Programming/Base/03-DataStructure.md)           |
 | [Сети](./Programming/Base/04-Network.md)                                       |
-
-Дополнительно:
-
-| XAMPP                                       |
-| :------------------------------------------ |
-| [База](./Programming/XAMPP/01-base.md)      |
-| [Торрент](./Programming/Torrent/01-base.md) |
 
 ## GIT
 
@@ -94,15 +89,16 @@ Docker, собирает все зависимости в кучу:
 
 ## Java
 
-| Java                                                 | Java                                                                                  |
-| :--------------------------------------------------- | :------------------------------------------------------------------------------------ |
-| [Java - работа со скриптами](#)                      | [](#)                                                                                 |
-| [ - установка пакетов](#)                            | [Spring - комбайн для Enterprise/web/MVC](./Programming/Java/Spring/00-Base.md)       |
-| [Import/Export](#)                                   | [JUnit - тестирование](./Programming/Java/Java_JUnit/00-Base.md)                      |
-| [Синтаксис](./Programming/Java/Java/00-Java.md)      | [Mockito - создание заглушек при тестировании](./Programming/Java/Mockito/00-Base.md) |
-| [Объекты(ООП)](./Programming/Java/Java/01-Object.md) |
-| [javadoc - документация](#)                          |
-| [Java - типизация]()                                 |
+| Java                                                   | Java                                                                                  |
+| :----------------------------------------------------- | :------------------------------------------------------------------------------------ |
+| [Java - работа со скриптами](#)                        | [](#)                                                                                 |
+| [ - установка пакетов](#)                              | [Spring - комбайн для Enterprise/web/MVC](./Programming/Java/Spring/00-Base.md)       |
+| [Import/Export](#)                                     | [JUnit - тестирование](./Programming/Java/Java_JUnit/00-Base.md)                      |
+| [Синтаксис](./Programming/Java/Java/00-Java.md)        | [Mockito - создание заглушек при тестировании](./Programming/Java/Mockito/00-Base.md) |
+| [Объекты(ООП)](./Programming/Java/Java/01-Object.md)   | [Liquidbase - версионирование БД](./Programming/Java/liquidbase/00-Base.md)           |
+| [javadoc - документация](#)                            |
+| [Java - типизация]()                                   |
+| [Collection](./Programming/Java/Java/02-Collection.md) | []()                                                                                  |
 
 ## Ruby
 
