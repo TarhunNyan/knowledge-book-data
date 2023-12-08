@@ -89,16 +89,19 @@ Docker, собирает все зависимости в кучу:
 
 ## Java
 
-| Java                                                   | Java                                                                                  |
-| :----------------------------------------------------- | :------------------------------------------------------------------------------------ |
-| [Java - работа со скриптами](#)                        | [](#)                                                                                 |
-| [ - установка пакетов](#)                              | [Spring - комбайн для Enterprise/web/MVC](./Programming/Java/Spring/00-Base.md)       |
-| [Import/Export](#)                                     | [JUnit - тестирование](./Programming/Java/Java_JUnit/00-Base.md)                      |
-| [Синтаксис](./Programming/Java/Java/00-Java.md)        | [Mockito - создание заглушек при тестировании](./Programming/Java/Mockito/00-Base.md) |
-| [Объекты(ООП)](./Programming/Java/Java/01-Object.md)   | [Liquidbase - версионирование БД](./Programming/Java/liquidbase/00-Base.md)           |
-| [javadoc - документация](#)                            |
-| [Java - типизация]()                                   |
-| [Collection](./Programming/Java/Java/02-Collection.md) | []()                                                                                  |
+| Java                                                    | Java                                                                                  |
+| :------------------------------------------------------ | :------------------------------------------------------------------------------------ |
+| [Java - работа со скриптами](#)                         | [](#)                                                                                 |
+| [ - установка пакетов](#)                               | [Spring - комбайн для Enterprise/web/MVC](./Programming/Java/Spring/00-Base.md)       |
+| [Import/Export](#)                                      | [JUnit - тестирование](./Programming/Java/Java_JUnit/00-Base.md)                      |
+| [Синтаксис](./Programming/Java/Java/00-Java.md)         | [Mockito - создание заглушек при тестировании](./Programming/Java/Mockito/00-Base.md) |
+| [Объекты(ООП)](./Programming/Java/Java/01-Object.md)    | [Liquidbase - версионирование БД](./Programming/Java/liquidbase/00-Base.md)           |
+| [javadoc - документация](#)                             |
+| [Java - типизация]()                                    |
+| [Collection](./Programming/Java/Java/02-Collection.md)  | []()                                                                                  |
+| [Модификаторы](./Programming/Java/Java/03-Modifiers.md) |
+
+| [Сериализация/Десериализация - запись и чтение Java объекта](./Programming/Java/Java/04-Serialize.md)
 
 ## Ruby
 
