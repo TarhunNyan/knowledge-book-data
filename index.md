@@ -34,8 +34,9 @@
 | [Основные направления и стили программирования](./Programming/Base/01-Base.md) | [Торрент](./Programming/Torrent/01-base.md) |
 | [Алгоритмы](./Programming/Base/02-Algoritms.md)                                | [XAMPP](./Programming/XAMPP/01-base.md)     |
 | [ООП и паттерны](./Programming/Base/05-OOP.md)                                 | [Regexp](./Programming/Regexp/Regexp_JS.md) |
-| [Структуры данных/фаорматов](./Programming/Base/03-DataStructure.md)           |
-| [Сети](./Programming/Base/04-Network.md)                                       |
+| [Структуры данных/фаорматов](./Programming/Base/03-DataStructure.md)           |                                             |
+| [Сети](./Programming/Base/04-Network.md)                                       |                                             |
+| [UML - база](./Programming/UML/00-Base.md)                                     |                                             |
 
 ## GIT
 
@@ -92,18 +93,18 @@ Docker, собирает все зависимости в кучу:
 | Java                                                                                                  | Java                                                                                  |
 | :---------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------ |
 | [Java - работа со скриптами](#)                                                                       | [](#)                                                                                 |
-| [ - установка пакетов](#)                                                                             | [Spring - комбайн для Enterprise/web/MVC](./Programming/Java/Spring/00-Base.md)       |
+| [ - установка пакетов](#)                                                                             | [Spring Boot - комбайн для Enterprise/web/MVC](./Programming/Java/Spring/00-Base.md)  |
 | [Import/Export](#)                                                                                    | [JUnit - тестирование](./Programming/Java/Java_JUnit/00-Base.md)                      |
 | [Синтаксис](./Programming/Java/Java/00-Java.md)                                                       | [Mockito - создание заглушек при тестировании](./Programming/Java/Mockito/00-Base.md) |
 | [Объекты(ООП)](./Programming/Java/Java/01-Object.md)                                                  | [Liquidbase - версионирование БД](./Programming/Java/liquidbase/00-Base.md)           |
-| [javadoc - документация](#)                                                                           |
-| [Java - типизация]()                                                                                  |
+| [javadoc - документация](#)                                                                           |                                                                                       |
+| [Java - типизация]()                                                                                  |                                                                                       |
 |                                                                                                       |                                                                                       |
 | [Java - устройство](./Programming/Java/Java/05-Structure.md)                                          |                                                                                       |
 | [Java - синтаксис](./Programming/Java/Java/06-Syntax.md)                                              |                                                                                       |
 | [Java - интерфейсы и абстрактные класс](./Programming/Java/Java/06-InterfaceAndAbstractClass.md)      |                                                                                       |
 | [Java - Collection](./Programming/Java/Java/02-Collection.md)                                         | []()                                                                                  |
-| [Модификаторы](./Programming/Java/Java/03-Modifiers.md)                                               |
+| [Модификаторы](./Programming/Java/Java/03-Modifiers.md)                                               |                                                                                       |
 | [Сериализация/Десериализация - запись и чтение Java объекта](./Programming/Java/Java/04-Serialize.md) |                                                                                       |
 
 ## Ruby

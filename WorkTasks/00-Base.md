@@ -96,11 +96,15 @@ gradle packingEnLocalConfig
 Чтобы собрать проект на jetalon-libs локально:
 
 -   В jetalon-libs дергаем publishToMavenLocal
-    -   находится в gradle -> publishing -> publishToMavenLocal
+    -   находится в gradle -> Tasks -> publishing -> publishToMavenLocal
 -   Идем в Jetalon, build.gradle
 -   раскоментируем jetalibsVersion = libs.getDepVersion(libs.jet.jetalibsLatestVersion, true)
 -   комментируем jetalibsVersion = '1.30.5-RELEASE'
 -   обновляем gradle
+
+## Как собирать jetalon-libs
+
+[Тута сборка](http://servergit:8080/job/libs.java.jetalon/)
 
 ## Как запустить админку
 

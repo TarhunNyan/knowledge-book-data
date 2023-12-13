@@ -31,3 +31,25 @@ Areas -> 3D Viewport | /*Top Panel*/ |   View   |   ...         | > Reflection C
                                      | > Add    | > Light Probe |   Irradiance Volume  |
                                      |   ...    |   ...         |   ------------------ |
 ```
+
+## Пример вставки картинок
+
+Просто картинка:
+
+```markdown
+<img src="./03-MeasureTheory/00.png"></img>
+```
+
+Картинка с выравниванием по центру:
+
+```markdown
+<img src="./source/03-Host.png" style="display: block; height: 300px; margin: auto;"/>
+```
+
+Три картинки в строку:
+
+```markdown
+<img src="./source/float-process-1.svg" style="display: block; height: 100px; float:left;"/>
+<img src="./source/float-process-2.svg" style="display: block; height: 100px; float:left;"/>
+<img src="./source/float-process-3.svg" style="display: block; height: 100px; float:left;"/>
+```
