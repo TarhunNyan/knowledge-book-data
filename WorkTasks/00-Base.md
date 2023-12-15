@@ -91,6 +91,10 @@ gradle packingEnLocalConfig
         -   заходим в ./build.gradle
         -   ищем что-то вроде "databaseUser = getEnv("POSTGRES_USER",'postgres')"
 
+Адрес:
+
+-   http://localhost:4221/csp/sou/web/ru/
+
 ## Как собирать jetalon-libs локально
 
 Чтобы собрать проект на jetalon-libs локально:
@@ -121,6 +125,10 @@ spring.datasource.password=!@#QWEASDZXC456
 Чтобы хоть что-то увидать, нужно собрать клиент:
 
 -   gradle buildAngular
+
+Адрес:
+
+-   http://localhost:4222/web/home
 
 ## У всех собралось, у меня нет (
 
