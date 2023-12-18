@@ -205,7 +205,7 @@ Optional - для избегания проверочных условий бы�
 
 -   [Создание объекта типа Optional(of/ofNullable/empty)](#optional---создание)
 -   [Проверка пусто ли внутри Optional(isPresent)](#optional---ispresent)
--   [Сделать что-то если в Optional есть значение(ifPresent)](#optional---ifpresent)
+-   [Сделать что-то если в Optional есть значение(ifPresent/ifPresentOrElse)](#optional---ifpresent)
 -   [Проверка на пустоту(orElse/orElseGet/orElseTrow)](#optional---orelse)
 -   [Применить функцию к значению внутри Optional(map/flatMap)](#optional---map)
 
@@ -297,6 +297,16 @@ ifPresent - если в Optional есть значение, то что-то в�
 ```java
 Optional<String> opt = Optional.empty();
 opt.ifPresent(() -> System.out.println("is not empty"));
+```
+
+ifPresentOrElse - если в Optional есть значение, то выполняет первую функцию иначе вторую:
+
+```java
+Optional<String> opt = Optional.empty();
+opt.ifPresentOrElse(
+    () -> System.out.println("is not empty")
+    () -> System.out.println("is empty")
+);
 ```
 
 ## Optional - orElse

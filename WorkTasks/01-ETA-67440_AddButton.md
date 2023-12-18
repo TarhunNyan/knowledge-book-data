@@ -43,7 +43,7 @@ static SqlReport = new Resource('sql-report', {});
 
 -   webClient/src/app/constants/staff/sql-report-action.enum.ts - файл который создали, для создания кнопок с иконкой и нужным action
 -   'Interrupt' - название action приходящее с бэка
--   new SqlReportAction('Interrupt'); - enum в котором список действий для этого журнала(?). Регестрируем через конструктор, но наверное столо его прописать прямо в enum'е
+-   new SqlReportAction('Interrupt'); - enum в котором список действий для этого журнала(?). Регестрируем через конструктор, но наверное стоило его прописать прямо в enum'е
 
 ```typescript
 export class SqlReportAction extends BaseAction {
