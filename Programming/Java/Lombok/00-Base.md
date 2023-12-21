@@ -34,16 +34,51 @@
 -   [NonNull - указываем многим аннотациям, что необходимо проводить проверку на Null](#fields---nonnull)
 -   [Cleanup - оборачивает поле в try-with-resource](#)
 
-# Остальное
+# Высокоуровневые абстракции
 
-Остальное - тут аннотация, смысла в которых я не увидел:
+Высокоуровневые абстракции - тут аннотация, дял довольно высокого уровня:
 
--   [Synchronized - помеченный метод оборачивается в Synchronized](#)
--   [SneakyThrows - тихие исключения, в доке описано два случая когда стоит использовать](https://projectlombok.org/features/SneakyThrows)
--   [Builder](https://projectlombok.org/features/Builder)
--   [Log](https://projectlombok.org/features/log)
+-   [Builder - создает автоматически класс builder](https://projectlombok.org/features/Builder)
+-   [Log - логгер](#highlevel-abstraction---log)
+-   [Synchronized - помеченный метод оборачивается в Synchronized](#highlevel-abstraction---synchronized)
+-   [SneakyThrows - тихие исключения, в доке описано два случая когда стоит использовать](#highlevel-abstraction---sneakythrows)
 
 # Пример
+
+## Highlevel abstraction - Builder
+
+Builder - создает для класса Builder:
+
+-   [Документация](https://projectlombok.org/features/Builder)
+-   Аннотация Builder повешанная на класс или конструктор - добавляет классу методы характерные для Builder
+    -   Генерирует методы в духе: Person.builder().job("Clean Manager").build();
+    -   Генерирует методы, смотря только на имена методов
+-   Аннотация Builder повешанная на поле -
+
+## Highlevel abstraction - Log
+
+Log - набор аннотаций, каждая из которых позволяет использовать какой-то конкретный логгер:
+
+-   можно выбрать любой логгер, но рекомндуется Slf4j
+-   есть всякие параметры, но я не нашел примеры их задания
+
+```java
+@Slf4j
+public class LogExampleOther {
+
+  public static void main(String... args) {
+    log.error("Something else is wrong here");
+  }
+}
+```
+
+## Highlevel abstraction - SneakyThrows
+
+Не смог понять зачем его вообще использовать
+
+## Highlevel abstraction - Synchronized
+
+Не смог понять зачем его вообще использовать. [Вот дока](https://projectlombok.org/features/SneakyThrows)
 
 ## Fields - Cleanup
 

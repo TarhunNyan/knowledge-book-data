@@ -27,4 +27,41 @@
 
 Первый вопрос, ну и где ебучие acations?
 
--
+-   ответ такой, их проверяют вот так
+-   еще нужно зарегать action в user-common-action.enum
+
+```js
+this.pageService.hasAction(ControlObjectAction.EditGeoDataFromFile);
+```
+
+Кроме того, есть еще action привязанные к пользователю:
+
+-   еще нужно зарегать action в control-object-action.enum
+-   прилетают сюды
+    -   http://localhost/csp/sou/rest/user-profile/current
+
+```js
+actions.has(UserCommonAction.ReadSourceBudgetKBKAdditionalFields);
+```
+
+А на каше пользовательские привелегии где-то здеся:
+
+```
+##class(SOU.ETA.GUDH.CO.StateCollectors.ControlCommon).#ActionCreateNestedEntity
+```
+
+## Правки в клиент
+
+Добавил action:
+
+-   static SyncExchangeNestedEntitiesToggle = new ControlObjectAction('SyncExchangeNestedEntitiesToggle');
+
+## Война с Cache
+
+Флаг для реализации ВлС вот так вызывается:
+
+-   таблица SOU_ETA_GUDH_CO_Entities_Nested.NestedEntityObject
+
+```cache
+#dim nestedEntity As SOU.ETA.GUDH.CO.Entities.Nested.NestedEntityObject = ##class(SOU.ETA.Core.BL.External.ObjectMap).GetObjectByGuid(objectGuid, 0)
+```
