@@ -65,3 +65,19 @@ actions.has(UserCommonAction.ReadSourceBudgetKBKAdditionalFields);
 ```cache
 #dim nestedEntity As SOU.ETA.GUDH.CO.Entities.Nested.NestedEntityObject = ##class(SOU.ETA.Core.BL.External.ObjectMap).GetObjectByGuid(objectGuid, 0)
 ```
+
+Найти мета-ентитю по id:
+
+```cache
+##class(SOU.ETA.DataDesigner.Gateways.MetaPropertyBaseGateway).FindActualById(metaPropertyId)
+```
+
+Найти ОК по id:
+
+```cache
+#Dim parentObjectTypeModel As SOU.ETA.DataDesigner.Mixin.IObjectTypeModel
+set parentObjectTypeModel = ##class(SOU.ETA.DataDesigner.Domain.ObjectTypeModelFactory).GetByObjectType(metaPropertyModel.GetMetaType().ObjectType)
+
+#Dim rootObjectModel As SOU.ETA.DataDesigner.Mixin.IRootObject
+set rootObjectModel = parentObjectTypeModel.GetRootObjectModelById(parentId)
+```
