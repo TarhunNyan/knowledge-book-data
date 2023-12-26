@@ -112,6 +112,22 @@ gradle packingEnLocalConfig
 
 -   http://localhost:4221/csp/sou/web/ru/
 
+Пример gradle:
+
+```gradle
+// старый
+databaseUrl=getEnv("POSTGRES_URL","jdbc:postgresql://192.168.5.12:16118/")
+
+databaseUser = getEnv("POSTGRES_USER",'GS_01')
+databasePassword = getEnv("POSTGRES_USER",'GS_01')
+
+// новый
+databaseUrl=getEnv("POSTGRES_URL","jdbc:postgresql://192.168.5.59:16104/")
+
+databaseUser = getEnv("POSTGRES_USER",'GS_01')
+databasePassword = getEnv("POSTGRES_USER",'!@#QWEASDZXC456')
+```
+
 ## Как собирать jetalon-libs локально
 
 Чтобы собрать проект на jetalon-libs локально:

@@ -70,11 +70,14 @@ Docker, собирает все зависимости в кучу:
 
 ## SQL
 
-| SQL(сиквел) - теоритические основы                                | SQL(сиквел) - язык                                | БД                                               |
-| :---------------------------------------------------------------- | :------------------------------------------------ | :----------------------------------------------- |
-| [SQL - определения](./Programming/SQL/03-BaseDefinition.md)       | [SQL - язык](./Programming/SQL/02-SQL.md)         | [sqlite3](./Programming/SQL/05-sqlite3.md)       |
-| [SQL - НФ(нормальные формы)](./Programming/SQL/01-NormalForms.md) | [SQL - Select](./Programming/SQL/06-SQLSelect.md) | [PostgreSQL](./Programming/SQL/04-PostgreSQL.md) |
-|                                                                   |
+| SQL(сиквел) - теоритические основы                                    | SQL(сиквел) - язык                                        | PostgresSQL                                                                     | БД                                                           |
+| :-------------------------------------------------------------------- | :-------------------------------------------------------- | :------------------------------------------------------------------------------ | :----------------------------------------------------------- |
+| [SQL - определения](./Programming/SQL/SQL/03-BaseDefinition.md)       |                                                           | [Index, ускорения работы с таблицей](./Programming/SQL/PostgresSQL/10-Index.md) | [sqlite3](./Programming/SQL/sqlLite/05-sqlite3.md)           |
+| [SQL - НФ(нормальные формы)](./Programming/SQL/SQL/01-NormalForms.md) | [SQL - DML(Select)](./Programming/SQL/SQL/09-DML.md)      | [Schema](./Programming/SQL/PostgresSQL/11-Schema.md)                            | [PostgreSQL](./Programming/SQL/PostgresSQL/04-PostgreSQL.md) |
+|                                                                       | [SQL - DDL(create/drop)](./Programming/SQL/SQL/07-DDL.md) | [Pool](./Programming/SQL/PostgresSQL/12-Pool.md)                                |                                                              |
+|                                                                       | [SQL - sql](./Programming/SQL/SQL/02-SQL.md)              | [Foreign Key/Primary Key](./Programming/SQL/PostgresSQL/01-Key.md)              |                                                              |
+|                                                                       | [SQL - DML(Select)](./Programming/SQL/SQL/06-Select.md)   | [Trigger](./Programming/SQL/PostgresSQL/03-Trigger.md)                          |                                                              |
+|                                                                       |                                                           | [Inherits - наследование](./Programming/SQL/PostgresSQL/02-Inherits.md)         |                                                              |
 
 ## JavaScript
 
