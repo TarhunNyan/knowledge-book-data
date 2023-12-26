@@ -25,6 +25,33 @@ Primary key - внутриенний ключ:
 -   [Задание ForeignKey по группе колонок](#foreign-key---пример-задания-по-нескольким-столбцам)
 -   [Ссылаться ForeignKey на эту же таблицу(создаем дерево)](#foreign-key---ссылка-на-самого-себя)
 
+# PRIMARY KEY - Первичные ключи
+
+Первичные ключи:
+
+-   должны быть в каждой таблице
+    -   в postgres не обязательно для каждой таблицы
+-   можно обозначить только один раз в табллице
+-   по сути это
+    -   UNIQUE
+    -   NOT NULL
+    -   С индексом B-дерева
+
+```ddl
+CREATE TABLE products (
+    product_no integer PRIMARY KEY,
+    name text,
+    price numeric
+);
+
+CREATE TABLE example (
+    a integer,
+    b integer,
+    c integer,
+    PRIMARY KEY (a, c)
+);
+```
+
 # Примеры
 
 ## FOREIGN KEY - Пример задания
