@@ -78,6 +78,7 @@ Goto - по сути прыжок к метке, но можно и создав
 Задать Environment variable:
 
 -   [Задаем environment переменные в windows](#variable---environment-variable)
+-   [Добавляем значения в PATH для Environment Variable, только на время работы bat](#variable---environment-variable-только-для-этой-сессии)
 
 # Примеры
 
@@ -170,6 +171,15 @@ setx VAR_NAME value
 
 ```bat
 setx VAR_NAME value /m
+```
+
+## Variable - Environment Variable только для этой сессии
+
+Добавляем значения в PATH для Environment Variable, только на время работы bat:
+
+```bat
+setlocal
+SET PATH=%PATH%;C:\Program Files\BellSoft\LibericaJDK-17\bin\;
 ```
 
 ## Syntax - Errorlevel
