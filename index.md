@@ -132,10 +132,10 @@ Docker, собирает все зависимости в кучу:
 
 ## Текстовые редакторы
 
-| Vim/NVim                                                   |
-| :--------------------------------------------------------- |
-| [Основные команды vim'а](./Editors/vim/01-MainCommands.md) |
-| [HotKeys](./Editors/vim/01.01-TableOfKeys.html)            |
+| Vim/NVim                                                   | VSCdoe                                |
+| :--------------------------------------------------------- | :------------------------------------ |
+| [Основные команды vim'а](./Editors/vim/01-MainCommands.md) | [VSCode](./Editors/vscode/00-Base.md) |
+| [HotKeys](./Editors/vim/01.01-TableOfKeys.html)            |                                       |
 
 # Nature Science
 

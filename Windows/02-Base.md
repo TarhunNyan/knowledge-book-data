@@ -23,3 +23,26 @@ Control Panel | >  System and Security  |    Security and Maintenance  |
 ```cmd
 SystemPropertiesAdvanced
 ```
+
+## Выходим в BIOS
+
+При перезагрузке зажимаем:
+
+-   acer
+    -   <F2> или <Fn+F2>
+-   ASRock и ПК
+    -   <F2> или <Fn+F2>
+    -   <DEL>
+-   lenovo
+    -   <F1> или <Fn+F1>
+
+## Отключаем f1-f12
+
+Заходим в BIOS и в нем:
+
+```bash
+/*Top Panel*/ |   Information |   ...                   |   Media Key      |
+              | > Main        |   Touchpad              | > Functional Key |
+              |   Advanced    | > Function Key Behavior |   -------------- |
+              |   ...         |   ...                   |                  |
+```
