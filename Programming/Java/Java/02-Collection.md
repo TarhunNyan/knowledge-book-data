@@ -44,6 +44,18 @@ Map - не Collection, но к ним относится:
 
 -   [Synchronized Lock](#collections---synchronized-lock)
 
+# Быстрое создание коллекций
+
+Быстрое создание коллекций через литералы появилось только в Java9:
+
+```java
+Map test = Map.ofEntries(
+    Map.entry(6, "oks"),
+    Map.entry(77, "ok"),
+    Map.entry(9, "ok")
+);
+```
+
 # Примеры
 
 ## Collections - HashSet

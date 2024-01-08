@@ -221,13 +221,3 @@ public class Class {
     public static void main(String[] args) { }
 }
 ```
-
-#####
-
-## Upcasting/Downcasting
-
-прием в ООП, когда мы преобразуем parent в child(Downcasting) или child в parent(Upcasting)
-
-Часто используется Downcasting, особенно Когда надо найти что-то в списке с разными типами элементов:
-
-TextView myTextView = (TextView) findViewById(R.id.myText);

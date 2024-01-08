@@ -1,3 +1,83 @@
+# Interface/Abstract/Class/Record
+
+Interface/Abstract/Class/Record - основа основ java
+
+# Class
+
+Class, разделен на несколько основных частей:
+
+-   поля
+-   конструкторы
+-   методы
+
+## Конструкторы
+
+Конструкторы class бывают:
+
+-   static
+    -   срабатывают при подгрузке класс
+    -   нужен для определния значений в статических переменных
+-   non-static
+    -   срабатывают при создании экземпляра класса
+
+```java
+public class Main {
+
+    static private String someStaticField;
+    final private String someField;
+
+    // статический конструктор
+    static {
+        someStaticField = "value";
+    }
+
+    // конструктор без переменных
+    public Main() {
+        this.someField = "";
+    }
+
+    // конструктор с переменными
+    public Main(value) {
+        this.someField = value;
+    }
+}
+```
+
+# Enum
+
+# Records
+
+Records - появился начиная с java14(в режиме preview). Является классом с набором final полей:
+
+```java
+record Point(int x, int y) {}
+```
+
+Код аналогичный коду выше, но через Class:
+
+-   очень странное решение вместо классического getX, исользовать x
+
+```java
+public class Point() {
+
+    private final int x;
+    private final int y;
+
+    Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public int x() { return this.x; }
+
+    public int y() { return this.y; }
+
+    public toString() { ... }
+    public equals() { ... }
+    public hashCode() { ... }
+}
+```
+
 # Interface и Abstract Class
 
 Interface - служат для типизирования методов класса:
@@ -78,3 +158,45 @@ public abstract class AbstractMethod {
     -   имплементируем все нужные Interface в Abstract Class
     -   в Abstract Class определяем начальные значения
     -   создаем нелобходимый класс унаследованный от Abstract Class
+
+## Methods
+
+Контракт метода - спецификация метода и тип возвращаемого значения
+
+```java
+public void moveTo(int x, int y) throws IOException
+```
+
+Метод, который возвращает значение:
+
+```java
+// примитивный тип:
+double oldAge() {
+    return 15d;
+}
+
+// любой класс:
+ClassIncapsulation example() {
+    return new ClassIncapsulation();
+}
+
+// пример void: Метод, который ничего не возвращает
+void displayInfo() {
+    System.out.println( "Метод вызван" );
+}
+```
+
+Методы в JAVA классе:
+пишется модификатор. Тип возвращаемого значения(void - ничего не возвращает). Имя метода. Аргументы метода. Тело метода
+
+```java
+public static void methodName(String agr1) { /*тело*/ }
+```
+
+Сигнатура метода:
+
+-   имя и параметры метода
+
+```java
+moveTo(int x, int y)
+```

@@ -1,8 +1,6 @@
 # Главаня
 
-Главная страница - с путями до основных страниц:
-
--   [Как вести страницы в "Базе Знаний"](./Personal/HowToDesignKnowledgeBookData.md)
+Главная страница - с путями до основных страниц
 
 # Операционные системы
 
@@ -18,6 +16,8 @@
 | [Bush скрипты](./Programming/Bash/01-Base.md)          |
 | [Конкретные Linux системы](./Linux/10-LinuxSistems.md) |
 
+## Linux
+
 ## Windows
 
 | Windows                                                            |
@@ -32,11 +32,19 @@
 | База                                                                           | Устройство протоколов/технологий            |
 | :----------------------------------------------------------------------------- | :------------------------------------------ |
 | [Основные направления и стили программирования](./Programming/Base/01-Base.md) | [Торрент](./Programming/Torrent/01-base.md) |
-| [Алгоритмы](./Programming/Base/02-Algoritms.md)                                | [XAMPP](./Programming/XAMPP/01-base.md)     |
-| [ООП и паттерны](./Programming/Base/05-OOP.md)                                 | [Regexp](./Programming/Regexp/Regexp_JS.md) |
+| [Алгоритмы](./Programming/Base/02-Algoritms.md)                                |                                             |
+| [ООП и паттерны](./Programming/Base/05-OOP.md)                                 |                                             |
 | [Структуры данных/фаорматов](./Programming/Base/03-DataStructure.md)           |                                             |
 | [Сети](./Programming/Base/04-Network.md)                                       |                                             |
-| [UML - база](./Programming/UML/00-Base.md)                                     |                                             |
+| [Сокеты](./Programming/Base/06-Socket.md)                                      |                                             |
+
+## Утилиты
+
+| Устройство протоколов/технологий                               |
+| :------------------------------------------------------------- |
+| [XAMPP](./Programming/XAMPP/01-base.md)                        |
+| [Regexp](./Programming/Regexp/Regexp_JS.md)                    |
+| [curl - консольный веб-браузер](./Programming/curl/00-curl.md) |
 
 ## GIT
 
@@ -70,16 +78,16 @@ Docker, собирает все зависимости в кучу:
 
 ## SQL
 
-| SQL(сиквел) - теоритические основы                                    | SQL(сиквел) - язык                                        | PostgresSQL                                                                      | БД                                                                                                      |
-| :-------------------------------------------------------------------- | :-------------------------------------------------------- | :------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------ |
-| [SQL - определения](./Programming/SQL/SQL/03-BaseDefinition.md)       |                                                           | [Index, ускорения работы с таблицей](./Programming/SQL/PostgresSQL/10-Index.md)  | [sqlite3](./Programming/SQL/sqlLite/05-sqlite3.md)                                                      |
-| [SQL - НФ(нормальные формы)](./Programming/SQL/SQL/01-NormalForms.md) | [SQL - DML(Select)](./Programming/SQL/SQL/09-DML.md)      | [Schema](./Programming/SQL/PostgresSQL/11-Schema.md)                             | [PostgreSQL](./Programming/SQL/PostgresSQL/04-PostgreSQL.md)                                            |
-|                                                                       | [SQL - DDL(create/drop)](./Programming/SQL/SQL/07-DDL.md) | [Pool](./Programming/SQL/PostgresSQL/12-Pool.md)                                 | [PostgresSQL - Установка и работа через консоль](./Programming/SQL/PostgresSQL/20-InstallAndConsole.md) |
-|                                                                       | [SQL - sql](./Programming/SQL/SQL/02-SQL.md)              | [Foreign Key/Primary Key](./Programming/SQL/PostgresSQL/01-Key.md)               |                                                                                                         |
-|                                                                       | [SQL - DML(Select)](./Programming/SQL/SQL/06-Select.md)   | [Trigger](./Programming/SQL/PostgresSQL/03-Trigger.md)                           |                                                                                                         |
-|                                                                       |                                                           | [Inherits - наследование](./Programming/SQL/PostgresSQL/02-Inherits.md)          |                                                                                                         |
-|                                                                       |                                                           | [Функции(агрегатные/оконные/...)](./Programming/SQL/PostgresSQL/05-Functions.md) |                                                                                                         |
-|                                                                       |                                                           | [Ограниченияы в таблице](./Programming/SQL/PostgresSQL/06-Constraint.md)         |
+| SQL(сиквел) - теоритические основы                                    | SQL(сиквел) - язык                                        | PostgresSQL                                                                                | БД                                                                                                      |
+| :-------------------------------------------------------------------- | :-------------------------------------------------------- | :----------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------ |
+| [SQL - определения](./Programming/SQL/SQL/03-BaseDefinition.md)       |                                                           | [Index - ускорение работы с таблицей](./Programming/SQL/PostgresSQL/10-Index.md)           | [sqlite3](./Programming/SQL/sqlLite/05-sqlite3.md)                                                      |
+| [SQL - НФ(нормальные формы)](./Programming/SQL/SQL/01-NormalForms.md) | [SQL - DML(Select)](./Programming/SQL/SQL/09-DML.md)      | [Schema - логическое деление DB](./Programming/SQL/PostgresSQL/11-Schema.md)               | [PostgreSQL](./Programming/SQL/PostgresSQL/04-PostgreSQL.md)                                            |
+|                                                                       | [SQL - DDL(create/drop)](./Programming/SQL/SQL/07-DDL.md) | [Pool - набор соединений](./Programming/SQL/PostgresSQL/12-Pool.md)                        | [PostgresSQL - Установка и работа через консоль](./Programming/SQL/PostgresSQL/20-InstallAndConsole.md) |
+|                                                                       | [SQL - sql](./Programming/SQL/SQL/02-SQL.md)              | [Foreign Key/Primary Key](./Programming/SQL/PostgresSQL/01-Key.md)                         |                                                                                                         |
+|                                                                       | [SQL - DML(Select)](./Programming/SQL/SQL/06-Select.md)   | [Trigger - функции дергаемые при работе с БД](./Programming/SQL/PostgresSQL/03-Trigger.md) |                                                                                                         |
+|                                                                       |                                                           | [Inherits - наследование таблиц](./Programming/SQL/PostgresSQL/02-Inherits.md)             |                                                                                                         |
+|                                                                       |                                                           | [Функции(агрегатные/оконные/...)](./Programming/SQL/PostgresSQL/05-Functions.md)           |                                                                                                         |
+|                                                                       |                                                           | [Ограниченияы в таблице](./Programming/SQL/PostgresSQL/06-Constraint.md)                   |
 
 ## JavaScript
 
@@ -95,22 +103,32 @@ Docker, собирает все зависимости в кучу:
 
 ## Java
 
-| Java                                                                                                  | Java - Пакеты                                                                         |
-| :---------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------ |
-| [Java - работа со скриптами](#)                                                                       | [Lombock - генерирует код вместо программиста](./Programming/Java/Lombok/00-Base.md)  |
-| [ - установка пакетов](#)                                                                             | [Spring Boot - комбайн для Enterprise/web/MVC](./Programming/Java/Spring/00-Base.md)  |
-| [Import/Export](#)                                                                                    | [JUnit - тестирование](./Programming/Java/Java_JUnit/00-Base.md)                      |
-| [Синтаксис](./Programming/Java/Java/00-Java.md)                                                       | [Mockito - создание заглушек при тестировании](./Programming/Java/Mockito/00-Base.md) |
-| [Объекты(ООП)](./Programming/Java/Java/01-Object.md)                                                  | [Liquidbase - версионирование БД](./Programming/Java/liquidbase/00-Base.md)           |
-| [javadoc - документация](#)                                                                           |                                                                                       |
-| [Java - типизация]()                                                                                  |                                                                                       |
-|                                                                                                       |                                                                                       |
-| [Java - устройство](./Programming/Java/Java/05-Structure.md)                                          |                                                                                       |
-| [Java - синтаксис](./Programming/Java/Java/06-Syntax.md)                                              |                                                                                       |
-| [Java - интерфейсы и абстрактные класс](./Programming/Java/Java/06-InterfaceAndAbstractClass.md)      |                                                                                       |
-| [Java - Collection](./Programming/Java/Java/02-Collection.md)                                         | []()                                                                                  |
-| [Модификаторы](./Programming/Java/Java/03-Modifiers.md)                                               |                                                                                       |
-| [Сериализация/Десериализация - запись и чтение Java объекта](./Programming/Java/Java/04-Serialize.md) |                                                                                       |
+То что относят к POJO:
+
+| Java                                                                                                    | Java - структура                                                         | Java - комплексные концепции                                                                          |
+| :------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------- |
+|                                                                                                         | [Структура Java окружения](./Programming/Java/Java/05-Structure.md)      |                                                                                                       |
+| [Java - Interface/Abstract/Class/Record](./Programming/Java/Java/07-Interface_Abstract_Class_Record.md) | [Структура Java приложения](./Programming/Java/Java/09-StructureJava.md) | [Java - Collection](./Programming/Java/Java/02-Collection.md)                                         |
+|                                                                                                         | [Структура Java библиотек](./Programming/Java/Java/10-Libriries.md)      | [Сериализация/Десериализация - запись и чтение Java объекта](./Programming/Java/Java/04-Serialize.md) |
+|                                                                                                         |                                                                          | [Многопоточность](./Programming/Java/Java/08-Multhithreading.md)                                      |
+
+| Java                                                                                  | Build-in пакеты                                                                 |
+| :------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------ |
+| [Синтаксис(POJO)](./Programming/Java/Java/06-Syntax.md)                               | [java.io - ввод/вывод, Stream, Read, Write ...](./Programming/Java/io/00-io.md) |
+| [Javadoc - пишем документацию в комментариях](./Programming/Java/Java_doc/00-Base.md) |                                                                                 |
+
+Пакеты и библиотеки:
+
+| Java                                                 | Java - Пакеты                                                                         |
+| :--------------------------------------------------- | :------------------------------------------------------------------------------------ |
+|                                                      | [Lombock - генерирует код вместо программиста](./Programming/Java/Lombok/00-Base.md)  |
+|                                                      | [Spring Boot - комбайн для Enterprise/web/MVC](./Programming/Java/Spring/00-Base.md)  |
+|                                                      | [JUnit - тестирование](./Programming/Java/Java_JUnit/00-Base.md)                      |
+| [Синтаксис](./Programming/Java/Java/00-Java.md)      | [Mockito - создание заглушек при тестировании](./Programming/Java/Mockito/00-Base.md) |
+| [Объекты(ООП)](./Programming/Java/Java/01-Object.md) | [Liquidbase - версионирование БД](./Programming/Java/liquidbase/00-Base.md)           |
+|                                                      |                                                                                       |
+|                                                      |                                                                                       |
+|                                                      |                                                                                       |
 
 ## Ruby
 
@@ -155,11 +173,12 @@ Docker, собирает все зависимости в кучу:
 
 # Личное
 
-| Личное                                           | Гитара                                 |
-| :----------------------------------------------- | :------------------------------------- |
-| [Книги](./Personal/Books/00-Books.md)            | [Основы](./Personal/Guitar/00-Base.md) |
-| [Домашние дела](./Personal/Household.md)         |
-| [Задумки придумки, выдумки](./Personal/Ideas.md) |
-| [Рабочие моменты](./Personal/Work.md)            |
+| Личное                                                                           | Гитара                                 |
+| :------------------------------------------------------------------------------- | :------------------------------------- |
+| [Как вести страницы в "Базе Знаний"](./Personal/HowToDesignKnowledgeBookData.md) |                                        |
+| [Книги](./Personal/Books/00-Books.md)                                            | [Основы](./Personal/Guitar/00-Base.md) |
+| [Домашние дела](./Personal/Household.md)                                         |                                        |
+| [Задумки придумки, выдумки](./Personal/Ideas.md)                                 |                                        |
+| [Рабочие моменты](./Personal/Work.md)                                            |                                        |
 
 <style>table{width: 100%}</style>
