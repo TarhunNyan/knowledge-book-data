@@ -82,6 +82,10 @@ gradle packingEnLocalConfig
 -   generateSwagger - генерируем swagger, в котором описано API приложения
     -   потом по swagger файлу, проверяется api клиента
     -   потом по swagger файлу, проверяется back для jetalon
+-   Запускаем таски gradle, чтобы понаустанавливать все node_module
+    -   npmInstall
+    -   yarn
+    -   yarnSetup
 -   npm run dev:loc - запускаем в webClient. Для генерации клиента
 
 Адрес:

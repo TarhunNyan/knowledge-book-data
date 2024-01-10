@@ -34,7 +34,7 @@
 | [Основные направления и стили программирования](./Programming/Base/01-Base.md) | [Торрент](./Programming/Torrent/01-base.md) |
 | [Алгоритмы](./Programming/Base/02-Algoritms.md)                                |                                             |
 | [ООП и паттерны](./Programming/Base/05-OOP.md)                                 |                                             |
-| [Структуры данных/фаорматов](./Programming/Base/03-DataStructure.md)           |                                             |
+| [Структуры данных/форматов](./Programming/Base/03-DataStructure.md)            |                                             |
 | [Сети](./Programming/Base/04-Network.md)                                       |                                             |
 | [Сокеты](./Programming/Base/06-Socket.md)                                      |                                             |
 
@@ -45,6 +45,13 @@
 | [XAMPP](./Programming/XAMPP/01-base.md)                        |
 | [Regexp](./Programming/Regexp/Regexp_JS.md)                    |
 | [curl - консольный веб-браузер](./Programming/curl/00-curl.md) |
+
+## UML
+
+| Утилитарные языки                                               |
+| :-------------------------------------------------------------- |
+| [UML](./Programming/UML/00-Base.md)                             |
+| [UML - диаграмма классов](./Programming/UML/01-ClassDiagram.md) |
 
 ## GIT
 
