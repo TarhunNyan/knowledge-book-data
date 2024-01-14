@@ -31,12 +31,11 @@
 
 | База                                                                           | Устройство протоколов/технологий            |
 | :----------------------------------------------------------------------------- | :------------------------------------------ |
+| [Сети](./Programming/Base/04-Network.md)                                       |                                             |
 | [Основные направления и стили программирования](./Programming/Base/01-Base.md) | [Торрент](./Programming/Torrent/01-base.md) |
 | [Алгоритмы](./Programming/Base/02-Algoritms.md)                                |                                             |
 | [ООП и паттерны](./Programming/Base/05-OOP.md)                                 |                                             |
 | [Структуры данных/форматов](./Programming/Base/03-DataStructure.md)            |                                             |
-| [Сети](./Programming/Base/04-Network.md)                                       |                                             |
-| [Сокеты](./Programming/Base/06-Socket.md)                                      |                                             |
 
 ## Утилиты
 
@@ -45,13 +44,6 @@
 | [XAMPP](./Programming/XAMPP/01-base.md)                        |
 | [Regexp](./Programming/Regexp/Regexp_JS.md)                    |
 | [curl - консольный веб-браузер](./Programming/curl/00-curl.md) |
-
-## UML
-
-| Утилитарные языки                                               |
-| :-------------------------------------------------------------- |
-| [UML](./Programming/UML/00-Base.md)                             |
-| [UML - диаграмма классов](./Programming/UML/01-ClassDiagram.md) |
 
 ## GIT
 
@@ -76,12 +68,12 @@ Docker, собирает все зависимости в кучу:
 
 ## HTML/CSS
 
-| Декларативные языки                                      |
-| :------------------------------------------------------- |
-| [HTML](./Programming/HTML/07-HTML.md)                    |
-| [CSS](./Programming/CSS/11-CSS.md)                       |
-| [CSS - селекторы/директивы](./Programming/CSS/12-CSS.md) |
-| [CSS - BEM](./Programming/CSS/10-BEM.md)                 |
+| Декларативные языки                                      | UML                                                             |
+| :------------------------------------------------------- | :-------------------------------------------------------------- |
+| [HTML](./Programming/HTML/07-HTML.md)                    | [PlantUML](./Programming/UML/02-PlantUML.md)                    |
+| [CSS](./Programming/CSS/11-CSS.md)                       | [UML - диаграмма классов](./Programming/UML/01-ClassDiagram.md) |
+| [CSS - селекторы/директивы](./Programming/CSS/12-CSS.md) | [UML](./Programming/UML/00-Base.md)                             |
+| [CSS - BEM](./Programming/CSS/10-BEM.md)                 |                                                                 |
 
 ## SQL
 
@@ -115,14 +107,15 @@ Docker, собирает все зависимости в кучу:
 | Java                                                                                                    | Java - структура                                                         | Java - комплексные концепции                                                                          |
 | :------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------- |
 |                                                                                                         | [Структура Java окружения](./Programming/Java/Java/05-Structure.md)      |                                                                                                       |
-| [Java - Interface/Abstract/Class/Record](./Programming/Java/Java/07-Interface_Abstract_Class_Record.md) | [Структура Java приложения](./Programming/Java/Java/09-StructureJava.md) | [Java - Collection](./Programming/Java/Java/02-Collection.md)                                         |
+| [Java - Interface/Abstract/Class/Record](./Programming/Java/Java/07-Interface_Abstract_Class_Record.md) | [Структура Java приложения](./Programming/Java/Java/09-StructureJava.md) |                                                                                                       |
 |                                                                                                         | [Структура Java библиотек](./Programming/Java/Java/10-Libriries.md)      | [Сериализация/Десериализация - запись и чтение Java объекта](./Programming/Java/Java/04-Serialize.md) |
 |                                                                                                         |                                                                          | [Многопоточность](./Programming/Java/Java/08-Multhithreading.md)                                      |
 
-| Java                                                                                  | Build-in пакеты                                                                 |
-| :------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------ |
-| [Синтаксис(POJO)](./Programming/Java/Java/06-Syntax.md)                               | [java.io - ввод/вывод, Stream, Read, Write ...](./Programming/Java/io/00-io.md) |
-| [Javadoc - пишем документацию в комментариях](./Programming/Java/Java_doc/00-Base.md) |                                                                                 |
+| Java                                                                                  | Build-in пакеты                                                                                                                     |
+| :------------------------------------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------- |
+| [Синтаксис(POJO)](./Programming/Java/Java/06-Syntax.md)                               | [java.io - ввод/вывод, Stream, Read, Write ...](./Programming/Java/io/00-io.md)                                                     |
+| [Javadoc - пишем документацию в комментариях](./Programming/Java/Java_doc/00-Base.md) | [java.util.Collection - по сути это интерфейс, но его реализация лежит в java.util](./Programming/Java/Java/02-Collection.md)       |
+|                                                                                       | [java.util.Collections - утилитарный класс, предоставляющий методы работы с коллекциями](./Programming/Java/Java/11-Collections.md) |
 
 Пакеты и библиотеки:
 
