@@ -115,7 +115,7 @@ Docker, собирает все зависимости в кучу:
 | :------------------------------------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------- |
 | [Синтаксис(POJO)](./Programming/Java/Java/06-Syntax.md)                               | [java.io - ввод/вывод, Stream, Read, Write ...](./Programming/Java/io/00-io.md)                                                     |
 | [Javadoc - пишем документацию в комментариях](./Programming/Java/Java_doc/00-Base.md) | [java.util.Collection - по сути это интерфейс, но его реализация лежит в java.util](./Programming/Java/Java/02-Collection.md)       |
-|                                                                                       | [java.util.Collections - утилитарный класс, предоставляющий методы работы с коллекциями](./Programming/Java/Java/11-Collections.md) |
+| [Java - неочевидное поведение](./Programming/Java/Java/11-Rake.md)                    | [java.util.Collections - утилитарный класс, предоставляющий методы работы с коллекциями](./Programming/Java/Java/11-Collections.md) |
 
 Пакеты и библиотеки:
 

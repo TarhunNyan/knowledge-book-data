@@ -1,10 +1,12 @@
-# Всякие базовые штуки по работе
+# Всякие базовые приколы по работе
 
 ## Контроль над колонкой
 
 Контроль над колонкой:
 
 -   http://192.168.5.214/juke
+
+# Cache
 
 ## Получаем себе backup-чик Cache
 
@@ -18,28 +20,6 @@
 Где хранятся бэкапы:
 
 -   \\192.168.5.4\backups
-
-## Получаем себе backup-чик Jetalon
-
-Устанавливаем на локалку:
-
--   \\192.168.5.30\JET-01_backups - тут храняться backup
--   делаем что-то в духе того, что написано в батнике ниже
-
-```bat
-cd %1
-
-set PGPASSWORD=12345678
-type jetauth.sql | "C:\Program Files\PostgreSQL\14\bin\psql.exe" --username=postgres --no-password
-type jetafiles.sql | "C:\Program Files\PostgreSQL\14\bin\psql.exe" --username=postgres --no-password
-type jetalabor.sql | "C:\Program Files\PostgreSQL\14\bin\psql.exe" --username=postgres --no-password
-type jetaudit.sql | "C:\Program Files\PostgreSQL\14\bin\psql.exe" --username=postgres --no-password
-```
-
-Или используй новый dblab:
-
--   http://192.168.5.59:16100/instance
--   dblab-token-sis - пароль на вход
 
 ## Как доабвить полностью локализированную версию
 
@@ -91,6 +71,79 @@ gradle packingEnLocalConfig
 Адрес:
 
 -   http://localhost:80/csp/sou/web/ru/
+
+## А где стандартные настройки Cache?
+
+Тут начальные настройки для Cache, типо ссылки на Matomo:
+
+C:\InterSystems\Cache\mgr\SOU\Settings\SystemSettings.settings
+
+# Jetalon
+
+## Новый реп с Jetalon
+
+Новый реп с Jetalon:
+
+-   деалем clone с gitlab
+
+Подключаем jet.env:
+
+-   создаем file с названием jet.env:
+
+```env
+POSTGRES_URL=jdbc:postgresql://192.168.5.59:16104/
+POSTGRES_USER=GS_01
+POSTGRES_PASSWORD=!@#QWEASDZXC456
+```
+
+В Idea идем в настройки шаблона для SpringBoot и протыкиваем:
+
+-   добавляем jet.env
+    -   Enable EnvFile -> true
+    -   Add(плюсик)
+    -   добавляем путь до jet.env
+    -   ставим галочку около jet.env в появившемся списке
+-   настраиваем Short Command
+    -   Modify options -> Shorten Command Line
+    -   Shorten Command Line: -> @argfile (Java 9+)
+
+```bash
+Edit configurations | Edit configuration templates... |   ...          |
+                                                      |   Shell Script |
+                                                      | > SpringBoot   |
+                                                      |   ...          |
+```
+
+Добавляем Service:
+
+```bash
+/* Top Menu */ -> View | > Tool Windows     |   ...       | /* В открывшемся окне*/ -> Add Service | > Run Configuration Type                |   ...    |
+                       |   Appearenc        |   Structure |                                        |   Docker Connection                     | > Spring |
+                       |   Quick Definition | > Services  |                                        |   Docker Connection From Docker Context |   ...    |
+                       |   ...              |   ...       |                                        |   Docke Registry                        |   ...    |
+```
+
+## Получаем себе backup-чик Jetalon
+
+Устанавливаем на локалку:
+
+-   \\192.168.5.30\JET-01_backups - тут храняться backup
+-   делаем что-то в духе того, что написано в батнике ниже
+
+```bat
+cd %1
+
+set PGPASSWORD=12345678
+type jetauth.sql | "C:\Program Files\PostgreSQL\14\bin\psql.exe" --username=postgres --no-password
+type jetafiles.sql | "C:\Program Files\PostgreSQL\14\bin\psql.exe" --username=postgres --no-password
+type jetalabor.sql | "C:\Program Files\PostgreSQL\14\bin\psql.exe" --username=postgres --no-password
+type jetaudit.sql | "C:\Program Files\PostgreSQL\14\bin\psql.exe" --username=postgres --no-password
+```
+
+Или используй новый dblab:
+
+-   http://192.168.5.59:16100/instance
+-   dblab-token-sis - пароль на вход
 
 ## Как собирать проект на Java
 
