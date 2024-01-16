@@ -1,0 +1,53 @@
+@startuml Cache
+class client{}
+class "SOU.ETA.Core.Rest.Routers.InsecureSystemRouter\nrest" as cache.rest {}
+class "SOU.ETA.Core.Rest.Controllers.SystemControler\ncontroller" as cache.controller {}
+class cache.MatomoJSONDTO {
+    String url
+    String id
+}
+class "SOU.Settings" as cache.Settings {
+    String GetMotomoId()
+    String GetMotomoUrl()
+}
+
+cache.rest --> cache.controller : "GetMotomoConfig"
+cache.MatomoJSONDTO --> cache.controller : "GetMotomoConfig"
+cache.Settings --> cache.controller : "GetMotomoConfig"
+cache.MatomoJSONDTO ..> client
+cache.rest --> client
+@enduml
+
+@startuml Jetalon
+interface SettingService {}
+class SettingServiceImpl {
+    addSetting()
+    updateSetting()
+    getSetting()
+}
+
+SettingService --> SettingServiceImpl
+
+
+class ConfigurationService {
+    void importConfig()
+}
+class SystemConfigImporter {
+    void run()
+}
+interface PostConstrucRunnerService {
+    void run()
+}
+class AuditServiceApplication {
+    void init()
+}
+class "enumeration/defaultMatomoSettings" {
+    ID
+    URL
+}
+
+note left of ConfigurationService: Импортирует конфигурацию\nКонфигурация собрана в 7z\n\nЛежит в:\nresources/dataconfiguratin/systemConfig
+ConfigurationService --* SystemConfigImporter
+SystemConfigImporter --> PostConstrucRunnerService
+PostConstrucRunnerService --o AuditServiceApplication : run()
+@enduml
