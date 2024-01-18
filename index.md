@@ -29,9 +29,9 @@
 
 ## База программирования
 
-| База                                                                           | Устройство протоколов/технологий            |
-| :----------------------------------------------------------------------------- | :------------------------------------------ |
-| [Сети](./Programming/Base/04-Network.md)                                       |                                             |
+| База                                                                           | Устройство протоколов/технологий            | Парадигмы                                                                       |
+| :----------------------------------------------------------------------------- | :------------------------------------------ | :------------------------------------------------------------------------------ |
+| [Сети](./Programming/Base/04-Network.md)                                       |                                             | [AOP - аспектно ориентированное программирование](./Programming/Base/06-AOP.md) |
 | [Основные направления и стили программирования](./Programming/Base/01-Base.md) | [Торрент](./Programming/Torrent/01-base.md) |
 | [Алгоритмы](./Programming/Base/02-Algoritms.md)                                |                                             |
 | [ООП и паттерны](./Programming/Base/05-OOP.md)                                 |                                             |
@@ -100,22 +100,30 @@ Docker, собирает все зависимости в кучу:
 | [jsdoc - документация](./Programming/JS/JS_jsdoc/00-Base.md)       |                                                                        |                                                      |
 | [TypeScript - типизация](./Programming/JS/JS_TS/00-Base.md)        |                                                                        |                                                      |
 
-## Java
+## Java экосистема
 
 То что относят к POJO:
 
-| Java                                                                                                    | Java - структура                                                         | Java - комплексные концепции                                                                          |
-| :------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------- |
-|                                                                                                         | [Структура Java окружения](./Programming/Java/Java/05-Structure.md)      |                                                                                                       |
-| [Java - Interface/Abstract/Class/Record](./Programming/Java/Java/07-Interface_Abstract_Class_Record.md) | [Структура Java приложения](./Programming/Java/Java/09-StructureJava.md) |                                                                                                       |
-|                                                                                                         | [Структура Java библиотек](./Programming/Java/Java/10-Libriries.md)      | [Сериализация/Десериализация - запись и чтение Java объекта](./Programming/Java/Java/04-Serialize.md) |
-|                                                                                                         |                                                                          | [Многопоточность](./Programming/Java/Java/08-Multhithreading.md)                                      |
+| Java                                                                                                    | Java - структура                                                         | Build-in пакеты                                                                                                                     |
+| :------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
+| [Java синтаксис(POJO)](./Programming/Java/Java/06-Syntax.md)                                            | [Структура Java окружения](./Programming/Java/Java/05-Structure.md)      | [java.io - ввод/вывод, Stream, Read, Write ...](./Programming/Java/io/00-io.md)                                                     |
+| [Javadoc - пишем документацию в комментариях](./Programming/Java/Java_doc/00-Base.md)                   | [Структура Java приложения](./Programming/Java/Java/09-StructureJava.md) | [java.util.Collection - по сути это интерфейс, но его реализация лежит в java.util](./Programming/Java/Java/02-Collection.md)       |
+| [Java - неочевидное поведение](./Programming/Java/Java/11-Rake.md)                                      | [Структура Java библиотек](./Programming/Java/Java/10-Libriries.md)      | [java.util.Collections - утилитарный класс, предоставляющий методы работы с коллекциями](./Programming/Java/Java/11-Collections.md) |
+| [Java - Interface/Abstract/Class/Record](./Programming/Java/Java/07-Interface_Abstract_Class_Record.md) |                                                                          |                                                                                                                                     |
+| [Сериализация/Десериализация - запись и чтение Java объекта](./Programming/Java/Java/04-Serialize.md)   |                                                                          |                                                                                                                                     |
+| [Многопоточность](./Programming/Java/Java/08-Multhithreading.md)                                        |                                                                          |                                                                                                                                     |
 
-| Java                                                                                  | Build-in пакеты                                                                                                                     |
-| :------------------------------------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------- |
-| [Синтаксис(POJO)](./Programming/Java/Java/06-Syntax.md)                               | [java.io - ввод/вывод, Stream, Read, Write ...](./Programming/Java/io/00-io.md)                                                     |
-| [Javadoc - пишем документацию в комментариях](./Programming/Java/Java_doc/00-Base.md) | [java.util.Collection - по сути это интерфейс, но его реализация лежит в java.util](./Programming/Java/Java/02-Collection.md)       |
-| [Java - неочевидное поведение](./Programming/Java/Java/11-Rake.md)                    | [java.util.Collections - утилитарный класс, предоставляющий методы работы с коллекциями](./Programming/Java/Java/11-Collections.md) |
+Grovy
+
+| Groovy                                             |
+| :------------------------------------------------- |
+| [Groovy](./Programming/Groovy/Groovy/00-Groovy.md) |
+
+Gradle
+
+| Gradle                                             |
+| :------------------------------------------------- |
+| [Gradle](./Programming/Groovy/Gradle/00-Gradle.md) |
 
 Пакеты и библиотеки:
 

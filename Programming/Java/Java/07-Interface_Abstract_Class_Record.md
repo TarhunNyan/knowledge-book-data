@@ -4,6 +4,8 @@ Interface/Abstract/Class/Record - основа основ java
 
 # Class
 
+## Стрктура Class
+
 Class, разделен на несколько основных частей:
 
 -   поля
