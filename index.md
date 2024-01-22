@@ -104,14 +104,23 @@ Docker, собирает все зависимости в кучу:
 
 То что относят к POJO:
 
-| Java                                                                                                    | Java - структура                                                         | Build-in пакеты                                                                                                                     |
-| :------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
-| [Java синтаксис(POJO)](./Programming/Java/Java/06-Syntax.md)                                            | [Структура Java окружения](./Programming/Java/Java/05-Structure.md)      | [java.io - ввод/вывод, Stream, Read, Write ...](./Programming/Java/io/00-io.md)                                                     |
-| [Javadoc - пишем документацию в комментариях](./Programming/Java/Java_doc/00-Base.md)                   | [Структура Java приложения](./Programming/Java/Java/09-StructureJava.md) | [java.util.Collection - по сути это интерфейс, но его реализация лежит в java.util](./Programming/Java/Java/02-Collection.md)       |
-| [Java - неочевидное поведение](./Programming/Java/Java/11-Rake.md)                                      | [Структура Java библиотек](./Programming/Java/Java/10-Libriries.md)      | [java.util.Collections - утилитарный класс, предоставляющий методы работы с коллекциями](./Programming/Java/Java/11-Collections.md) |
-| [Java - Interface/Abstract/Class/Record](./Programming/Java/Java/07-Interface_Abstract_Class_Record.md) |                                                                          |                                                                                                                                     |
-| [Сериализация/Десериализация - запись и чтение Java объекта](./Programming/Java/Java/04-Serialize.md)   |                                                                          |                                                                                                                                     |
-| [Многопоточность](./Programming/Java/Java/08-Multhithreading.md)                                        |                                                                          |                                                                                                                                     |
+| Java                                                                                                    |
+| :------------------------------------------------------------------------------------------------------ |
+| [Многопоточность](./Programming/Java/Java/08-Multhithreading.md)                                        |
+| [Java синтаксис(POJO)](./Programming/Java/Java/06-Syntax.md)                                            |
+| [Java - Interface/Abstract/Class/Record](./Programming/Java/Java/07-Interface_Abstract_Class_Record.md) |
+| [Java - неочевидное поведение](./Programming/Java/Java/12-Rake.md)                                      |
+| [Сериализация/Десериализация - запись и чтение Java объекта](./Programming/Java/Java/04-Serialize.md)   |
+
+Пакеты и библиотеки:
+
+| Java - Пакеты                                                                                       | Build-in пакеты                                                                                                                     |
+| :-------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
+| [Lombock - генерирует код вместо программиста](./Programming/Java/Lombok/00-Base.md)                | [java.io - ввод/вывод, Stream, Read, Write ...](./Programming/Java/io/00-io.md)                                                     |
+| [Liquidbase - версионирование БД](./Programming/Java/liquidbase/00-Base.md)                         | [java.util.Collection - по сути это интерфейс, но его реализация лежит в java.util](./Programming/Java/Java/02-Collection.md)       |
+| [Mockito - тестирование(создание заглушек для тестировании)](./Programming/Java/Mockito/00-Base.md) | [java.util.Collections - утилитарный класс, предоставляющий методы работы с коллекциями](./Programming/Java/Java/11-Collections.md) |
+| [JUnit - тестирование(создание unit тестов)](./Programming/Java/Java_JUnit/00-Base.md)              | [java.lang.reflect - магия многих библиотек работает через reflect](./Programming/Java/Java/13-Reflection.md)                       |
+| [Spring Boot - комбайн для Enterprise/web/MVC](./Programming/Java/Spring/00-Base.md)                |
 
 Grovy
 
@@ -124,19 +133,6 @@ Gradle
 | Gradle                                             |
 | :------------------------------------------------- |
 | [Gradle](./Programming/Groovy/Gradle/00-Gradle.md) |
-
-Пакеты и библиотеки:
-
-| Java                                                 | Java - Пакеты                                                                         |
-| :--------------------------------------------------- | :------------------------------------------------------------------------------------ |
-|                                                      | [Lombock - генерирует код вместо программиста](./Programming/Java/Lombok/00-Base.md)  |
-|                                                      | [Spring Boot - комбайн для Enterprise/web/MVC](./Programming/Java/Spring/00-Base.md)  |
-|                                                      | [JUnit - тестирование](./Programming/Java/Java_JUnit/00-Base.md)                      |
-| [Синтаксис](./Programming/Java/Java/00-Java.md)      | [Mockito - создание заглушек при тестировании](./Programming/Java/Mockito/00-Base.md) |
-| [Объекты(ООП)](./Programming/Java/Java/01-Object.md) | [Liquidbase - версионирование БД](./Programming/Java/liquidbase/00-Base.md)           |
-|                                                      |                                                                                       |
-|                                                      |                                                                                       |
-|                                                      |                                                                                       |
 
 ## Ruby
 

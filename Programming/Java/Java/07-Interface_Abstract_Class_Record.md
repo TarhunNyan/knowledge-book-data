@@ -47,6 +47,19 @@ public class Main {
 
 # Enum
 
+Enum - по сути класс, но его особенность в упрощенной инициализации статических полей:
+
+```java
+public enum IntegerValue {
+    ONE, TWO(1), TRHEE(3), TEN(10);
+
+    private value;
+
+    IntegerValue() { this.value = 0; }
+    IntegerValue(Integer value) { this.value = value; }
+}
+```
+
 # Records
 
 Records - появился начиная с java14(в режиме preview). Является классом с набором final полей:
