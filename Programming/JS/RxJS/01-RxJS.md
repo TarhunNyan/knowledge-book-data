@@ -33,7 +33,7 @@ Observable(наблюдатель) - объект который как-то п�
 Объединяем Observable в последовательный Observable:
 
 -   [concatMap - к каждому вызову применяет функцию, а потом соединяет в последовательный Observable](#observable---concatmap)
--   [concatAll - последовательно соединяет все Observable](#observable---concatmap)
+-   [concatAll - последовательно соединяет все Observable](#observable---concatall)
 
 Запрет запуска новых Observable пока не отработал старый:
 
@@ -46,35 +46,526 @@ Observable(наблюдатель) - объект который как-то п�
 -   [mergeAll - Observable возвращаемые Observable, соединяет в параллельный](#observable---mergeall)
 -   [mergeMap - к каждому значению применяет функцию, а потом соединяет в параллельный Observable](#observable---mergemap)
 
-Scan - это reducer
-mergeScan - делаем reduce, а потом merge
+Scan - работает как reducer, только возвращает значение для каждого входного, а не только финальное:
+
+-   [scan - выполняем reduce для каждого значения](#observable---scan)
+-   [mergeScan - производим reduce, потом каждый результат merge](#observable---mergescan)
+-   [switchScan - scan для функций возвращающих Observable](#observable---switchscan)
+
+Reducer - классический reducer:
+
+-   [reduce - при завершении Observable проходится по всему что в нем есть]()
+
+Рексурсия:
+
+-   [expand - создает Observable который рекурсивно применяет функцию](#observable---expand)
+
+Count:
+
+-   [count - при завершении Observable считает количество элементов](#observable---count)
+-   [min/max - при завершении Observable находит минимальный/максимальный элемент](#observable---minmax)
+
+Take:
+
+-   [first/last - по завершению работы Observable вернет первое/последние значение(или первое подходящее по условию)](#observable---firstlast)
+-   [take/skip - после первых n значений завершает-Observable/перестает-skip-элементы](#observable---takeskip)
+-   [takeLast/skipLast - по завершению работы Observable вернет-последние-n/пропустит-последние-n/вернет-последние-значение](#observable---takelastskiplast)
+-   [takeUntil/skipUntil - когда другой Observable вернет результат, завершает-Observable/перестает-skip-элементы](#observable---takeUntilskipUntil)
+-   [takeWhile/skipWhile - когда получит первый элемент не соответствующий условию, завершает-Observable/перестает-skip-элементы](#observable---takeWhileskipWhile)
+
+Zip:
+
+-   [zip - функция которая производит zip из набора Observable в новый Observable](#observable---zip)
+-   [zipSwitch - pipe, который текущий Observable и переданные Observable делает zip в новый Observable](#observable---zipwith)
+-   [zipAll - pipe, который набор Observable возвращаемых Observable делает zip в новый Observable](#observable---zipall)
+
+Skip:
+
+-   [skip - пропускает первые n значений](#observable---skip)
+
+Buffer:
+
+-   [buffer - собирает в массив значения Observable, когда срабатывает другой Observable](#observable---buffer)
+-   [bufferCount - собирает в массив значения Observable, когда число новых элементов достигает bufferSize](#observable---buffercount)
+-   [bufferTime - собирает в массив значения Observable, и возвращает их каждые n милисекунд](#observable---buffertime)
+-   [bufferToggle - ](#)
+-   [bufferWhen - ](#)
+
+Константы:
+
+-   [EMPTY - возвращает пустой Observable](#observable---empty)
+
+# Observable - Constant
+
+-   EMPTY - возвращает пустой Observable который ничего не возвращается и сразу заканчивает работу
+
+# Observable - Способные завершать Observable
+
+-   take
+-   takeUntil
+-   takeWhile
+
+# Observable - Функции работающие по окончанию Observable
+
+-   reduce
+-   count
+-   max
+-   min
+-   takeLast
 
 # Scheduler
 
 # Примеры
 
+## Observable - EMPTY
+
+EMPTY - возвращает пустой Observable который ничего не возвращается и сразу заканчивает работу:
+
+-   обычно используется с pipe которые должны возвращать Observable
+
+```js
+let subscriber = {
+    next: (value) => console.log('Next: ' + value),
+    complete: () => console.log('Complete!'),
+};
+
+EMPTY.subscribe(subscriber);
+// => Complete!
+
+EMPTY.pipe(startWith(7)).subscribe(subscriber);
+// => Next: 7
+// => Complete!
+```
+
+## Observable - bufferTime
+
+bufferTime - собирает в массив значения Observable, по времени:
+
+-   bufferTime(number, bufferCreationInterval, maxBufferSize, scheduler)
+    -   number
+        -   целое число(1000 - это одна секунда)
+        -   время которое живет элемент внутри буффера
+    -   bufferCreationInterval
+        -   целое число(1000 - это одна секунда)
+        -   как часто буффер отдается Observable
+    -   maxBufferSize
+        -   максимальный размер буффера
+        -   если задан, то почему-то перестает работать буфферизация по вермени через number и bufferCreationInterval
+    -   scheduler - [Scheduler](#scheduler---методы-использующие-scheduler)
+
+```js
+const clicks = fromEvent(document, 'click');
+const buffered = clicks.pipe(bufferTime(5000, 1000));
+buffered.subscribe((x) => console.log(x));
+// (0.0s) => []
+// (click)
+// (1.0s) => [click]
+// (2.0s) => [click]
+// (3.0s) => [click]
+// (click)
+// (4.0s) => [click, click2]
+// (5.0s) => [click, click2]
+// (6.0s) => [click2]
+// (7.0s) => [click2]
+// (8.0s) => [click2]
+// (9.0s) => []
+// ...
+```
+
+## Observable - bufferCount
+
+bufferCount - собирает в массив значения Observable, когда число новых элементов достигает bufferSize:
+
+-   bufferCount(bufferSize, startBufferEvery)
+    -   bufferSize - размер буффера(массива)
+    -   startBufferEvery - после какого элемента инициализируется массив
+
+```js
+const clicks = fromEvent(document, 'click');
+const buffered = clicks
+    .pipe(
+        map((value, index) => index),
+        bufferCount(3)
+    )
+    .subscribe(console.log);
+// (click)
+// (click)
+// (click)
+// => [0, 1, 2]
+// (click)
+// (click)
+// (click)
+// => [3, 4, 5]
+// (click)
+// ...
+```
+
+## Observable - buffer
+
+buffer - собирает в массив значения Observable, когда срабатывает другой Observable
+
+Пояснения к примеру:
+
+-   каждую секунду запоминаются данные, но не выводятся
+-   по нажатия, выдает сразу массив с собранными данными
+
+```js
+const clicks = fromEvent(document, 'click');
+const intervalEvents = interval(1000);
+intervalEvents.pipe(buffer(clicks)).subscribe(console.log);
+// (1.0s) =>
+// (2.0s) =>
+// (3.0s) =>
+// (click) => [0, 1, 2]
+// (4.0s) =>
+// (5.0s) =>
+// (click) => [4, 5]
+// (click) => []
+// ...
+```
+
+## Observable - zipAll
+
+zipAll - производим zip для Observable выдаваемых Observable:
+
+-   zipAll()
+
+```js
+of(
+    of(1, 2, 3, 4),
+    of('a', 'b', 'c', 'd', 'e', 'f', 'g'),
+    of(100, 200, 300, 400)
+)
+    .pipe(zipAll())
+    .subscribe(console.log);
+// => [1, 'a', 100]
+// => [2, 'b', 200]
+// => [3, 'c', 300]
+```
+
+## Observable - zip
+
+zip - производим zip для Observable в новый Observable:
+
+-   zip(...args)
+    -   args - набор Observable котрые будем zip
+
+```zip
+const age$ = of(27, 25, 29);
+const name$ = of('Foo', 'Bar', 'Beer');
+const isDev$ = of(true, true, false);
+
+zip(age$, name$, isDev$).subscribe(x => console.log(x));
+```
+
+## Observable - zipWith
+
+zipWith - производим zip для Observable в новый Observable:
+
+-   zipWith(...args)
+    -   args - набор Observable котрые будем zip
+
+```js
+of(100, 200, 300)
+    .pipe(
+        zipWith(
+            of(1, 2, 3, 4, 5, 6),
+            of('a', 'b', 'c', 'd', 'e', 'f', 'g')
+        )
+    )
+    .subscribe(console.log);
+// => [100, 1 'a']
+// => [200, 2 'b']
+// => [300, 3 'c']
+```
+
+## Observable - firstlast
+
+first/last - по завершению работы Observable вернет первое/последние значение(или первое подходящее по условию):
+
+-   first(predicate, defaultValue)/last(predicate, defaultValue)
+    -   predicate - функция которая проверяет подходит ли значение
+    -   defaultValue - стандартное значение, которое вернется если Observable завершен, а подходящего под predicate значения не найдено
+
+```js
+from(['x', 'y', 'z']).pipe(last());
+// => z
+
+from(['x', 'y', 'z']).pipe(last((char) => char === 'a', 'not found'));
+// => not found
+```
+
+## Observable - skip
+
+skip - пропускает первые n значений:
+
+-   skip(n)
+    -   n - количество первых пропускаемых значений
+
+```js
+interval(500).pipe(skip(10)).subscribe(console.log);
+```
+
+## Observable - takeLast/skipLast
+
+takeLast/skipLast - по завершению работы Observable берет последние n значений:
+
+-   takeLast/skipLast(number)
+    -   number - целое число, указывающее сколько значений с конца будет взято по завершению работы Observable
+
+```js
+of(1, 2, 3, 4, 5, 6, 7).pipe(takeLast(2)).subscribe(console.log);
+// => 6
+// => 7
+```
+
+## Observable - takeUntil/skipUntil
+
+takeUntil/takeWhile - когда другой Observable вернет результат, завершает-Observable/перестает-skip-элементы:
+
+-   takeUntil(notifier)/takeUntil(notifier)
+    -   notifier - другой Observable
+
+Пояснения к примеру:
+
+-   будет каждую секунду выводить значение пока не произойдет клик мышкой
+
+```js
+const clicks = fromEvent(document, 'click');
+interval(1000).pipe(takeUntil(clicks)).subscribe(console.log);
+// (1.0s) => 1
+// (2.0s) => 2
+// (3.0s) => 3
+// (4.0s) => 4
+// (click)
+// (5.0s)
+// (6.0s)
+// ...
+```
+
+## Observable - takeWhile/skipWhile
+
+takeWhile/skipWhile - когда получит первый элемент не соответствующий условию, завершает-Observable/перестает-skip-элементы:
+
+-   takeWhile(predicate, inclusive)/takeWhile(predicate, inclusive)
+    -   predicate(value, index) - функция возвращающая boolean, условие
+    -   inclusive - если true, то вернет включительно со значением из-за которого нарушилось условие
+
+```js
+interval(1000)
+    .pipe(takeWhile((x) => x < 5))
+    .subscribe(console.log);
+// (1.0s) => 0
+// (2.0s) => 1
+// (3.0s) => 2
+// (4.0s) => 3
+// (5.0s) => 4
+```
+
+## Observable - take/skip
+
+take/skip - после первых n значений завершает-Observable/перестает-skip-элементы:
+
+-   take(number)/skip(number)
+    -   number - целое число, указывающее через сколько значений свою работу завершит Observable
+
+```js
+interval(1000).pipe(take(5)).subscribe(console.log);
+// (1.0s) => 0
+// (2.0s) => 1
+// (3.0s) => 2
+// (4.0s) => 3
+// (5.0s) => 4
+```
+
+## Observable - min/max
+
+min/max - при завершении Observable находит минимальный/максимальный элемент:
+
+-   max(comparer)
+    -   comparer(x, y) - то как сравнивать элементы
+
+```js
+const observable$ = of(5, 4, 7, 2, 8);
+observable$.pipe(min()).subscribe(console.log);
+// => 2
+observable$.pipe(max()).subscribe(console.log);
+// => 8
+```
+
+## Observable - switchScan
+
+switchScan - scan для функций возвращающих Observable:
+
+-   switchScan(accumulator, seed)
+    -   accumulator(acc, value, index)
+        -   acc - аккумулятор
+        -   value - значение
+        -   index - номер вызова
+    -   seed - начальное значение которе подставится в acc внутрь функции accumulator в первый раз
+
+```js
+const transform = of(1, 2, 3, 4, 5, 6, 7, 8)
+    .pipe(switchScan((acc, num) => of([...acc, num]), []))
+    .subscribe(console.log);
+// => [1]
+// => [1, 2]
+// => [1, 2, 3]
+// => [1, 2, 3, 4]
+// => [1, 2, 3, 4, 5]
+// => [1, 2, 3, 4, 5, 6]
+// => [1, 2, 3, 4, 5, 6, 7]
+// => [1, 2, 3, 4, 5, 6, 7, 8]
+```
+
+## Observable - count
+
+count - при завершении Observable считает количество элементов:
+
+-   count(predicate)
+    -   predicate(value, index) - возвращает boolean, который говорит считаем ли мы это значение или нет
+        -   value - значение
+        -   index - номер
+
+```js
+range(1, 7)
+    .pipe(count((i) => i % 2 === 1))
+    .subscribe(console.log);
+// => 4
+```
+
+## Observable - reduce
+
+reduce - проходится как обычный reduce, по всему что есть в Observable и завершает его:
+
+-   reduce(accumulator, seed)
+    -   accumulator(acc, value, index)
+        -   acc - аккумулятор
+        -   value - значение
+        -   index - номер вызова
+    -   seed - начальное значение которе подставится в acc внутрь функции accumulator в первый раз
+
+Пояснения к примеру:
+
+-   пояснения к примеру
+    -   когда делаешь первый клик
+    -   Observable пять секунд работает
+    -   по оканчанию таймера завершает работу Observable(клики больше не работают)
+    -   reducer понимает что Obsrvable отработал и запускается
+    -   считаем число кликов
+
+```js
+fromEvent(document, 'click')
+    .pipe(takeUntil(interval(5000)))
+    .pipe(reduce((acc, one) => acc + 1, 0))
+    .subscribe(console.log);
+```
+
+## Observable - expand
+
+expand - запускает Observable который рекурсивно применяет функцию к значению:
+
+-   expand(project, concurent, shceduler)
+    -   project(value, index) - передаем функцию
+    -   concurent - по умолчанию infinity, максимальное число подписчиков(?)
+    -   scheduler - [Scheduler](#scheduler---методы-использующие-scheduler)
+
+```js
+fromEvent(document, 'click')
+    .pipe(
+        map(() => 1),
+        expand((x) => of(2 * x).pipe(delay(100))),
+        take(20)
+    )
+    .subscribe((x) => console.log(x));
+// (click)
+// => 1
+// => 2
+// => 4
+// => 8
+// => ...
+```
+
+## Observable - scan
+
+scan - обычный reducer:
+
+-   scan(accumulator, seed)
+    -   accumulator(acc, value, index)
+        -   acc - аккумулятор
+        -   value - значение
+        -   index - номер вызова
+    -   seed - начальное значение которе подставится в acc внутрь функции accumulator в первый раз
+
+```js
+of(1, 1, 1, 1, 1, 1)
+    .pipe(scan((total, n, index) => n * index + total, 1))
+    .subscribe(console.log);
+// => 1
+// => 2
+// => 4
+// => 7
+// => 11
+// => 16
+```
+
 ## Observable - mergeScan
+
+mergeScan - сначала производим reduce с данными, а потом производим с ними merge:
+
+-   mergeScan(accumulator, seed)
+    -   accumulator(acc, value, index)
+        -   acc - аккумулятор
+        -   value - значение
+        -   index - номер вызова
+    -   seed - начальное значение которе подставится в acc внутрь функции accumulator в первый раз
+    -   concurrent - опционально, максимальное число подписчиков(?)
+
+```js
+fromEvent(document, 'click');.pipe(
+    map(() => 2),
+    mergeScan((acc, multiple) => of(acc * multiple), 1)
+).subscribe(console.log);
+// (click) => 2
+// (click) => 4
+// (click) => 8
+// (click) => 16
+// (click) => ...
+```
 
 ## Observable - mergeMap
 
 mergeMap - к каждому значению применяет функцию, а потом соединяет в параллельный Observable:
 
--   запускает параллельно Observable
+-   mergeMap(project, resultSelector, concurrent)
+    -   project(value, index) - передаем функцию
+    -   resultSelector - опционально
+    -   concurrent - опционально, максимальное число подписчиков(?)
+
+```js
+of('a', 'b', 'c')
+    .pipe(mergeMap((x) => interval(1000).pipe(map((i) => x + i))))
+    .subscribe(console.log);
+// (1.0с) => a0
+// (1.0с) => b0
+// (1.0с) => c0
+// (2.0с) => a1
+// (2.0с) => b1
+// (2.0с) => c1
+// ...
+```
 
 ## Observable - mergeAll
 
 mergeAll - Observable, которые возвращает Observable, запускает параллельно:
 
--   запускает параллельно Observable
-
 ```js
-const clicks$ = fromEvent(document, 'click');
-const higherOrder$ = clicks$.pipe(
-    map(() => interval(1000)),
-    mergeAll()
-);
-
-higherOrder$.subscribe((x) => console.log(x));
+fromEvent(document, 'click')
+    .pipe(
+        map(() => interval(1000)),
+        mergeAll()
+    )
+    .subscribe(console.log);
 ```
 
 ## Observable - merge
@@ -97,8 +588,7 @@ const timer3 = interval(500).pipe(
     take(5)
 );
 
-const merged = merge(timer1, timer2, timer3, timer1, 2);
-merged.subscribe((x) => console.log(x));
+merge(timer1, timer2, timer3, timer1, 2).subscribe(console.log);
 // ( 1.0s) => t1: 0
 // ( 2.0s) => t1: 1
 // ( 2.0s) => t2: 0
@@ -125,15 +615,11 @@ merged.subscribe((x) => console.log(x));
 
 exhaustAll - пока Observable запущенный прошлым не отработал, не запускает новый:
 
--   короче смотри пример
-
 ```js
-const clicks$ = fromEvent(document, 'click');
-const higherOrder$ = clicks$.pipe(
-    map(() => interval(1000).pipe(take(5)))
-);
-const result$ = higherOrder$.pipe(exhaustAll());
-result$.subscribe((x) => console.log(x));
+fromEvent(document, 'click')
+    .pipe(map(() => interval(1000).pipe(take(5))))
+    .pipe(exhaustAll())
+    .subscribe(console.log);
 // (кликнули)
 // (задержка в секунду) => 0
 // (задержка в секунду) => 1
@@ -151,14 +637,16 @@ result$.subscribe((x) => console.log(x));
 
 exhaustMap - применяет map к Observable, и не даст запускать новые, пока не отработал предыдущий:
 
--   короче смотри пример
+-   exhaustMap(project, resultSelector)
+    -   project(value, index) - функция которую map к значениям Observable
+        -   value - значение
+        -   index - номер вызова
+    -   resultSelector - опиционально
 
 ```js
-const clicks$ = fromEvent(document, 'click');
-const result$ = clicks.pipe(
-    exhaustMap(() => interval(1000).pipe(take(5)))
-);
-result$.subscribe((x) => console.log(x));
+fromEvent(document, 'click')
+    .pipe(exhaustMap(() => interval(1000).pipe(take(5))))
+    .subscribe(console.log);
 // (кликнули)
 // (задержка в секунду) => 0
 // (задержка в секунду) => 1
@@ -179,12 +667,10 @@ concatAll - для Observable возвращающего другие Observable
 -   объединяет не в порядке возврата данных, а в порядке вернувшихся Observable(короче смотри пример)
 
 ```js
-const clicks$ = fromEvent(document, 'click');
-const higherOrder$ = clicks$.pipe(
-    map(() => interval(1000).pipe(take(4)))
-);
-const firstOrder$ = higherOrder$.pipe(concatAll());
-firstOrder.subscribe((x) => console.log(x));
+fromEvent(document, 'click')
+    .pipe(map(() => interval(1000).pipe(take(4))))
+    .pipe(concatAll())
+    .subscribe(console.log);
 // (кликнули)
 // (задержка в секунду) => 0
 // (задержка в секунду) => 1
@@ -219,17 +705,25 @@ concat$.subscribe((x) => console.log(x));
 
 concatMap - на каждый вызов из Observable, создает новый Observable, результаты новых Observable объединяеются в один новый Observable:
 
+-   concatMap(project, resultSelector)
+    -   project(value, index) - функция которую map к значениям Observable
+        -   value - значение
+        -   index - номер вызова
+    -   resultSelector - опционально
+
 ```js
-const clicks = fromEvent(document, 'click');
-const result = clicks.pipe(
-    concatMap((ev) => interval(1000).pipe(take(4)))
-);
-result.subscribe((x) => console.log(x));
+fromEvent(document, 'click')
+    .pipe(concatMap((ev) => interval(1000).pipe(take(4))))
+    .subscribe(console.log);
 ```
 
 ## Observable - timer
 
 timer - создает Observable со сдвигом во времени:
+
+-   timer(dueTime, scheduler)
+    -   dueTime - целое число(1000 - это одна секунда)
+    -   scheduler - [Scheduler](#scheduler---методы-использующие-scheduler)
 
 ```js
 console.log('START!');
@@ -239,7 +733,7 @@ const shiftObservable$ = timer(3000).pipe(
     concatMap(() => observable$)
 );
 
-observable$.subscribe((el) => console.log(el));
+observable$.subscribe(console.log(el));
 shiftObservable$.subscribe((el) => console.log('shift: ' + el));
 
 console.log('END!');
@@ -261,19 +755,21 @@ console.log('END!');
 
 ## Observable - delay
 
-delay - задержка, перед отпрвкой данных в Subscriber:
+delay - задержка, перед отправкой данных в Subscriber:
 
--   вывод в примере происходит с задержкой в 2 секунды
--   может быть использован с указанием [Scheduler](#scheduler---методы-использующие-scheduler)
+-   timer(due, scheduler)
+    -   due - целое число(1000 - это одна секунда)
+    -   scheduler - [Scheduler](#scheduler---методы-использующие-scheduler)
 
 ```js
-const interval$ = of(1, 2, 3, 4, 5).pipe(delay(2000));
-interval$.subscribe((val) => console.log(val));
-// => 1
-// => 2
-// => 3
-// => 4
-// => ...
+const interval$ = of(1, 2, 3, 4, 5)
+    .pipe(delay(2000))
+    .subscribe(console.log);
+// ( 2.0s) => 1
+// ( 4.0s) => 2
+// ( 6.0s) => 3
+// ( 8.0s) => 4
+// (10.0s) => ...
 ```
 
 ## Scheduler - Методы использующие Scheduler
@@ -318,9 +814,12 @@ console.log('end');
 
 interval - счетчик, который возвращает значение через указанное время:
 
+-   interval(period, scheduler)
+    -   period - целое число(1000 - это одна секунда)
+    -   scheduler - [Scheduler](#scheduler---методы-использующие-scheduler)
+
 ```js
-const interval$ = interval(1000);
-interval$.subscribe((val) => console.log(val));
+interval(1000).subscribe(console.log);
 // => 1
 // => 2
 // => 3
@@ -332,31 +831,51 @@ interval$.subscribe((val) => console.log(val));
 
 bindCallback - оборачивает переданную функцию, и дает возможность создать из нее Observable:
 
--   someFunction - функция из которой сделаем Observable
-    -   функция должна принимать последним аргументом callback
--   boundSomeFunction - функция внутри специальной обертки
+-   bindCallback(callbackFunc, resultSelector, scheduler) - ыфв
+    -   callbackFunc
+        -   функция из которой сделаем Observable
+        -   функция должна принимать последним аргументом callback
+    -   resultSelector - это mapping для преобразования событий callback(без понятия как этим польщоваться)
+        -   scheduler - [Scheduler](#scheduler---методы-использующие-scheduler)
+
+Пояснения к примеру:
+
+-   someFunction - принимает последним аргумнтом callback
+    -   в callback будут подставляться методы subscribe
+-   boundSomeFunction - это someFunction внутри специальной обертки
 -   boundSomeFunction(5, 'some string') - создаем observable с переданными параметрами
 -   boundSomeFunction(5, 'some string').subscribe(...) - передаем callback, последним аргументов функции
     -   subscribe способен принимать только один параметр
     -   передав несколько параметров в Callback, они соберуться в один массив
--   способна принимать Scheduler
 
 ```js
-const someFunction = (x, y, cb) => {
-    cb(x, y, { someProperty: 'someValue' });
+const someFunction = (x, y, callback) => {
+    callback(x, y, { someProperty: 'someValue' });
 };
 
 const boundSomeFunction = bindCallback(someFunction);
 boundSomeFunction(5, 'some string').subscribe((values) => {
-    console.log(values); // [5, 'some string', {someProperty: 'someValue'}]
+    console.log(values);
 });
+// => [5, 'some string', {someProperty: 'someValue'}]
 ```
 
 ## Observable - bindNodeCallback
 
 bindNodeCallback - оборачивает переданную функцию, и дает возможность создать из нее Observable:
 
--   [работает как bindCallback](#observable---bindcallback)
+-   bindNodeCallback(callbackFunc, resultSelector, scheduler) - ыфв
+
+    -   callbackFunc
+        -   функция из которой сделаем Observable
+        -   функция должна принимать последним аргументом callback
+        -   callback - первым аргументом получает ошибку(null если нет ошибки), а остальные аргументы это рещультат
+    -   resultSelector - это mapping для преобразования событий callback(без понятия как этим польщоваться)
+        -   scheduler - [Scheduler](#scheduler---методы-использующие-scheduler)
+
+Пояснения к примеру:
+
+-   работает как bindCallback
     -   исключение составляет то, что первый параметр аргумент callback это ошибка
     -   если ошибки нет, надо передавать первым параметром null
 
@@ -395,19 +914,23 @@ const observableName$ = new Observable((subscriber) => {});
 
 of - создание Observable из каких-то данных:
 
+-   of(..args)
+    -   args - аргументы из которых будет создан Observable
+
 ```js
 const observable$ = of(10, 20, 30);
 ```
 
 ## Observable - from
 
-from - создание Observable из различных объектов:
+from - создание Observable из различных объектов(например Promise):
 
--   объект из которых можно создать Observable
-    -   array-like
-    -   itterable
-    -   Promise
--   может быть использован с указанием [Scheduler](#scheduler---методы-использующие-scheduler)
+-   from(input, scheduler)
+    -   input - объект из которых можно создать Observable
+        -   array-like
+        -   itterable
+        -   Promise
+-   scheduler - [Scheduler](#scheduler---методы-использующие-scheduler)
 
 ```js
 const observable$ = from([10, 20, 30]);
@@ -420,7 +943,10 @@ const observable2$ = from(iterator);
 
 range - создает count чисел типа integer, начиная от start, через 1:
 
--   может быть использован с указанием [Scheduler](#scheduler---методы-использующие-scheduler)
+-   range(start, count, scheduler)
+    -   start - integer число от которого начинаем
+    -   count - integer число говорящая сколько чисел создаем
+    -   scheduler - [Scheduler](#scheduler---методы-использующие-scheduler)
 
 ```js
 const numbers = range(10, 3);
@@ -433,6 +959,14 @@ const numbers = range(10, 3);
 
 fromEvent - создает Observable из события:
 
+-   fromEvent(target, eventName, EventListenerOptions, resultSelector)
+    -   target - элемент DOM-дерева
+    -   eventName - строка с названием event
+    -   EventListenerOptions - опциональный аргумент
+    -   resultSelector - опциональный аргумент
+
+Пояснения к примеру:
+
 -   document - элемент DOM дерева
 -   'click' - событие которое ждем
 
@@ -443,6 +977,13 @@ const clicks = fromEvent(document, 'click');
 ## Observable - fromEventPattern
 
 fromEventPattern - создает Observable из события, а также добавляет способ удаления собыития, в случае отписки от Observable:
+
+-   fromEventPattern(addHandler, removeHandler, resultSelector)
+    -   addHandler - добавляем событие на элемент при появлении подписчика у Observable
+    -   removeHandler - удаляем событие на элементе при потписке от Observable
+    -   resultSelector - опциональный аргумент
+
+Пояснения к примеру:
 
 -   addClickHandler - добавляем событие на элемент при появлении подписчика у Observable
 -   removeClickHandler - удаляем событие на элементе при потписке от Observable
