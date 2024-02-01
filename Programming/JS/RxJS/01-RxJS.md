@@ -88,12 +88,29 @@ Buffer:
 -   [buffer - собирает в массив значения Observable, когда срабатывает другой Observable](#observable---buffer)
 -   [bufferCount - собирает в массив значения Observable, когда число новых элементов достигает bufferSize](#observable---buffercount)
 -   [bufferTime - собирает в массив значения Observable, и возвращает их каждые n милисекунд](#observable---buffertime)
--   [bufferToggle - ](#)
--   [bufferWhen - ](#)
+-   [bufferToggle - собирает в массив значения Observable, которые пришли в промежутке между двумя Observable](#observable---buffertoggle)
+-   [bufferWhen - собирает в массив значения Observable, возвращает когла срабатал другой Observable](#observable---bufferwhen)
+
+Switch:
+
+-   [switchMap - позволяет запустить из значения Observable, новый Observable, до тех пока не придет новое значение](#observable---switchmap)
+
+Audit:
+
+-   [audit - возврщает последнее значение, при срабатывании другог оObservable](#observable---audit)
+-   [auditTimer - возврщает каждый n милилисекунд последнее значение](#observable---audittime)
+
+Catch:
+
+-   [catchError - меняет поведение Observable после пойманной ошибки](#observable---catcherror)
 
 Константы:
 
 -   [EMPTY - возвращает пустой Observable](#observable---empty)
+
+Repeat - не ловит ошибки/Retry - ловит ошибки:
+
+-   [retry - перезапускает observable несколько раз, когда завершается](#)
 
 # Observable - Constant
 
@@ -117,6 +134,127 @@ Buffer:
 
 # Примеры
 
+## Observable - retry
+
+retry - меняет поведение Observable после пойманной ошибки
+
+## Observable - catchError
+
+catchError - меняет поведение Observable после пойманной ошибки
+
+-   catchError(selector)
+    -   selector(any, caught) - функция возвращающая Observable
+        -   any
+            -   сам текст ошибки
+        -   caught
+            -   сам Observable в котором была ошибка
+            -   можно вызвать еще раз
+
+Поянение к примеру:
+
+-   меняем observable если поймали ошибку
+
+```js
+of(1, 2, 3, 4, 5)
+    .pipe(
+        map((n) => {
+            /* возвращает ошибку если n===4 */
+        }),
+        catchError((err) => of('I', 'II', 'III', 'IV', 'V'))
+    )
+    .subscribe(console.log);
+// => 1
+// => 2
+// => 3
+// => I
+// => II
+// => III
+// => IV
+// => V
+```
+
+Поянение к примеру:
+
+-   перезапускаем observable если поймали ошибку
+
+```js
+of(1, 2, 3, 4, 5)
+    .pipe(
+        map((n) => {
+            /* возвращает ошибку если n===4 */
+        }),
+        catchError((err, caught) => caught),
+        take(30)
+    )
+    .subscribe(console.log);
+// => 1
+// => 2
+// => 3
+// => 1
+// => 2
+// => 3
+```
+
+## Observable - auditTime
+
+auditTime - возврщает каждый n милилисекунд последнее значение:
+
+-   auditTime(duration, scheduler)
+    -   duration - каждые n милисекунд, которые возвращает последнее значение
+    -   scheduler - [Scheduler](#scheduler---методы-использующие-scheduler)
+
+```js
+fromEvent(document, 'click')
+    .pipe(map((val, ind) => ind))
+    .pipe(auditTime(1000))
+    .subscribe(console.log);
+```
+
+## Observable - audit
+
+audit - возврщает последнее значение Observable, когда наступает указанный Observable:
+
+-   audit(durationSelector)
+    -   durationSelector - это Observable, который определяет когда возвращаем значение
+
+Пояснение к примеру:
+
+-   interval работает, но его значения не проходят
+-   когда кликаем, последнее значение interval проходит дальше
+
+```js
+const result = interval(1000)
+    .pipe(map((val, ind) => ind))
+    .pipe(audit((ev) => fromEvent(document, 'click')))
+    .subscribe((x) => console.log(x));
+// (0.0s) =>
+// (1.0s) =>
+// (2.0s) =>
+// (3.0s) =>
+// (click) => 3
+// (4.0s) =>
+// ...
+```
+
+## Observable - switchMap
+
+switchMap - позволяет запустить из значения Observable, новый Observable, до тех пока не придет новое значение:
+
+-   switchMap(project, resultSelector)
+    -   project(value, index) - функция, которая возвращает новый Observable
+    -   resultSelector(outerValue, innerValue, outerIndex, innerIndex) - опционально, устарело, по умолчанию undefined
+
+Пояснения к примеру:
+
+-   когда разок кликаешь, запускается interval
+-   но если кликнуть еще разочек, то старый interval и запуститься новый interval
+
+```js
+fromEvent(document, 'click')
+    .pipe(switchMap(() => interval(1000)))
+    .subscribe(console.log);
+```
+
 ## Observable - EMPTY
 
 EMPTY - возвращает пустой Observable который ничего не возвращается и сразу заканчивает работу:
@@ -135,6 +273,42 @@ EMPTY.subscribe(subscriber);
 EMPTY.pipe(startWith(7)).subscribe(subscriber);
 // => Next: 7
 // => Complete!
+```
+
+## Observable - bufferToggle
+
+bufferToggle - собирает в массив значения Observable, только если они попадают в промежуток между первым и вторым сработавшими Observable:
+
+-   bufferToggle(openings, closingSelector)
+    -   openings - это Observable который затирает старый и открывает новый буффер(передний фронт сигнала)
+    -   closingSelector - это Observable который закрывает новый буффер(задний фронт сигнала)
+
+Пояснения к примеру:
+
+-   когда разок кликаешь, запускается работа буффера
+-   дальше тебе каждую секунду, дается интервал в пол секунды, чтобы накликать значений в буффер
+
+```js
+fromEvent(document, 'click')
+    .pipe(
+        bufferToggle(interval(1000), (i) =>
+            i % 2 ? interval(500) : EMPTY
+        )
+    )
+    .subscribe(console.log);
+```
+
+## Observable - bufferWhen
+
+bufferWhen - собирает в массив значения Observable, и выбрасывает их только когда сработал другой Observable:
+
+-   bufferToggle(openings, closingSelector)
+    -   closingSelector - это Observable который закрывает буффер и создает новый, на заполнение
+
+```js
+fromEvent(document, 'click')
+    .pipe(bufferWhen(() => interval(1000 + Math.random() * 4000)))
+    .subscribe(console.log);
 ```
 
 ## Observable - bufferTime
@@ -539,7 +713,7 @@ mergeMap - к каждому значению применяет функцию,
 
 -   mergeMap(project, resultSelector, concurrent)
     -   project(value, index) - передаем функцию
-    -   resultSelector - опционально
+    -   resultSelector(outerValue, innerValue, outerIndex, innerIndex) - опционально, устарело, по умолчанию undefined
     -   concurrent - опционально, максимальное число подписчиков(?)
 
 ```js
@@ -641,7 +815,7 @@ exhaustMap - применяет map к Observable, и не даст запуск
     -   project(value, index) - функция которую map к значениям Observable
         -   value - значение
         -   index - номер вызова
-    -   resultSelector - опиционально
+    -   resultSelector(outerValue, innerValue, outerIndex, innerIndex) - опционально, устарело, по умолчанию undefined
 
 ```js
 fromEvent(document, 'click')
@@ -709,7 +883,7 @@ concatMap - на каждый вызов из Observable, создает нов�
     -   project(value, index) - функция которую map к значениям Observable
         -   value - значение
         -   index - номер вызова
-    -   resultSelector - опционально
+    -   resultSelector(outerValue, innerValue, outerIndex, innerIndex) - опционально, устарело, по умолчанию undefined
 
 ```js
 fromEvent(document, 'click')
@@ -835,8 +1009,8 @@ bindCallback - оборачивает переданную функцию, и д
     -   callbackFunc
         -   функция из которой сделаем Observable
         -   функция должна принимать последним аргументом callback
-    -   resultSelector - это mapping для преобразования событий callback(без понятия как этим польщоваться)
-        -   scheduler - [Scheduler](#scheduler---методы-использующие-scheduler)
+    -   resultSelector(outerValue, innerValue, outerIndex, innerIndex) - опционально, устарело, по умолчанию undefined
+    -   scheduler - [Scheduler](#scheduler---методы-использующие-scheduler)
 
 Пояснения к примеру:
 
@@ -870,8 +1044,8 @@ bindNodeCallback - оборачивает переданную функцию, �
         -   функция из которой сделаем Observable
         -   функция должна принимать последним аргументом callback
         -   callback - первым аргументом получает ошибку(null если нет ошибки), а остальные аргументы это рещультат
-    -   resultSelector - это mapping для преобразования событий callback(без понятия как этим польщоваться)
-        -   scheduler - [Scheduler](#scheduler---методы-использующие-scheduler)
+    -   resultSelector(outerValue, innerValue, outerIndex, innerIndex) - опционально, устарело, по умолчанию undefined
+    -   scheduler - [Scheduler](#scheduler---методы-использующие-scheduler)
 
 Пояснения к примеру:
 
@@ -963,7 +1137,7 @@ fromEvent - создает Observable из события:
     -   target - элемент DOM-дерева
     -   eventName - строка с названием event
     -   EventListenerOptions - опциональный аргумент
-    -   resultSelector - опциональный аргумент
+    -   resultSelector(outerValue, innerValue, outerIndex, innerIndex) - опционально, устарело, по умолчанию undefined
 
 Пояснения к примеру:
 
@@ -981,7 +1155,7 @@ fromEventPattern - создает Observable из события, а также 
 -   fromEventPattern(addHandler, removeHandler, resultSelector)
     -   addHandler - добавляем событие на элемент при появлении подписчика у Observable
     -   removeHandler - удаляем событие на элементе при потписке от Observable
-    -   resultSelector - опциональный аргумент
+    -   resultSelector(outerValue, innerValue, outerIndex, innerIndex) - опционально, устарело, по умолчанию undefined
 
 Пояснения к примеру:
 
