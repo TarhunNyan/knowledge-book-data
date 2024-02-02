@@ -73,11 +73,13 @@ Take:
 -   [takeUntil/skipUntil - когда другой Observable вернет результат, завершает-Observable/перестает-skip-элементы](#observable---takeUntilskipUntil)
 -   [takeWhile/skipWhile - когда получит первый элемент не соответствующий условию, завершает-Observable/перестает-skip-элементы](#observable---takeWhileskipWhile)
 
-Zip:
+Zip, Combine:
 
 -   [zip - функция которая производит zip из набора Observable в новый Observable](#observable---zip)
 -   [zipSwitch - pipe, который текущий Observable и переданные Observable делает zip в новый Observable](#observable---zipwith)
 -   [zipAll - pipe, который набор Observable возвращаемых Observable делает zip в новый Observable](#observable---zipall)
+-   [combineLatest/combineLatestAll/combineLatestWith - комбинирует набор Observable в один, который возвращает массив из последних значений набора Observable](#observable---combinelatestcombinelatestallcombinelatestwith)
+-   [combineLatestAll - комбинирует набор Observable в один, который возвращает массив из последних значений набора Observable](#observable---combinelatestall)
 
 Skip:
 
@@ -97,7 +99,8 @@ Switch:
 
 Audit:
 
--   [audit - возврщает последнее значение, при срабатывании другог оObservable](#observable---audit)
+-   [sample - возвращает последние значение Observable, находящееся между двумя срабатывания другого Observable](#observable---sample)
+-   [audit - возврщает последнее значение, при срабатывании другого Observable](#observable---audit)
 -   [auditTimer - возврщает каждый n милилисекунд последнее значение](#observable---audittime)
 
 Catch:
@@ -110,7 +113,12 @@ Catch:
 
 Repeat - не ловит ошибки/Retry - ловит ошибки:
 
--   [retry - перезапускает observable несколько раз, когда завершается](#)
+-   [retry - перезапускает Observable несколько раз, когда тот завершается](#observable---retry)
+-   [repeat - перезапускает Observable несколько раз](#observable---repeat)
+
+tap:
+
+-   [tap - добавляет side эффект](#observable---tap)
 
 # Observable - Constant
 
@@ -134,9 +142,196 @@ Repeat - не ловит ошибки/Retry - ловит ошибки:
 
 # Примеры
 
+## Observable - tap
+
+tap - добавляет side-эффект, не влияет на результат Observable:
+
+-   tap(observerOrNext, error, complete)
+    -   первый вариант заполнения
+        -   observerOrNext - метод принимающий значение и ничего не возвращающий
+        -   error - метод ошибки
+        -   complete - метод завершения
+    -   второй вариант заполнения
+        -   observerOrNext - объект с полями:
+            -   subscribe: () => void
+            -   unsubscribe: () => void
+            -   finalize: () => void
+            -   next: (value: T) => void
+            -   error: (err: any) => void
+            -   complete: () => void
+
+```js
+of(1, 2, 3, 4, 5)
+    .pipe(
+        tap((n) => {
+            console.log('value: ' + n);
+        })
+    )
+    .subscribe(console.log);
+```
+
+## Observable - combineLatest/combineLatestAll/combineLatestWith
+
+combineLatest/combineLatestAll/combineLatestWith - комбинирует набор Observable в один, который возвращает массив из последних значений набора Observable. Срабатывает при получении результата из ЛЮБОГО Observable из набора:
+
+-   combineLatest(args)/combineLatestAll(args)/combineLatestWith(args)
+    -   args - массив из Observable
+
+Пояснение к примеру без использованием задержек:
+
+-   какое-то странное поведение для Observable без задержки(смотри пример с of)
+    -   у всех Observable, кроме последнего, берутся последние значение и кмбинируются со всеми значениями из последнего Observable
+
+```js
+const weight = of(70, 72, 76, 79, 75);
+const height = of(1.76, 1.77, 1.78);
+
+// combineLatest
+const bmi = combineLatest([weight, height])
+    .pipe(map(([w, h]) => w / (h * h)))
+    .subscribe((x) => console.log('BMI is ' + x));
+
+// combineLatestAll
+const bmi = of(weight, height)
+    .pipe(
+        combineLatestAll(),
+        map(([w, h]) => w / (h * h))
+    )
+    .subscribe((x) => console.log('BMI is ' + x));
+
+// combineLatestWith
+const bmi = weight.
+    .pipe(
+        combineLatestWith([height]),
+        map(([w, h]) => w / (h * h))
+    )
+    .subscribe((x) => console.log('BMI is ' + x));
+// => BMI is 24.212293388429753
+// => BMI is 23.93948099205209
+// => BMI is 23.671253629592222
+```
+
+Пояснение к примеру с использованием задержек:
+
+-   пример этого не показывает, но если нет значения в Observable, то ждет пока во всех Observable появится хотя бы по одному значению
+
+```js
+const combinedTimers = combineLatest([
+    interval(1000).pipe(map((value, index) => index)),
+    interval(1500).pipe(map((value, index) => index * 10)),
+    interval(2000).pipe(map((value, index) => index * 100)),
+]).subscribe(console.log);
+// => [1, 0, 0]
+// => [2, 0, 0]
+// => [2, 10, 0]
+// => [3, 10, 0]
+// => [3, 10, 100]
+// => ...
+```
+
+## Observable - sample
+
+sample - возвращает последние значение Observable, находящееся между двумя срабатывания другого Observable:
+
+-   sample(notifier)
+    -   notifier - другой Observable, по которому смотрим когда возвращать значения
+
+```js
+const clicks = fromEvent(document, 'click');
+interval(1000)
+    .pipe(sample(clicks))
+    .subscribe((x) => console.log(x));
+// (0.0s) =>
+// (1.0s) =>
+// (2.0s) =>
+// (click) => 2
+// (3.0s) =>
+// (4.0s) =>
+// (click) => 4
+// (click) =>
+// (click) =>
+// (5.0s) =>
+// (6.0s) =>
+// ...
+```
+
+## Observable - sampleTime
+
+sampleTime - возвращает последние значение Observable, попавшие в указанный временной период:
+
+```js
+fromEvent(document, 'click')
+    .pipe(sampleTime(1000))
+    .subscribe(console.log);
+```
+
+## Observable - repeat
+
+repeat - перезапускает Observable несколько раз по его завершению:
+
+-   retry(configOrCount)
+    -   configOrCount
+        -   передаем число
+            -   по умолчанию infinit
+            -   можно передать просто число перезупасков Observable
+        -   передаем объект с полями count и delay
+            -   можно передать объект вида { count: ..., delay: ... }
+            -   delay - задержка в милисекундах между повторами
+                -   в поле delay можно прокинуть функцию от номера повтора, которая возвращает другой Observable
+            -   count - количество повторов
+
+```js
+of('Repeat')
+    .pipe(
+        repeat(3) // повторяем 3 раза
+        // repeat(0) // вернет пустой observable
+        // repeat() // будет повторять observable до посинения
+        // repeat({ delay: 200 }) // будет повторять бесконечно с задержкой 200мс
+        // repeat({ count: 2, delay: 400 }) // будет повторять 4 раза с задержкой 400мс
+        // repeat({ delay: (count) => timer(count * 1000) }) // будет повторять бесконечно раз с задержкой count * 1000
+    )
+    .subscribe({
+        next: console.log,
+    });
+// => Repeat
+// => Repeat
+// => Repeat
+```
+
 ## Observable - retry
 
-retry - меняет поведение Observable после пойманной ошибки
+retry - будет перезапускать observable пока выдает ошибку, можно ограничить число перезапусков:
+
+-   retry(configOrCount)
+    -   configOrCount
+        -   передаем число
+            -   по умолчанию infinit
+            -   можно передать просто число перезупасков Observable
+        -   передаем объект с полями count и delay
+            -   можно передать объект вида { count: ..., delay: ... }
+            -   delay - задержка в милисекундах между повторами
+                -   в поле delay можно прокинуть функцию от номера повтора, которая возвращает другой Observable
+            -   count - количество повторов
+
+```js
+interval(1000)
+    .pipe(
+        mergeMap((val) => {
+            // ошибка после 3 элемента
+        }),
+        retry(2) // повторяем 2 раза, пока ловим ошибку
+        // retry(0) // вернет пустой observable
+        // retry() // будет повторять observable до посинения
+        // retry({ delay: 200 }) // будет повторять бесконечно с задержкой 200мс
+        // retry({ count: 2, delay: 400 }) // будет повторять 4 раза с задержкой 400мс
+        // retry({ delay: (count) => timer(count * 1000) }) // будет повторять бесконечно раз с задержкой count * 1000
+    )
+    .subscribe({
+        next: (value) => console.log(value),
+        error: (err) =>
+            console.log(`${err}: Retried 2 times then quit!`),
+    });
+```
 
 ## Observable - catchError
 
