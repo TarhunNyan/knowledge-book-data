@@ -51,3 +51,12 @@ ConfigurationService --* SystemConfigImporter
 SystemConfigImporter --> PostConstrucRunnerService
 PostConstrucRunnerService --o AuditServiceApplication : run()
 @enduml
+
+
+Искать в C:\rep\jetalon\jetalabor\src\main\java\pro\sisit\etalon\jetalabor\external\api
+Искать Privilege
+private void validateControlObjectCreateSecurity(DataProcessResultBased result) {
+        if (!currentUserService.checkPrivilege(ControlPrivilege.CreateControlObject)) {
+            result.addError(errorFormatter.userWithoutCreateControlObjectPrivilege());
+        }
+    }
