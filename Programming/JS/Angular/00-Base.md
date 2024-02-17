@@ -26,11 +26,11 @@ Framework для singlepage страниц в вебе
 -   пример из /src/main.ts
 
 ```js
-import { enableProdMode } from "@angular/core";
-import { environment } from "./environments/environment";
+import { enableProdMode } from '@angular/core';
+import { environment } from './environments/environment';
 
 if (environment.production) {
-	enableProdMode();
+    enableProdMode();
 }
 ```
 
@@ -58,6 +58,17 @@ Module - в Angular это то из чего строится приложен�
 
 -   [Инициализация Module](#module---инициализация)
 -   [Настройка NgModule](#module---ngmodule)
+
+## Standalone
+
+Standalone - аналог ngModule, если модуль тащит с собой все компоненты привязанные к нему, то standalone это одиночный компонент:
+
+-   начиная с Angular17 проект создается в standalone стиле
+-   чтобы создавать проект как и ранее, просто добавь параметр при запуске --no-standalone
+
+```bash
+ng new --no-standalone
+```
 
 ## Component
 
@@ -102,13 +113,20 @@ onSelected(task: Task) {
 }
 ```
 
-Теперь необходимо поймать событие:
+Добавляем событие в компонент:
+
+```html
+...
+<div (click)="onSelected()">Some div</div>
+```
+
+Теперь необходимо поймать событие на верхнем уровне:
 
 -   прописываем в родительском template
 -   $event - через доллар принято обозначать события
 
 ```typescript
-<child-component (eventName)="someMethod($event)"></child-component>
+<child-component (select)="someParentMethod($event)"></child-component>
 ```
 
 ## Template
@@ -161,6 +179,22 @@ Service - это такие части кода, например как пол�
 -   [Настройка Service](#service---injectable)
 -   [Пример Service работающтй с http(get)](#service---httprequest)
 
+## Routing
+
+Routing - в Angular мы создаем одностраничное приложение, и навигация работает именно на стороне frontend-а:
+
+Создаем ngModule с подключенным Routing:
+
+```bash
+ng g m ./path/module --routing
+```
+
+## Resolver
+
+Resolver - подгружает данные до загрузки самой страницы:
+
+-   нужен чтобы по 10 раз не перерисовывать одно и тоже, сначало без данных а потом с данными
+
 # Дополнительно
 
 ## Откуда мы начинаем? Main.ts
@@ -172,11 +206,11 @@ Service - это такие части кода, например как пол�
 -   AppModule - импортированный модуль, который запускаем
 
 ```js
-import AppModule from "./app/app.module";
+import AppModule from './app/app.module';
 
 platformBrowserDynamic()
-	.bootstrapModule(AppModule)
-	.catch((err) => console.error(err));
+    .bootstrapModule(AppModule)
+    .catch((err) => console.error(err));
 ```
 
 ## Заглушки и модели данных
@@ -211,9 +245,9 @@ submit() {
 
 ```html
 <form [formGroup]="cstmform" (ngSubmit)="submit">
-	<input type="text" formControlName="title" />
+    <input type="text" formControlName="title" />
 
-	<button type="submit">Create</button>
+    <button type="submit">Create</button>
 </form>
 ```
 
@@ -324,15 +358,15 @@ Component - принимает js объект в полях которого у
 -   styleUrls - стили компонента
 
 ```typescript
-import Component from "@angular/core";
+import Component from '@angular/core';
 
 @Component({
-	selector: "app-root",
-	templateUrl: "./app.component.html",
-	styleUrls: ["./app.component.scss"],
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-	tittle = "name-of-project";
+    tittle = 'name-of-project';
 }
 ```
 
@@ -420,7 +454,7 @@ ng-content - позволяет получить content переданный и
 
 ```html
 <app-module>
-	<div>Внутренний контент</div>
+    <div>Внутренний контент</div>
 </app-module>
 ```
 
@@ -471,7 +505,7 @@ ngIf - директива условия. Отображается если ус
 
 ```html
 <div *ngIf="count >= 4">
-	<span>Some content</span>
+    <span>Some content</span>
 </div>
 ```
 
@@ -490,8 +524,8 @@ ngFor - директива цикла:
 
 <!-- Используем иттерацию по по массиву -->
 <app-product
-	*ngFor="let product of products"
-	[some-attr]="product"
+    *ngFor="let product of products"
+    [some-attr]="product"
 ></app-product>
 ```
 
@@ -504,8 +538,8 @@ ngSwitch - директива swich'а:
 
 ```html
 <div [ngSwitch]="tab">
-	<div *ngSwitchCase="skills">Read, write</div>
-	<div *ngSwitchCase="hobbies">Iadernaya Physica</div>
+    <div *ngSwitchCase="skills">Read, write</div>
+    <div *ngSwitchCase="hobbies">Iadernaya Physica</div>
 </div>
 ```
 
@@ -519,8 +553,8 @@ ngClass - передаем в него js-объект, через которы�
 
 ```html
 <button
-	class="some_class"
-	[ngClass]="{
+    class="some_class"
+    [ngClass]="{
     'first_class': 10 < 20,
     'second_class': isSecondClass
 }"
@@ -537,8 +571,8 @@ ngStyle - передаем в него js-объект, через которы�
 
 ```html
 <button
-	style="font-size: 14pt;"
-	[ngStyle]="{
+    style="font-size: 14pt;"
+    [ngStyle]="{
     'fontWeight': 'bold',
     'fontColor': color
 }"
@@ -553,9 +587,9 @@ ngStyle - передаем в него js-объект, через которы�
 
 ```html
 <button
-	(click)="details = !details"
-	(mousedown)="details = !details"
-	(keydown)="details = !details"
+    (click)="details = !details"
+    (mousedown)="details = !details"
+    (keydown)="details = !details"
 ></button>
 ```
 
@@ -645,9 +679,9 @@ export class FilterProductsPipe implements PipeTransform {
 
 ```html
 <div *ngIf="products$ | async as products">
-	<app-product
-		*ngFor="let product of products | filterProduct: 'str to search';"
-	></app-product>
+    <app-product
+        *ngFor="let product of products | filterProduct: 'str to search';"
+    ></app-product>
 </div>
 ```
 
@@ -735,6 +769,6 @@ export class ProductService {
 
 ```js
 this.productsService.getAll().subscribe((products) => {
-	this.product = products;
+    this.product = products;
 });
 ```
