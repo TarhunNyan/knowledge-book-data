@@ -66,7 +66,7 @@ Docker, собирает все зависимости в кучу:
 
 # Языки
 
-## HTML/CSS
+## HTML/CSS/UML
 
 | Декларативные языки                                      | UML                                                             |
 | :------------------------------------------------------- | :-------------------------------------------------------------- |
@@ -74,6 +74,7 @@ Docker, собирает все зависимости в кучу:
 | [CSS](./Programming/CSS/11-CSS.md)                       | [UML - диаграмма классов](./Programming/UML/01-ClassDiagram.md) |
 | [CSS - селекторы/директивы](./Programming/CSS/12-CSS.md) | [UML](./Programming/UML/00-Base.md)                             |
 | [CSS - BEM](./Programming/CSS/10-BEM.md)                 |                                                                 |
+| [SVG](./Programming/SVG/SVG/01-SVGBase.md)               |                                                                 |
 
 ## SQL
 
