@@ -94,7 +94,7 @@ Docker, собирает все зависимости в кучу:
 | JS                                                                 | JS - Пакеты                                                            | JS - browser api                                     |
 | :----------------------------------------------------------------- | :--------------------------------------------------------------------- | :--------------------------------------------------- |
 | [Node - работа со скриптами](./Programming/JS/Node/00-Base.md)     | [RxJS - реактивное программирование](./Programming/JS/RxJS/01-RxJS.md) | [Canvas](./Programming/JS/Canvas/01-Canvas.md)       |
-| [npm - установка пакетов](./Programming/JS/Node/02-NodeInstall.md) | [Angular - бэкенд](./Programming/JS/Angular/00-Base.md)                | [DOM](./Programming/JS/DOM/01-DOM.md)                |
+| [npm - установка пакетов](./Programming/JS/Node/02-NodeInstall.md) | [Angular](./Programming/JS/Angular/00-Base.md)                         | [DOM](./Programming/JS/DOM/01-DOM.md)                |
 | [Import/Export](./Programming/JS/Node/01-ImportAndExport.md)       | [JEST - тестирование](./Programming/JS/JS_JEST/00-Base.md)             | [Event](./Programming/JS/Event/01-Event.md)          |
 | [Синтаксис](./Programming/JS/JS/10-javascript.md)                  |                                                                        | [ShadowRoot](./Programming/JS/ShadowRoot/00-Base.md) |
 | [Объекты(ООП)](./Programming/JS/JS/04-Object.md)                   |                                                                        |                                                      |

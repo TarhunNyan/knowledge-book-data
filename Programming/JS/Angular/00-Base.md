@@ -8,6 +8,192 @@ Framework для singlepage страниц в вебе
 -   Очень строгий в своей структуре
 -   Все есть из коробки
 
+# Component
+
+## Lifecycle
+
+Жизненный цикл Component основан вокруг трех событиях:
+
+-   [ngOnInit](#lifecycle---ngoninit)
+-   [ngOnChanges](#lifecycle---ngonchange)
+-   [ngOnDestroy](#lifecycle---ngondestroy)
+
+## ChangeDetect
+
+ChangeDetect - отслеживание изменений происходит несколькими способами:
+
+-   [BindingData](#)
+
+Шаблонные переменные:
+
+-   [Шаблонные переменные - используем Component из шаблона внутри этого же шаблона]()
+-   [ViewChild - получаем любой Component из шаблона для использования в коде](#decorator---viewchild)
+-   [ContentChild - получаем весть переданный в Component контент(Content-block)](#decorator---contentchild)
+
+# Template
+
+-   [Размещение переданного Content внутри шаблона](#template---ng-content)
+
+# Примеры
+
+## Template - ng-content
+
+Если предположить, что код ниже это шаблон app-component:
+
+```html
+<div>projected content begins</div>
+<ng-content></ng-content>
+<div>projected content ends</div>
+```
+
+Шаблон ниже:
+
+```html
+<app-component>
+    <p>Это контент</p>
+</app-component>
+```
+
+Создаст такую структуру страницы:
+
+```html
+<div>projected content begins</div>
+<p>Это контент</p>
+<div>projected content ends</div>
+```
+
+## ChangeDetect - Шаблонные переменные
+
+Шаблонные переменные - дают возможность использовать Component из шаблона внутри этого же шаблона:
+
+-   #userName - переменная в ts файле через которую теперь можно манипулировать DOM-элементом
+
+Пример использования:
+
+-   у child-comp есть методы increment и decrement и мы этим можем пользоваться прямо внутри шаблона
+
+```html
+<child-comp #counter></child-comp>
+<button (click)="counter.increment()">+</button>
+<button (click)="counter.decrement()">-</button>
+```
+
+## Decorator - ViewChild
+
+ViewChild - дают возможность использовать Component из шаблона внутри кода typescript:
+
+-   @ViewChild(ChildComponent, {static: false}) - декоратор ViewChild отслеживающий <child-comp>
+    -   ChildComponent - имя класса с декоратором @Component
+    -   selector - можно использовтаь вместо ChildComponent
+    -   static
+        -   если true, то можно обращаться к элементу уже на этапе ngOnInit
+        -   если false, то можно обращаться к элементу начиная с этапа ngAfterViewInit
+            -   полезно если Component создается не сразу, а нпример Directive такой как ngIf
+    -   read
+        -   работает только при связи с "Шаблонными переменными"
+        -   указывает тип компонента, иначе вернет ElementRef
+
+```ts
+import { Component, ViewChild } from '@angular/core';
+import { ChildComponent } from './child.component';
+
+@Component({
+    selector: 'my-app',
+    standalone: true,
+    imports: [ChildComponent],
+    template: `
+        <child-comp-first></child-comp>
+        <child-comp-second></child-comp>
+        <child-comp-third #templateVar></child-comp>
+        <button (click)="increment()">+</button>
+        <button (click)="decrement()">-</button>
+    `,
+})
+export class AppComponent {
+    @ViewChild(ChildComponent)
+    private childCompFirst: ChildComponent | undefined;
+
+    @ViewChild({ static: false, selector: 'child-comp-second' })
+    private childCompSecond: ChildComponent | undefined;
+
+    @ViewChild('templateVar', { read: ChildComponent })
+    private childCompThird: ChildComponent | undefined;
+
+    increment() {
+        this.childCompFirst?.increment();
+    }
+    decrement() {
+        this.childCompFirst?.decrement();
+    }
+}
+```
+
+## Decorator - ContentChild
+
+ContentChild - получаем содержимое текущего Component:
+
+-   ChildComponent - компонент который в каком-то шаблоне применяется так:
+    -   <child-comp><p>Наш искомый header</p></child-comp>
+
+```js
+import { Component, ContentChild, ElementRef } from '@angular/core';
+
+@Component({
+    selector: 'child-comp',
+    standalone: true,
+    template: `<ng-content></ng-content>
+        <button (click)="change()">Изменить</button>`,
+})
+export class ChildComponent {
+    @ContentChild('headerContent', { static: false })
+    header: ElementRef | undefined;
+
+    change() {
+        if (this.header !== undefined) {
+            console.log(this.header);
+            this.header.nativeElement.textContent = 'Hell to world!';
+        }
+    }
+}
+```
+
+## Lifecycle - ngOnInit
+
+Для создания компонента, используется ngOnInit и вызывается следующая цепочка вызовов:
+
+-   constructor - обычный constructor для javascript
+-   ngOnChange - вызываетя до ngOnInit, об этом и в доке написано
+-   ngOnInit - наше основное событие по инициализации
+-   ngDoCheck
+-   ngAfterContentInit
+-   ngAfterContentChecked
+-   ngAfterViewInit
+-   ngAfterViewChecked
+
+## Lifecycle - ngOnChange
+
+Для создания компонента, используется ngOnInit и вызывается следующая цепочка вызовов:
+
+-   ngOnChange - наше основное событие, в котором отрабатываем изменения
+-   ngDoCheck
+-   ngAfterContentChecked
+-   ngAfterViewChecked
+
+## Lifecycle - ngOnDestroy
+
+Перед удалением компонента из DOM дерева, используется ngOnDestroy и вызывается следующая цепочка вызовов:
+
+-   ngOnDestroy - наше основное событие, в котором освобождаем память перед уничтожением Component
+
+-   [ngOnChanges - может отработать до ngOnInit, отлавливает изменения связанные с BindingData]()
+-   [ngOnInit - инициализация Component, происходит после constructor]()
+-   [ngDoCheck - срабатывает после каждого ngOnChange и ngOnInit]()
+-   [ngAfterContentInit - срабатывает однажды, после первого ngDoCheck]()
+-   [ngAfterContentChecked - срабатывает после первого ngAfterContentInit и каждого ngDoCheck]()
+-   [ngAfterViewInit - срабатывает однажды, после первого ngAfterContentChecked]()
+-   [ngAfterViewChecked - срабатывает после первого ngAfterViewInit и каждого ngAfterContentChecked]()
+-   [ngOnDestroy - вызывается для очистки, перед уничтожением Component]()
+
 ## Настройка окружения
 
 Окружение можно настраивать для Production и Development состояний:

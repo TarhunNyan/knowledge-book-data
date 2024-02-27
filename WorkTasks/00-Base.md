@@ -78,6 +78,29 @@ gradle packingEnLocalConfig
 
 C:\InterSystems\Cache\mgr\SOU\Settings\SystemSettings.settings
 
+## Делаем реоргу на Cache
+
+Тут инфа как делать реоргу: https://docs.google.com/document/d/1zOLGEUuYYzz8MM8n_tfqjOTnhmbsZxDfz2PizFTdEDM/edit
+
+Кратенько:
+
+-   [тут](https://docs.google.com/spreadsheets/d/1QU6av3B4Dvtvo9U5EcsM0Oen_BSOmx7AKtrK3-uNYBg/edit#gid=219341529) на "Лист1" берем номер реорганизации
+-   создаем два запроса
+    -   запрос в котором будет реорганизация
+        -   например: ETA-67997 Реализация. Исправить опечатку в Системном справочнике ContractType (R390)
+        -   незабудь добавить в ReorganizationList: d ##class(SOU.Update.ReorganizationList)
+    -   запрос где включаем реорганизацию в шаги реорганизации
+        -   например: Включение реорганизации R390 в шаги обновления
+-   незабудь отписать тестировщикам, когда будешь заливать "включение в шащи обновления", им надо знать какие логи смотреть!
+
+## Console помощи на Cache
+
+Console помощи на Cache:
+
+```cache
+do ##class(SOU.Support.SupportConsole).show()
+```
+
 # Jetalon
 
 ## Новый реп с Jetalon

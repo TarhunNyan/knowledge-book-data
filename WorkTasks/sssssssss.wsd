@@ -1,3 +1,9 @@
+
+Set-ExecutionPolicy RemoteSigned
+Set-ExecutionPolicy Default
+
+
+
 @startuml Cache
 class client{}
 class "SOU.ETA.Core.Rest.Routers.InsecureSystemRouter\nrest" as cache.rest {}
