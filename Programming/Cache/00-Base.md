@@ -210,3 +210,19 @@ ClassMethod testValidateGuid()
 ```bash
 do ##class(Helpers.Tests.StringHelper.GuidHelper).RunTests()
 ```
+
+## Циклы
+
+```cache
+while ($$$IsNotNullOrEmpty(someList.getNext(.key))) {
+set listItem = someList.getAt(key)
+```
+
+```cache
+
+set string1="123 Some Text is here"
+set len=$L(string1)
+for index=1:1:len-1 {
+    LogWrite($EXTRACT(string1, index))
+}
+```
