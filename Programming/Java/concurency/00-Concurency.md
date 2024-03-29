@@ -57,3 +57,73 @@ final Runnable task = () -> {
 final Thread thread = new Thread(task);
 thread.start();
 ```
+
+## Состояние потока
+
+Поток находиться в одном из 6 состояний:
+
+-   NEW - создан но не запущен
+-   RUNNABLE - запущен
+-   BLOCKED - связано с Lock и Monitor
+-   WAITING - если поток ожидает(join/wait) завершение другого потока
+-   TIMEDWAITING - если поток ожидает(join/wait с указанием веремени) завершение другого потока
+-   TERMINATED - поток заверщен/упал и т.д.
+
+Получить состояние потока можно методом getState:
+
+```java
+Thread thread = new Thread(someRunnable);
+thread.getState()
+// => NEW
+```
+
+## Получить поток
+
+Статический метод currentThread возвращает поток в котором этот метод был вызван
+
+## Прерывание работы потока
+
+stop - deprecated метод который принудительно завершает работу потоку:
+
+```java
+Thread thread = new Thread(someRunnable);
+thread.start();
+thread.stop();
+```
+
+interrupt - метод который просит поток прерваться. По сути устанавливает флажок interrupt, который thread должен проверять сам:
+
+```java
+Thread thread = new Thread(someRunnable);
+thread.start();
+thread.isInterrupt();
+// => false
+thread.interrupt();
+thread.isInterrupted();
+// => true
+```
+
+## Прерывание работы потока через InterruptException
+
+Некоторые методы, например sleep или join, выбрасывают исключение interruptException, если у потока флаг interrupt сменился. Это исключение можно поймать через catch и завершить работу потока
+
+Есть метод interrupted, который возвращает то был ли прерван поток и флаг interrupt ставит в false. Так вот, когда вызывается exception - флаг interrupt сбрасывается. Это не совсем логично, так что стоит в блоке catch опять устанавливать флаг interrupt
+
+```java
+try {
+    ...
+} catch (final InterruptException interruptException) {
+    currentThread().interrupt()
+    System.out.println("This is thread is interrupt")
+}
+```
+
+# TimeUnit
+
+Там не только единицы измерения времени, но и всякие приколы, типа уснуть на n времени:
+
+-   в примере засыпаем на 2 дня
+
+```java
+TimeUnit.HOURS.sleep(2)
+```
