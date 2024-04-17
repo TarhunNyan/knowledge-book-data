@@ -101,6 +101,12 @@ Console помощи на Cache:
 do ##class(SOU.Support.SupportConsole).show()
 ```
 
+## Открыть "Портал управления системой" на любой площадке
+
+```cache
+https://t01.sis-it.pro/csp/sys/UtilHome.csp
+```
+
 # Jetalon
 
 ## Новый реп с Jetalon
@@ -176,6 +182,7 @@ type jetaudit.sql | "C:\Program Files\PostgreSQL\14\bin\psql.exe" --username=pos
 -   gradle generateSwaggerCode - получаем swagger, без этого api может не провериться
 -   gradle generateJooq
 -   gradle workwork
+-   идем запускать админку, без нее ничего на интерфейсе не поделать
 -   Для запуска через service из spring boot
     -   для запуска через service
         -   нужно указать удаленную БД (http://192.168.5.12:16100/status/)
@@ -202,7 +209,7 @@ databaseUser = getEnv("POSTGRES_USER",'GS_01')
 databasePassword = getEnv("POSTGRES_USER",'GS_01')
 
 // новый
-databaseUrl=getEnv("POSTGRES_URL","jdbc:postgresql://192.168.5.59:16104/")
+databaseUrl=getEnv("POSTGRES_URL","jdbc:postgresql://192.168.5.12:16104/")
 
 databaseUser = getEnv("POSTGRES_USER",'GS_01')
 databasePassword = getEnv("POSTGRES_USER",'!@#QWEASDZXC456')
@@ -259,6 +266,58 @@ spring.datasource.password=!@#QWEASDZXC456
     -   user/.m2
 -   почисти cache у gradle
     -   user/.gradle
+
+## Ищем "Тип ОК" по "ОК"
+
+Чтобы вытащить "Тип ОК" по "ОК", просто используй SQL ниже:
+
+-   'АГ ОК с ВлС' - замени на имя твоего ОК
+
+```sql
+WITH
+    names (ok_name, ok_code, ok_type_name, ok_type_code, meta_entity_name, meta_entity_uuid) AS (values (
+        -- Название ОК
+        'АГ ОК с ВлС',
+        -- Код ОК
+        '%',
+        -- Название типа ОК
+        '%',
+        -- code типа ОК
+        '%',
+        -- название meta-сущности
+        '%',
+        -- UUID для meta-сущности
+        '%'
+    )),
+    f_control_object AS (SELECT id, control_object_type_id, short_name, code FROM control.control_object, names WHERE short_name LIKE names.ok_name AND code LIKE names.ok_code),
+    f_control_object_type AS (SELECT id, short_name, code FROM control.control_object_type, names WHERE short_name LIKE names.ok_type_name AND code LIKE names.ok_type_code),
+    f_meta_entity AS (SELECT id, name, uuid FROM eav.meta_entity, names WHERE name LIKE names.meta_entity_name AND CAST(uuid AS varchar) LIKE names.meta_entity_uuid)
+SELECT
+    ok.id AS ok_id,
+    ok.short_name AS ok_name,
+    ok.code AS ok_code,
+    ok_type.id AS type_id,
+    ok_type.short_name AS type_short_name,
+    ok_type.code AS type_code,
+    meta_entity.id AS meta_entity_id,
+    meta_entity.name AS meta_entity_name,
+    meta_entity.uuid AS meta_entity_UUID
+FROM
+    control.control_object_type_meta_entity AS link_table,
+    f_control_object_type AS ok_type,
+    f_meta_entity AS meta_entity,
+    f_control_object AS ok
+WHERE
+    ok_type.id=ok.control_object_type_id AND
+    meta_entity.id=link_table.meta_entity_id AND
+    ok_type.id=link_table.type_id;
+```
+
+##
+
+Какого-то хрена вложки лежат в eav.entity
+
+И какого-то хрена поля журнала грузятся и сейвятся вот тут. Я хуй знает как я должен был это найти DynamicalObjectSpringDataService
 
 # Конфиги - Cache
 

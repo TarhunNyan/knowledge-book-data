@@ -409,11 +409,13 @@ docker run image_name:tag
 -   --rm - флаг удаляющий Container по окончанию его работы
 -   --name - флаг указывающий имя для Container
 -   echo "Hello, World!" - команда переданная в Container
+-   --entrypoint sh - запускаем docker и входим внутрь контейнера
 
 ```bash
 docker run -d image_name
 docker run --rm image_name
 docker run --name container_name image_name
+docker run --rm -it --entrypoint sh aec51ddb9253
 docker run image_name echo "Hello, World!"
 ```
 
@@ -608,6 +610,17 @@ ENV OWNER="JohnRomero"
 
 ENTRYPOINT ["echo"]
 CMD ["Hello"]
+```
+
+## Аргументы
+
+Можно прокинуть аргументы в Dockerfile для сборки разных Image:
+
+-   system - название аргумента
+-   linux_x64 - стандартное значение
+
+```dockerfile
+ARG system=linux_x64
 ```
 
 ## Container - inspect
